@@ -3974,7 +3974,7 @@
     svg .s-external   { color: var(--external-stroke); }
 
     /* Brand Marks are authored identity badges. Their color is contained
-       inside one neutral plate so vendor color never replaces Archify's
+       inside one neutral plate so vendor color never replaces Topolyn's
        semantic node and relationship vocabulary. */
     svg .brand-mark { pointer-events: none; }
     svg .brand-mark-badge { fill: #fff; stroke: none; }
@@ -5503,13 +5503,13 @@
   </div>
 
   <script>
-    var Archify = {};
+    var Topolyn = {};
     var archifyI18nData = (function () {
       var node = document.getElementById('archify-i18n-data');
       try { return JSON.parse(node ? node.textContent : '{}'); }
       catch (_) { return { locale: 'en', messages: {} }; }
     })();
-    Archify.locale = archifyI18nData.locale || 'en';
+    Topolyn.locale = archifyI18nData.locale || 'en';
 
     function viewerText(key, values) {
       var messages = archifyI18nData.messages || {};
@@ -5563,7 +5563,7 @@
        live page and canonical SVG together, but never rewrites the source,
        URL, or a later diagram's authored default.
        ============================================================ */
-    Archify.preset = (function () {
+    Topolyn.preset = (function () {
       var PRESETS = ['classic', 'signal-flow', 'blueprint', 'editorial'];
       var LABELS = {
         classic: viewerText('viewer.preset.classic.short'),
@@ -5610,7 +5610,7 @@
       function isOpen() { return menu.classList.contains('open'); }
       function open(focusLast) {
         if (html.getAttribute('data-embed') === 'true') return false;
-        if (Archify.exportMenu && Archify.exportMenu.isOpen()) Archify.exportMenu.close(false);
+        if (Topolyn.exportMenu && Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.close(false);
         menu.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
         var available = options();
@@ -5677,7 +5677,7 @@
        Theme toggle — persists to localStorage, respects system pref
        ============================================================ */
 
-    Archify.theme = (function () {
+    Topolyn.theme = (function () {
       var STORAGE_KEY = 'archify-theme';
       var html = document.documentElement;
       var btn = document.getElementById('btn-theme');
@@ -6536,12 +6536,12 @@
           return Promise.reject(exportError('viewer.export.unknownVariant', { variant: options.variant }));
         }
         if (options.variant === 'route') {
-          var routeSnapshot = Archify.routeProbe && Archify.routeProbe.exportSnapshot();
+          var routeSnapshot = Topolyn.routeProbe && Topolyn.routeProbe.exportSnapshot();
           if (!routeSnapshot) return Promise.reject(exportError('viewer.export.routeRequired'));
           return renderShareCard({ routeSnapshot: routeSnapshot });
         }
-        var snapshot = Archify.focus && typeof Archify.focus.reachabilitySnapshot === 'function'
-          ? Archify.focus.reachabilitySnapshot()
+        var snapshot = Topolyn.focus && typeof Topolyn.focus.reachabilitySnapshot === 'function'
+          ? Topolyn.focus.reachabilitySnapshot()
           : null;
         if (!snapshot) return Promise.reject(exportError('viewer.export.reachRequired'));
         return renderShareCard({ reachSnapshot: snapshot });
@@ -6816,8 +6816,8 @@
       };
 
       function syncRouteShareItem() {
-        var snapshot = Archify.routeProbe && typeof Archify.routeProbe.exportSnapshot === 'function'
-          ? Archify.routeProbe.exportSnapshot()
+        var snapshot = Topolyn.routeProbe && typeof Topolyn.routeProbe.exportSnapshot === 'function'
+          ? Topolyn.routeProbe.exportSnapshot()
           : null;
         routeShareItem.hidden = !snapshot;
         routeShareItem.disabled = !snapshot;
@@ -6825,8 +6825,8 @@
       }
 
       function syncReachShareItem() {
-        var snapshot = Archify.focus && typeof Archify.focus.reachabilitySnapshot === 'function'
-          ? Archify.focus.reachabilitySnapshot()
+        var snapshot = Topolyn.focus && typeof Topolyn.focus.reachabilitySnapshot === 'function'
+          ? Topolyn.focus.reachabilitySnapshot()
           : null;
         reachShareItem.hidden = !snapshot;
         reachShareItem.disabled = !snapshot;
@@ -6887,9 +6887,9 @@
       }
 
       function open(focusLast) {
-        if (Archify.preset && Archify.preset.isOpen()) Archify.preset.close(false);
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (Archify.semanticLens && Archify.semanticLens.isOpen()) Archify.semanticLens.close({ restoreFocus: false });
+        if (Topolyn.preset && Topolyn.preset.isOpen()) Topolyn.preset.close(false);
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (Topolyn.semanticLens && Topolyn.semanticLens.isOpen()) Topolyn.semanticLens.close({ restoreFocus: false });
         syncRouteShareItem();
         syncReachShareItem();
         menu.classList.add('open');
@@ -7001,7 +7001,7 @@
       function runRouteShareCard() {
         close(false);
         clearExportReceipt();
-        var snapshot = Archify.routeProbe && Archify.routeProbe.exportSnapshot();
+        var snapshot = Topolyn.routeProbe && Topolyn.routeProbe.exportSnapshot();
         var blobPromise = snapshot
           ? renderShareCard({ routeSnapshot: snapshot })
           : Promise.reject(exportError('viewer.export.routeRequired'));
@@ -7023,8 +7023,8 @@
       function runReachShareCard() {
         close(false);
         clearExportReceipt();
-        var snapshot = Archify.focus && typeof Archify.focus.reachabilitySnapshot === 'function'
-          ? Archify.focus.reachabilitySnapshot()
+        var snapshot = Topolyn.focus && typeof Topolyn.focus.reachabilitySnapshot === 'function'
+          ? Topolyn.focus.reachabilitySnapshot()
           : null;
         var blobPromise = snapshot
           ? renderShareCard({ reachSnapshot: snapshot })
@@ -7159,8 +7159,8 @@
         if (formatBtn && !formatBtn.disabled) { runExport(formatBtn.dataset.format); }
       });
 
-      Archify.motion = { canRecord: canRecordMotion, recordWebm: recordWebm };
-      Archify.exportMenu = {
+      Topolyn.motion = { canRecord: canRecordMotion, recordWebm: recordWebm };
+      Topolyn.exportMenu = {
         open: open,
         close: close,
         isOpen: isOpen,
@@ -7196,7 +7196,7 @@
        trace yields to the strongest semantic owner; Still also parks bounded
        viewer signals without discarding their static meaning.
        ============================================================ */
-    Archify.motionGovernor = (function () {
+    Topolyn.motionGovernor = (function () {
       var STORAGE_KEY = 'archify-motion';
       var html = document.documentElement;
       var svg = document.querySelector('.diagram-container svg');
@@ -7289,17 +7289,17 @@
         btn.setAttribute('aria-pressed', paused ? 'false' : 'true');
         btn.disabled = systemPaused;
         label.textContent = viewerText(paused ? 'viewer.motion.still' : 'viewer.motion.live');
-        if (paused && lastEffectivePaused !== true && Archify.guidedViews && Archify.guidedViews.isPlaying()) {
-          Archify.guidedViews.pause();
+        if (paused && lastEffectivePaused !== true && Topolyn.guidedViews && Topolyn.guidedViews.isPlaying()) {
+          Topolyn.guidedViews.pause();
         }
-        if (paused && lastEffectivePaused !== true && Archify.guidedViews && Archify.guidedViews.settleHandoff) {
-          Archify.guidedViews.settleHandoff(systemPaused ? 'reduced-motion' : (hasSuspension() ? 'hidden' : 'still'));
+        if (paused && lastEffectivePaused !== true && Topolyn.guidedViews && Topolyn.guidedViews.settleHandoff) {
+          Topolyn.guidedViews.settleHandoff(systemPaused ? 'reduced-motion' : (hasSuspension() ? 'hidden' : 'still'));
         }
-        if (paused && lastEffectivePaused !== true && Archify.routeProbe && Archify.routeProbe.isJourneyPlaying && Archify.routeProbe.isJourneyPlaying()) {
-          Archify.routeProbe.pauseJourney({ preserveElapsed: true, reason: systemPaused ? 'reduced-motion' : (hasSuspension() ? 'hidden' : 'still') });
+        if (paused && lastEffectivePaused !== true && Topolyn.routeProbe && Topolyn.routeProbe.isJourneyPlaying && Topolyn.routeProbe.isJourneyPlaying()) {
+          Topolyn.routeProbe.pauseJourney({ preserveElapsed: true, reason: systemPaused ? 'reduced-motion' : (hasSuspension() ? 'hidden' : 'still') });
         }
         lastEffectivePaused = paused;
-        if (Archify.routeProbe && typeof Archify.routeProbe.syncMotion === 'function') Archify.routeProbe.syncMotion();
+        if (Topolyn.routeProbe && typeof Topolyn.routeProbe.syncMotion === 'function') Topolyn.routeProbe.syncMotion();
         if (systemPaused) {
           btn.setAttribute('aria-label', viewerText('viewer.motion.reduced'));
           btn.title = viewerText('viewer.motion.reduced');
@@ -7460,7 +7460,7 @@
        the authored GitHub revision, source blobs, and optional line ranges
        against the explicit --repo-root. It remains outside the SVG so every
        canonical visual export stays free of repository paths. */
-    Archify.sourceEvidence = (function () {
+    Topolyn.sourceEvidence = (function () {
       var element = document.getElementById('archify-source-evidence-data');
       var payload = null;
       var svgNamespace = 'http://www.w3.org/2000/svg';
@@ -7525,14 +7525,14 @@
         installBeacons: installBeacons
       };
     })();
-    Archify.sourceEvidence.installBeacons();
+    Topolyn.sourceEvidence.installBeacons();
 
     /* ============================================================
        Explore — stable-ID neighborhood focus + dependency-free pan/zoom.
        Renderer IDs become deep-linkable semantic hooks without turning the
        standalone artifact into a canvas editor.
        ============================================================ */
-    Archify.focus = (function () {
+    Topolyn.focus = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector('svg');
@@ -7669,8 +7669,8 @@
         resetReachabilityButtons();
         reachStatus.textContent = '';
         reachStatus.hidden = true;
-        if (Archify.exportMenu && typeof Archify.exportMenu.syncReachShare === 'function') {
-          Archify.exportMenu.syncReachShare();
+        if (Topolyn.exportMenu && typeof Topolyn.exportMenu.syncReachShare === 'function') {
+          Topolyn.exportMenu.syncReachShare();
         }
         if (options.updateUrl === true && activeIds.length === 1) {
           try {
@@ -7704,8 +7704,8 @@
         }
         var result = reachabilityFor(activeIds[0], direction);
         if (!result || result.nodeIds.length <= 1) return false;
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false, resetView: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false, resetView: false });
         }
         clearRelationshipPreview({ clearPin: true });
         clearReachability({ updateUrl: false });
@@ -7748,8 +7748,8 @@
           hops: result.maxDepth
         });
         reachStatus.hidden = false;
-        if (Archify.exportMenu && typeof Archify.exportMenu.syncReachShare === 'function') {
-          Archify.exportMenu.syncReachShare();
+        if (Topolyn.exportMenu && typeof Topolyn.exportMenu.syncReachShare === 'function') {
+          Topolyn.exportMenu.syncReachShare();
         }
         if (options.updateUrl !== false) {
           try {
@@ -7757,8 +7757,8 @@
               encodeURIComponent(activeIds[0]) + '&reach=' + direction);
           } catch (_) {}
         }
-        if (options.reveal !== false && Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal(result.nodeIds, { includeNeighbors: false, reason: 'reachability' });
+        if (options.reveal !== false && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal(result.nodeIds, { includeNeighbors: false, reason: 'reachability' });
         }
         requestLensPlacement();
         return true;
@@ -7864,8 +7864,8 @@
         evidenceLinks.textContent = '';
         repositoryLink.removeAttribute('href');
         repositoryLink.textContent = '';
-        var sources = Archify.sourceEvidence.node(id);
-        var repository = Archify.sourceEvidence.repository();
+        var sources = Topolyn.sourceEvidence.node(id);
+        var repository = Topolyn.sourceEvidence.repository();
         if (!repository || !sources.length) {
           evidence.hidden = true;
           return;
@@ -8158,7 +8158,7 @@
         );
         return relationshipTokenGeometry(shape, relationshipTokenKind(edge), key, options);
       }
-      Archify.flowTokens = {
+      Topolyn.flowTokens = {
         create: createSemanticFlowToken,
         kind: function (edge) { return relationshipTokenKind(edge); },
         path: relationshipTokenPath
@@ -8166,7 +8166,7 @@
       function renderRelationshipPulse(key) {
         removeRelationshipPulse();
         if (!key || document.documentElement.getAttribute('data-embed') === 'true') return false;
-        if (document.hidden || (Archify.motionGovernor && Archify.motionGovernor.isPaused())) return false;
+        if (document.hidden || (Topolyn.motionGovernor && Topolyn.motionGovernor.isPaused())) return false;
         if (reducedMotionQuery && reducedMotionQuery.matches) return false;
         var matchingEdges = edges().filter(function (edge) {
           return edge.getAttribute('data-edge-key') === key;
@@ -8297,8 +8297,8 @@
       function revealPinnedRelationship(record) {
         function reveal() {
           if (!record || pinnedRelationshipKey !== record.key) return true;
-          if (!Archify.view || typeof Archify.view.reveal !== 'function') return false;
-          Archify.view.reveal([record.from, record.to], { reason: 'relationship-direct' });
+          if (!Topolyn.view || typeof Topolyn.view.reveal !== 'function') return false;
+          Topolyn.view.reveal([record.from, record.to], { reason: 'relationship-direct' });
           return true;
         }
         if (!reveal()) requestAnimationFrame(reveal);
@@ -8317,8 +8317,8 @@
         }
         var record = relationshipRecordForKey(key);
         if (!record) return false;
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
         set(record.from, { toggle: false, updateUrl: false });
         var row = Array.prototype.slice.call(relationshipList.querySelectorAll('[data-relationship-key]')).find(function (candidate) {
@@ -8619,7 +8619,7 @@
           if (valid.length) top = valid[0];
         }
         chip.style.top = Math.round(top) + 'px';
-        if (Archify.radar && typeof Archify.radar.sync === 'function') Archify.radar.sync();
+        if (Topolyn.radar && typeof Topolyn.radar.sync === 'function') Topolyn.radar.sync();
       }
       function requestLensPlacement() {
         if (lensFrame) return;
@@ -8631,8 +8631,8 @@
           ? svg.querySelector('[data-node-id="' + activeIds[0] + '"]')
           : null;
         clearReachability({ updateUrl: false });
-        if (Archify.intentTrace && typeof Archify.intentTrace.clear === 'function') {
-          Archify.intentTrace.clear({ announce: false });
+        if (Topolyn.intentTrace && typeof Topolyn.intentTrace.clear === 'function') {
+          Topolyn.intentTrace.clear({ announce: false });
         }
         hoveredRelationship = null;
         focusedRelationship = null;
@@ -8675,8 +8675,8 @@
         relationsBtn.setAttribute('aria-expanded', 'false');
         chip.removeAttribute('data-relations-expanded');
         chip.style.removeProperty('top');
-        if (options.preserveView !== true && Archify.view && typeof Archify.view.reset === 'function') {
-          Archify.view.reset({ automatic: true });
+        if (options.preserveView !== true && Topolyn.view && typeof Topolyn.view.reset === 'function') {
+          Topolyn.view.reset({ automatic: true });
         }
         if (options.updateUrl !== false) {
           try { history.replaceState(null, '', location.pathname + location.search); } catch (_) {}
@@ -8689,12 +8689,12 @@
 
       function setMany(ids, options) {
         options = options || {};
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (Archify.semanticLens && Archify.semanticLens.active()) {
-          Archify.semanticLens.clear({ updateUrl: false, preserveView: true, closePanel: true });
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (Topolyn.semanticLens && Topolyn.semanticLens.active()) {
+          Topolyn.semanticLens.clear({ updateUrl: false, preserveView: true, closePanel: true });
         }
-        if (options.preserveRoute !== true && Archify.routeProbe && typeof Archify.routeProbe.clear === 'function') {
-          Archify.routeProbe.clear({ updateUrl: false, restoreFocus: false });
+        if (options.preserveRoute !== true && Topolyn.routeProbe && typeof Topolyn.routeProbe.clear === 'function') {
+          Topolyn.routeProbe.clear({ updateUrl: false, restoreFocus: false });
         }
         var nodeList = nodes();
         var byId = {};
@@ -8802,8 +8802,8 @@
         if (node) {
           var id = node.getAttribute('data-node-id');
           set(id);
-          if (activeIds.indexOf(id) !== -1 && Archify.view && typeof Archify.view.reveal === 'function') {
-            Archify.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
+          if (activeIds.indexOf(id) !== -1 && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+            Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
           }
         }
         else if (activeIds.length) clear();
@@ -8814,8 +8814,8 @@
         event.preventDefault();
         var id = node.getAttribute('data-node-id');
         set(id);
-        if (activeIds.indexOf(id) !== -1 && Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
+        if (activeIds.indexOf(id) !== -1 && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'focus' });
         }
       });
       clearBtn.addEventListener('click', function () { clear({ restoreFocus: true }); });
@@ -8836,12 +8836,12 @@
         var button = event.target.closest('[data-relationship-target]');
         if (!button) return;
         var id = button.getAttribute('data-relationship-target');
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
         set(id, { toggle: false });
-        if (Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal([id], { includeNeighbors: true, reason: 'relationship' });
+        if (Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'relationship' });
         }
         var node = svg.querySelector('[data-node-id="' + id + '"]');
         if (node) {
@@ -8969,7 +8969,7 @@
        Fine-pointer hover and keyboard focus share the same stable-ID preview;
        touch continues directly to the existing click-to-focus contract.
        ============================================================ */
-    Archify.intentTrace = (function () {
+    Topolyn.intentTrace = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector(':scope > svg');
@@ -9003,8 +9003,8 @@
           svg.hasAttribute('data-lens-active') ||
           svg.hasAttribute('data-story-active') ||
           svg.hasAttribute('data-relationship-preview-active') ||
-          !!(Archify.routeProbe && typeof Archify.routeProbe.active === 'function' && Archify.routeProbe.active()) ||
-          !!(Archify.focus && typeof Archify.focus.active === 'function' && Archify.focus.active());
+          !!(Topolyn.routeProbe && typeof Topolyn.routeProbe.active === 'function' && Topolyn.routeProbe.active()) ||
+          !!(Topolyn.focus && typeof Topolyn.focus.active === 'function' && Topolyn.focus.active());
       }
       function edgeShapes(edge) {
         if (/^(path|line|polyline)$/i.test(edge.tagName)) return [edge];
@@ -9178,7 +9178,7 @@
       };
     })();
 
-    Archify.guidedViews = (function () {
+    Topolyn.guidedViews = (function () {
       var data = document.getElementById('archify-guided-views-data');
       var panel = document.getElementById('guided-views');
       var prev = document.getElementById('guided-view-prev');
@@ -9304,7 +9304,7 @@
         if (document.hidden || reducedMotion()) return false;
         if (document.documentElement.getAttribute('data-embed') === 'true') return false;
         if (window.matchMedia && window.matchMedia('print').matches) return false;
-        return !(Archify.motionGovernor && Archify.motionGovernor.capable && Archify.motionGovernor.isPaused());
+        return !(Topolyn.motionGovernor && Topolyn.motionGovernor.capable && Topolyn.motionGovernor.isPaused());
       }
 
       function classifyHandoff(delta, anchor) {
@@ -9361,7 +9361,7 @@
         handoff.holdTimer = null;
         currentHandoff = null;
         clearHandoffPresentation();
-        if (handoff.ownerToken && Archify.motionGovernor) Archify.motionGovernor.release(handoff.ownerToken);
+        if (handoff.ownerToken && Topolyn.motionGovernor) Topolyn.motionGovernor.release(handoff.ownerToken);
         handoff.resolve({ id: handoff.id, state: outcome || 'complete', anchor: handoff.anchor || null });
         syncStoryControlsDisabled();
         syncChapterPreview();
@@ -9374,7 +9374,7 @@
         if (handoff.holdTimer) clearTimeout(handoff.holdTimer);
         handoff.holdTimer = null;
         if (handoff.camera && handoff.camera.cancel) handoff.camera.cancel(reason || 'settled', true);
-        else if (Archify.view && Archify.view.reveal) Archify.view.reveal(handoff.focus, { instant: true, reason: reason || 'settled' });
+        else if (Topolyn.view && Topolyn.view.reveal) Topolyn.view.reveal(handoff.focus, { instant: true, reason: reason || 'settled' });
         completeHandoff(handoff, reason || 'settled');
         return true;
       }
@@ -9395,15 +9395,15 @@
       }
 
       function beginHandoff(previousIndex, nextIndex, previous, destination, outgoingBeatIndex, reason) {
-        if (!Archify.view || !Archify.view.reveal) return null;
+        if (!Topolyn.view || !Topolyn.view.reveal) return null;
         if (!previous || previousIndex === nextIndex) {
-          Archify.view.reveal(destination.focus, { reason: reason });
+          Topolyn.view.reveal(destination.focus, { reason: reason });
           return null;
         }
         var delta = chapterDelta(previous, destination);
         var anchor = chapterAnchor(previous, destination, outgoingBeatIndex, delta);
         if (!handoffMotionAllowed()) {
-          Archify.view.reveal(destination.focus, { instant: true, reason: reason });
+          Topolyn.view.reveal(destination.focus, { instant: true, reason: reason });
           return null;
         }
         var resolver;
@@ -9431,8 +9431,8 @@
           });
           handoffReceipt.hidden = false;
         }
-        if (Archify.motionGovernor) {
-          handoff.ownerToken = Archify.motionGovernor.claim('handoff', function () {
+        if (Topolyn.motionGovernor) {
+          handoff.ownerToken = Topolyn.motionGovernor.claim('handoff', function () {
             if (currentHandoff === handoff) settleHandoff('preempted');
           });
         }
@@ -9441,7 +9441,7 @@
           handoff.holdTimer = null;
           handoff.mode = 'settling';
           svg.setAttribute('data-chapter-handoff', anchor ? 'settling' : 'no-anchor');
-          handoff.camera = Archify.view.reveal(destination.focus, { reason: reason, duration: 420 });
+          handoff.camera = Topolyn.view.reveal(destination.focus, { reason: reason, duration: 420 });
           if (handoff.camera && handoff.camera.finished) {
             handoff.camera.finished.then(function (outcome) {
               if (currentHandoff === handoff) completeHandoff(handoff, outcome && outcome.state || 'complete');
@@ -9593,10 +9593,10 @@
         });
         chapterButtons.forEach(function (button) { button.removeAttribute('data-preview-active'); });
         activePreviewIndex = -1;
-        if (previewOwnerToken && Archify.motionGovernor) {
+        if (previewOwnerToken && Topolyn.motionGovernor) {
           var token = previewOwnerToken;
           previewOwnerToken = 0;
-          Archify.motionGovernor.release(token);
+          Topolyn.motionGovernor.release(token);
         }
       }
 
@@ -9636,8 +9636,8 @@
         svg.setAttribute('data-chapter-preview', views[index].id);
         chapterButtons[index].setAttribute('data-preview-active', 'true');
         activePreviewIndex = index;
-        if (Archify.motionGovernor && Archify.motionGovernor.capable) {
-          previewOwnerToken = Archify.motionGovernor.claim('chapter-preview', function () {
+        if (Topolyn.motionGovernor && Topolyn.motionGovernor.capable) {
+          previewOwnerToken = Topolyn.motionGovernor.claim('chapter-preview', function () {
             previewOwnerToken = 0;
             clearChapterPreviewPresentation();
           });
@@ -10007,13 +10007,13 @@
         if (document.documentElement.getAttribute('data-embed') === 'true' &&
             document.documentElement.getAttribute('data-share-playback') !== 'true') return false;
         if (window.matchMedia && window.matchMedia('print').matches) return false;
-        return !(Archify.motionGovernor && Archify.motionGovernor.isPaused());
+        return !(Topolyn.motionGovernor && Topolyn.motionGovernor.isPaused());
       }
 
       function storyAutomaticPlaybackAllowed() {
         if (document.hidden || reducedMotion()) return false;
         if (window.matchMedia && window.matchMedia('print').matches) return false;
-        if (Archify.motionGovernor && Archify.motionGovernor.capable) return !Archify.motionGovernor.isPaused();
+        if (Topolyn.motionGovernor && Topolyn.motionGovernor.capable) return !Topolyn.motionGovernor.isPaused();
         return true;
       }
 
@@ -10026,10 +10026,10 @@
         Array.prototype.forEach.call(svg.querySelectorAll('[data-story-carrier-overlay]'), function (overlay) {
           overlay.remove();
         });
-        if (storyPulseOwnerToken && options.release !== false && Archify.motionGovernor) {
+        if (storyPulseOwnerToken && options.release !== false && Topolyn.motionGovernor) {
           var token = storyPulseOwnerToken;
           storyPulseOwnerToken = 0;
-          Archify.motionGovernor.release(token);
+          Topolyn.motionGovernor.release(token);
         } else if (options.release === false) storyPulseOwnerToken = 0;
       }
 
@@ -10039,16 +10039,16 @@
         var flows = Array.prototype.slice.call(svg.querySelectorAll('.story-trail-flow[data-story-beat-step="' + step.index + '"]'));
         if (!flows.length) return false;
         var pulseGeneration = storyPulseGeneration;
-        if (Archify.motionGovernor && Archify.motionGovernor.capable) {
-          storyPulseOwnerToken = Archify.motionGovernor.claim('story', function () {
+        if (Topolyn.motionGovernor && Topolyn.motionGovernor.capable) {
+          storyPulseOwnerToken = Topolyn.motionGovernor.claim('story', function () {
             clearStoryPulse({ release: false });
           });
         }
         flows.forEach(function (flow) { flow.setAttribute('data-story-pulse', 'true'); });
-        if (Archify.flowTokens && typeof Archify.flowTokens.create === 'function') {
+        if (Topolyn.flowTokens && typeof Topolyn.flowTokens.create === 'function') {
           var edge = step.edges[0];
           var shapes = storyGeometry(edge);
-          var carrier = shapes.length ? Archify.flowTokens.create(edge, shapes[0], {
+          var carrier = shapes.length ? Topolyn.flowTokens.create(edge, shapes[0], {
             className: 'story-flow-token',
             duration: '0.78s'
           }) : null;
@@ -10117,12 +10117,12 @@
       function followStoryStep(step, options) {
         options = options || {};
         if (!step || document.hidden) return false;
-        if (!Archify.view || typeof Archify.view.reveal !== 'function') {
+        if (!Topolyn.view || typeof Topolyn.view.reveal !== 'function') {
           var deferredIndex = step.index;
           var deferredGeneration = ++storyFollowGeneration;
           requestAnimationFrame(function () {
             if (deferredGeneration !== storyFollowGeneration || storyBeatIndex !== deferredIndex) return;
-            if (Archify.view && typeof Archify.view.reveal === 'function') followStoryStep(step, options);
+            if (Topolyn.view && typeof Topolyn.view.reveal === 'function') followStoryStep(step, options);
           });
           return true;
         }
@@ -10135,7 +10135,7 @@
         svg.setAttribute('data-story-follow', step.nodeId);
         panel.setAttribute('data-story-follow', 'moving');
         panel.setAttribute('data-story-follow-node', step.nodeId);
-        var receipt = Archify.view.reveal(ids, {
+        var receipt = Topolyn.view.reveal(ids, {
           reason: options.manual === true ? 'story-beat' : 'story-follow',
           padding: 64,
           maxScale: 1.65,
@@ -10271,7 +10271,7 @@
       }
 
       function renderStoryTrail(view) {
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
         clearStoryTrail();
         if (!view) return;
 
@@ -10579,7 +10579,7 @@
         storyBeatElapsedMs = 0;
         storyBeatDwellMs = storyBeatDwell(storySteps.length);
         var view = views[activeIndex];
-        Archify.focus.setMany(view.focus, {
+        Topolyn.focus.setMany(view.focus, {
           toggle: false,
           updateUrl: false,
           mode: 'selection',
@@ -10633,9 +10633,9 @@
         cancelHandoff('overview');
         activeIndex = -1;
         renderStoryTrail(null);
-        if (options.clearFocus !== false) Archify.focus.clear({ updateUrl: false });
-        if (options.resetView !== false && Archify.view && typeof Archify.view.reset === 'function') {
-          Archify.view.reset({ automatic: true });
+        if (options.clearFocus !== false) Topolyn.focus.clear({ updateUrl: false });
+        if (options.resetView !== false && Topolyn.view && typeof Topolyn.view.reset === 'function') {
+          Topolyn.view.reset({ automatic: true });
         }
         render();
         if (options.updateUrl !== false) updateUrl(null);
@@ -10655,7 +10655,7 @@
         cancelHandoff('replaced');
         activeIndex = index;
         var view = views[index];
-        Archify.focus.setMany(view.focus, {
+        Topolyn.focus.setMany(view.focus, {
           toggle: false,
           updateUrl: false,
           mode: 'selection',
@@ -10899,7 +10899,7 @@
        embed, presentation, print, and non-wide diagrams retain their own
        established layout contracts.
        ============================================================ */
-    Archify.waitForStableLayout = function (options) {
+    Topolyn.waitForStableLayout = function (options) {
       options = options || {};
       var maximumFrames = Math.max(1, Number(options.maximumFrames) || 240);
       var fontsReady = document.fonts && document.fonts.ready
@@ -10939,7 +10939,7 @@
       });
     };
 
-    Archify.readerLayout = (function () {
+    Topolyn.readerLayout = (function () {
       var html = document.documentElement;
       var body = document.body;
       var shell = document.querySelector('.container');
@@ -11076,7 +11076,7 @@
         ].join('|');
       }
       function whenStable() {
-        return Archify.waitForStableLayout({
+        return Topolyn.waitForStableLayout({
           schedule: schedule,
           pending: function () { return Boolean(frame || settleFrame); },
           snapshot: stableSnapshot,
@@ -11114,7 +11114,7 @@
        position unless its zero-reserve position would cover the legend; only
        then does a small bottom safe rail become part of the reader budget.
        ============================================================ */
-    Archify.viewerChromeLayout = (function () {
+    Topolyn.viewerChromeLayout = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container && container.querySelector(':scope > svg');
@@ -11164,8 +11164,8 @@
           container.style.removeProperty('--archify-nav-reserve');
           container.removeAttribute('data-nav-safe-rail');
         }
-        if (Archify.readerLayout && typeof Archify.readerLayout.schedule === 'function') {
-          Archify.readerLayout.schedule();
+        if (Topolyn.readerLayout && typeof Topolyn.readerLayout.schedule === 'function') {
+          Topolyn.readerLayout.schedule();
         }
         if (options.quiet !== true) {
           if (settleFrame) cancelAnimationFrame(settleFrame);
@@ -11238,8 +11238,8 @@
         collisionLatched = false;
         baselineIntersectionArea = 0;
         writeReserve(0, { quiet: true });
-        var readerReady = Archify.readerLayout && typeof Archify.readerLayout.whenStable === 'function'
-          ? Archify.readerLayout.whenStable().catch(function () {})
+        var readerReady = Topolyn.readerLayout && typeof Topolyn.readerLayout.whenStable === 'function'
+          ? Topolyn.readerLayout.whenStable().catch(function () {})
           : Promise.resolve();
         probePromise = readerReady.then(function () {
           probingBaseline = false;
@@ -11270,7 +11270,7 @@
         ].join('|');
       }
       function whenStable() {
-        return Archify.waitForStableLayout({
+        return Topolyn.waitForStableLayout({
           schedule: schedule,
           pending: function () { return Boolean(frame || settleFrame || probingBaseline); },
           snapshot: stableSnapshot,
@@ -11311,7 +11311,7 @@
       };
     })();
 
-    Archify.view = (function () {
+    Topolyn.view = (function () {
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector('svg');
       var outBtn = container.querySelector('[data-view="out"]');
@@ -11418,9 +11418,9 @@
         inBtn.disabled = state.scale >= 3;
         container.classList.toggle('is-pannable', state.scale > 1);
         svg.setAttribute('data-view-scale', String(state.scale));
-        if (Archify.radar && typeof Archify.radar.sync === 'function') Archify.radar.sync();
-        if (Archify.viewerChromeLayout && typeof Archify.viewerChromeLayout.schedule === 'function') {
-          Archify.viewerChromeLayout.schedule();
+        if (Topolyn.radar && typeof Topolyn.radar.sync === 'function') Topolyn.radar.sync();
+        if (Topolyn.viewerChromeLayout && typeof Topolyn.viewerChromeLayout.schedule === 'function') {
+          Topolyn.viewerChromeLayout.schedule();
         }
       }
       function sampleRenderedState() {
@@ -11448,7 +11448,7 @@
         container.classList.remove('is-camera-moving');
         container.classList.remove('is-camera-transaction');
         container.removeAttribute('data-camera-transaction');
-        if (Archify.focus && Archify.focus.reposition) Archify.focus.reposition();
+        if (Topolyn.focus && Topolyn.focus.reposition) Topolyn.focus.reposition();
         transaction.resolve({ id: transaction.id, state: transaction.state });
         return true;
       }
@@ -11497,8 +11497,8 @@
         container.removeAttribute('data-camera-transaction');
       }
       function interruptCamera(reason) {
-        if (Archify.guidedViews && Archify.guidedViews.cancelHandoff) {
-          Archify.guidedViews.cancelHandoff(reason || 'manual');
+        if (Topolyn.guidedViews && Topolyn.guidedViews.cancelHandoff) {
+          Topolyn.guidedViews.cancelHandoff(reason || 'manual');
         }
         var rendered = sampleRenderedState();
         stopCameraMotion(reason || 'manual', false);
@@ -11506,11 +11506,11 @@
         state.mode = 'manual';
         apply();
         renderControls();
-        if (Archify.guidedViews && Archify.guidedViews.isPlaying && Archify.guidedViews.isPlaying()) {
-          Archify.guidedViews.pause();
+        if (Topolyn.guidedViews && Topolyn.guidedViews.isPlaying && Topolyn.guidedViews.isPlaying()) {
+          Topolyn.guidedViews.pause();
         }
-        if (Archify.routeProbe && Archify.routeProbe.isJourneyPlaying && Archify.routeProbe.isJourneyPlaying()) {
-          Archify.routeProbe.pauseJourney({ preserveElapsed: true, reason: reason || 'manual' });
+        if (Topolyn.routeProbe && Topolyn.routeProbe.isJourneyPlaying && Topolyn.routeProbe.isJourneyPlaying()) {
+          Topolyn.routeProbe.pauseJourney({ preserveElapsed: true, reason: reason || 'manual' });
         }
       }
       function zoom(next, options) {
@@ -11534,8 +11534,8 @@
         else stopCameraMotion('reset', false);
         state = { scale: 1, x: 0, y: 0, mode: 'overview' };
         apply();
-        if (Archify.viewerChromeLayout && typeof Archify.viewerChromeLayout.reprobe === 'function') {
-          Archify.viewerChromeLayout.reprobe();
+        if (Topolyn.viewerChromeLayout && typeof Topolyn.viewerChromeLayout.reprobe === 'function') {
+          Topolyn.viewerChromeLayout.reprobe();
         }
       }
       function centerAt(logicalX, logicalY, options) {
@@ -11567,7 +11567,7 @@
         state.y = metrics.height / 2 - contentY * state.scale;
         state.mode = 'manual';
         apply();
-        if (Archify.focus && Archify.focus.reposition) Archify.focus.reposition();
+        if (Topolyn.focus && Topolyn.focus.reposition) Topolyn.focus.reposition();
         return true;
       }
       function semanticIds(ids, includeNeighbors) {
@@ -11729,10 +11729,10 @@
         return transaction;
       }
       function syncSemantic() {
-        var guided = Archify.guidedViews && typeof Archify.guidedViews.focus === 'function'
-          ? Archify.guidedViews.focus() : [];
+        var guided = Topolyn.guidedViews && typeof Topolyn.guidedViews.focus === 'function'
+          ? Topolyn.guidedViews.focus() : [];
         if (guided && guided.length) return reveal(guided, { reason: 'guided-sync' });
-        var active = Archify.focus && typeof Archify.focus.active === 'function' ? Archify.focus.active() : null;
+        var active = Topolyn.focus && typeof Topolyn.focus.active === 'function' ? Topolyn.focus.active() : null;
         if (typeof active === 'string') return reveal([active], { includeNeighbors: true, reason: 'focus-sync' });
         if (Array.isArray(active) && active.length) return reveal(active, { reason: 'selection-sync' });
         return false;
@@ -11742,7 +11742,7 @@
       }
       function onScroll() {
         pinControls();
-        if (Archify.radar && typeof Archify.radar.sync === 'function') Archify.radar.sync();
+        if (Topolyn.radar && typeof Topolyn.radar.sync === 'function') Topolyn.radar.sync();
         if (window.innerWidth <= 720 && container.hasAttribute('data-wide-diagram') && Date.now() > autoScrollUntil) {
           interruptCamera();
         }
@@ -11811,7 +11811,7 @@
        The radar is built at runtime so the checked artifact still contains
        one canonical SVG block, and export serialization remains untouched.
        ============================================================ */
-    Archify.radar = (function () {
+    Topolyn.radar = (function () {
       var container = document.querySelector('.diagram-container');
       var diagram = container.querySelector(':scope > svg');
       var panel = document.getElementById('overview-map');
@@ -12160,7 +12160,7 @@
       }
       function syncNow() {
         syncFrame = 0;
-        if (panel.hidden || !Archify.view || typeof Archify.view.logicalViewport !== 'function') return;
+        if (panel.hidden || !Topolyn.view || typeof Topolyn.view.logicalViewport !== 'function') return;
         if (!updateDocking()) {
           reflectUnavailable();
           return;
@@ -12173,7 +12173,7 @@
           }
         }
         reflectVisible();
-        var visible = Archify.view.logicalViewport();
+        var visible = Topolyn.view.logicalViewport();
         if (!visible) return;
         viewport.setAttribute('x', String(visible.x));
         viewport.setAttribute('y', String(visible.y));
@@ -12205,9 +12205,9 @@
       function setOpen(next, options) {
         options = options || {};
         next = Boolean(next);
-        if (next && Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (next && Archify.semanticLens && Archify.semanticLens.isOpen()) {
-          Archify.semanticLens.close({ restoreFocus: false });
+        if (next && Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (next && Topolyn.semanticLens && Topolyn.semanticLens.isOpen()) {
+          Topolyn.semanticLens.close({ restoreFocus: false });
         }
         requestedOpen = next;
         if (next) {
@@ -12250,14 +12250,14 @@
       function focusNode(id) {
         var main = diagram.querySelector('[data-node-id="' + id + '"]');
         if (!main) return false;
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
-        if (Archify.focus && typeof Archify.focus.set === 'function') {
-          Archify.focus.set(id, { toggle: false });
+        if (Topolyn.focus && typeof Topolyn.focus.set === 'function') {
+          Topolyn.focus.set(id, { toggle: false });
         }
-        if (Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal([id], { includeNeighbors: true, reason: 'radar' });
+        if (Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'radar' });
         }
         bringNodeIntoWindow(main);
         try { main.focus({ preventScroll: true }); } catch (_) { try { main.focus(); } catch (_) {} }
@@ -12274,8 +12274,8 @@
       }
       function navigate(event) {
         var point = diagramPoint(event);
-        if (!point || !Archify.view || typeof Archify.view.centerAt !== 'function') return;
-        Archify.view.centerAt(point.x, point.y, { minimumScale: 1.5, instant: true });
+        if (!point || !Topolyn.view || typeof Topolyn.view.centerAt !== 'function') return;
+        Topolyn.view.centerAt(point.x, point.y, { minimumScale: 1.5, instant: true });
         sync();
       }
       function endViewportDrag(event) {
@@ -12381,7 +12381,7 @@
           return;
         }
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight' && event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
-        var visible = Archify.view && Archify.view.logicalViewport ? Archify.view.logicalViewport() : null;
+        var visible = Topolyn.view && Topolyn.view.logicalViewport ? Topolyn.view.logicalViewport() : null;
         if (!visible) return;
         event.preventDefault();
         var x = visible.x + visible.width / 2;
@@ -12392,7 +12392,7 @@
         else if (event.key === 'ArrowRight') x += stepX;
         else if (event.key === 'ArrowUp') y -= stepY;
         else y += stepY;
-        Archify.view.centerAt(x, y, { minimumScale: 1.5, instant: true });
+        Topolyn.view.centerAt(x, y, { minimumScale: 1.5, instant: true });
         sync();
       });
       document.addEventListener('keydown', function (event) {
@@ -12440,7 +12440,7 @@
        serialization remain untouched. Escape first clears an active guided
        view/focus, then exits the stage.
        ============================================================ */
-    Archify.presentation = (function () {
+    Topolyn.presentation = (function () {
       var html = document.documentElement;
       var btn = document.getElementById('btn-present');
       var label = document.getElementById('present-label');
@@ -12472,7 +12472,7 @@
           return next;
         }
         if (next) {
-          if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
+          if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
           previousScrollY = window.scrollY || 0;
           html.setAttribute('data-present', 'true');
           try { window.scrollTo(0, 0); } catch (_) {}
@@ -12482,10 +12482,10 @@
         render(next);
         if (options.updateUrl !== false) updateUrl(next);
         requestAnimationFrame(function () {
-          if (Archify.view && typeof Archify.view.reset === 'function') {
-            Archify.view.reset({ automatic: true });
+          if (Topolyn.view && typeof Topolyn.view.reset === 'function') {
+            Topolyn.view.reset({ automatic: true });
             requestAnimationFrame(function () {
-              if (Archify.view && typeof Archify.view.sync === 'function') Archify.view.sync();
+              if (Topolyn.view && typeof Topolyn.view.sync === 'function') Topolyn.view.sync();
             });
           }
           if (!next && previousScrollY) {
@@ -12513,7 +12513,7 @@
        Search never changes the IR or SVG geometry: selecting a result resets
        the viewport, releases a guided view, and delegates to semantic focus.
        ============================================================ */
-    Archify.finder = (function () {
+    Topolyn.finder = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector('svg');
@@ -12573,7 +12573,7 @@
         var tag = node.getAttribute('data-node-tag') || '';
         var brand = node.getAttribute('data-node-brand') || '';
         var type = semanticType(node);
-        var sources = Archify.sourceEvidence.node(id);
+        var sources = Topolyn.sourceEvidence.node(id);
         var sourceSearch = sources.map(function (source) {
           return [source.path, source.label, source.line, source.endLine].filter(Boolean).join(' ');
         }).join(' ');
@@ -12598,8 +12598,8 @@
 
       function resolveContext(options) {
         var requested = options && options.context ? options.context : null;
-        if (!requested && Archify.routeProbe && typeof Archify.routeProbe.finderContext === 'function') {
-          requested = Archify.routeProbe.finderContext();
+        if (!requested && Topolyn.routeProbe && typeof Topolyn.routeProbe.finderContext === 'function') {
+          requested = Topolyn.routeProbe.finderContext();
         }
         if (!requested) return defaultContext();
         var resolved = defaultContext();
@@ -12625,21 +12625,21 @@
         if (!item) return false;
         var routeSelection = context.kind === 'route-source' || context.kind === 'route-target';
         if (routeSelection) {
-          if (!Archify.routeProbe || typeof Archify.routeProbe.choose !== 'function' || !Archify.routeProbe.choose(id)) return false;
-          if (Archify.routeProbe.active() === 'target' && Archify.view && typeof Archify.view.reveal === 'function') {
-            Archify.view.reveal([id], { includeNeighbors: true, reason: 'route-pick' });
+          if (!Topolyn.routeProbe || typeof Topolyn.routeProbe.choose !== 'function' || !Topolyn.routeProbe.choose(id)) return false;
+          if (Topolyn.routeProbe.active() === 'target' && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+            Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'route-pick' });
           }
           close({ restoreFocus: false });
           try { item.node.focus({ preventScroll: true }); } catch (_) { try { item.node.focus(); } catch (_) {} }
           return true;
         }
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
-        if (Archify.view && typeof Archify.view.reset === 'function') Archify.view.reset({ automatic: true });
-        Archify.focus.set(id, { toggle: false });
-        if (Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal([id], { includeNeighbors: true, reason: 'finder' });
+        if (Topolyn.view && typeof Topolyn.view.reset === 'function') Topolyn.view.reset({ automatic: true });
+        Topolyn.focus.set(id, { toggle: false });
+        if (Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal([id], { includeNeighbors: true, reason: 'finder' });
         }
         close({ restoreFocus: false });
         try { item.node.focus({ preventScroll: true }); } catch (_) { try { item.node.focus(); } catch (_) {} }
@@ -12694,15 +12694,15 @@
 
       function open(options) {
         if (html.getAttribute('data-embed') === 'true') return false;
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (Archify.exportMenu && Archify.exportMenu.isOpen()) Archify.exportMenu.close(false);
-        if (Archify.semanticLens && Archify.semanticLens.isOpen()) Archify.semanticLens.close({ restoreFocus: false });
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (Topolyn.exportMenu && Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.close(false);
+        if (Topolyn.semanticLens && Topolyn.semanticLens.isOpen()) Topolyn.semanticLens.close({ restoreFocus: false });
         context = resolveContext(options || {});
         applyContext();
         panel.hidden = false;
         trigger.setAttribute('aria-expanded', 'true');
-        if (context.kind.indexOf('route-') === 0 && Archify.routeProbe && typeof Archify.routeProbe.finderOpening === 'function') {
-          Archify.routeProbe.finderOpening();
+        if (context.kind.indexOf('route-') === 0 && Topolyn.routeProbe && typeof Topolyn.routeProbe.finderOpening === 'function') {
+          Topolyn.routeProbe.finderOpening();
         }
         input.value = '';
         render('');
@@ -12716,8 +12716,8 @@
         panel.hidden = true;
         trigger.setAttribute('aria-expanded', 'false');
         input.value = '';
-        if (routeContext && Archify.routeProbe && typeof Archify.routeProbe.finderClosed === 'function') {
-          Archify.routeProbe.finderClosed({ restoreFocus: options.restoreFocus !== false });
+        if (routeContext && Topolyn.routeProbe && typeof Topolyn.routeProbe.finderClosed === 'function') {
+          Topolyn.routeProbe.finderClosed({ restoreFocus: options.restoreFocus !== false });
         } else if (options.restoreFocus !== false) {
           trigger.focus();
         }
@@ -12780,7 +12780,7 @@
        endpoints. BFS order follows authored DOM edge order, so equal-length
        choices are deterministic without adding weights or a graph runtime.
        ============================================================ */
-    Archify.routeProbe = (function () {
+    Topolyn.routeProbe = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector(':scope > svg');
@@ -12892,10 +12892,10 @@
         Array.prototype.forEach.call(svg.querySelectorAll('[data-route-journey-overlay]'), function (overlay) {
           overlay.remove();
         });
-        if (journeyOwnerToken && options.release !== false && Archify.motionGovernor) {
+        if (journeyOwnerToken && options.release !== false && Topolyn.motionGovernor) {
           var token = journeyOwnerToken;
           journeyOwnerToken = 0;
-          Archify.motionGovernor.release(token);
+          Topolyn.motionGovernor.release(token);
         }
       }
       function stopJourneyTimer(options) {
@@ -13010,8 +13010,8 @@
       function clear(options) {
         options = options || {};
         var wasActive = mode !== 'idle';
-        if (Archify.finder && Archify.finder.isOpen() && typeof Archify.finder.context === 'function' && Archify.finder.context().indexOf('route-') === 0) {
-          Archify.finder.close({ restoreFocus: false });
+        if (Topolyn.finder && Topolyn.finder.isOpen() && typeof Topolyn.finder.context === 'function' && Topolyn.finder.context().indexOf('route-') === 0) {
+          Topolyn.finder.close({ restoreFocus: false });
         }
         mode = 'idle';
         startId = null;
@@ -13030,10 +13030,10 @@
         findBtn.setAttribute('aria-label', viewerText('viewer.route.start.find.aria'));
         copyBtn.hidden = true;
         copyBtn.textContent = viewerText('viewer.route.copy');
-        if (Archify.exportMenu && typeof Archify.exportMenu.syncRouteShare === 'function') Archify.exportMenu.syncRouteShare();
+        if (Topolyn.exportMenu && typeof Topolyn.exportMenu.syncRouteShare === 'function') Topolyn.exportMenu.syncRouteShare();
         setTrigger(false);
-        if (wasActive && options.preserveView !== true && Archify.view && typeof Archify.view.reset === 'function') {
-          Archify.view.reset({ automatic: true });
+        if (wasActive && options.preserveView !== true && Topolyn.view && typeof Topolyn.view.reset === 'function') {
+          Topolyn.view.reset({ automatic: true });
         }
         if (options.updateUrl !== false) replaceRouteHash('');
         if (options.restoreFocus === true) trigger.focus();
@@ -13155,9 +13155,9 @@
       function journeyMotionAllowed() {
         return html.getAttribute('data-embed') !== 'true' &&
           !document.hidden &&
-          Archify.motionGovernor &&
-          Archify.motionGovernor.capable === true &&
-          !Archify.motionGovernor.isPaused();
+          Topolyn.motionGovernor &&
+          Topolyn.motionGovernor.capable === true &&
+          !Topolyn.motionGovernor.isPaused();
       }
       function routeOverviewStatus() {
         return viewerText('viewer.route.overview.status', {
@@ -13248,9 +13248,9 @@
         var firstNode = svg.querySelector('[data-node-id]');
         if (firstNode) svg.insertBefore(overlay, firstNode);
         else svg.appendChild(overlay);
-        if (Archify.motionGovernor && Archify.motionGovernor.capable) {
+        if (Topolyn.motionGovernor && Topolyn.motionGovernor.capable) {
           var token = 0;
-          token = Archify.motionGovernor.claim('route', function () {
+          token = Topolyn.motionGovernor.claim('route', function () {
             if (journeyOwnerToken === token) journeyOwnerToken = 0;
             removeJourneyPulse({ release: false });
           });
@@ -13308,8 +13308,8 @@
           label: nodeLabel(byId[activeNodeIds[journeyIndex]], activeNodeIds[journeyIndex])
         });
         if (options.pulse === true && journeyIndex > 0) renderJourneyPulse(activeEdges[journeyIndex - 1]);
-        if (options.reveal !== false && Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal(activeNodeIds.slice(Math.max(0, journeyIndex - 1), Math.min(activeNodeIds.length, journeyIndex + 2)), {
+        if (options.reveal !== false && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal(activeNodeIds.slice(Math.max(0, journeyIndex - 1), Math.min(activeNodeIds.length, journeyIndex + 2)), {
             includeNeighbors: false,
             reason: 'route-journey',
             maxScale: 1.65,
@@ -13354,8 +13354,8 @@
         clearJourneyPresentation({ keepControls: true });
         status.textContent = routeOverviewStatus();
         renderJourneyControls();
-        if (options.reveal !== false && Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal(activeNodeIds, { includeNeighbors: false, reason: 'route', instant: !journeyMotionAllowed() });
+        if (options.reveal !== false && Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal(activeNodeIds, { includeNeighbors: false, reason: 'route', instant: !journeyMotionAllowed() });
         }
         requestDocking();
         return true;
@@ -13525,13 +13525,13 @@
         findBtn.hidden = true;
         copyBtn.hidden = false;
         setTrigger(true);
-        if (Archify.exportMenu && typeof Archify.exportMenu.syncRouteShare === 'function') Archify.exportMenu.syncRouteShare();
+        if (Topolyn.exportMenu && typeof Topolyn.exportMenu.syncRouteShare === 'function') Topolyn.exportMenu.syncRouteShare();
         if (options.updateUrl !== false) {
           replaceRouteHash(encodeURIComponent(startId) + '~' + encodeURIComponent(endId));
         }
         showJourneyOverview({ reveal: false });
-        if (Archify.view && typeof Archify.view.reveal === 'function') {
-          Archify.view.reveal(result.nodes, { includeNeighbors: false, reason: 'route' });
+        if (Topolyn.view && typeof Topolyn.view.reveal === 'function') {
+          Topolyn.view.reveal(result.nodes, { includeNeighbors: false, reason: 'route' });
         }
         return true;
       }
@@ -13562,22 +13562,22 @@
       function begin(options) {
         options = options || {};
         if (html.getAttribute('data-embed') === 'true') return false;
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (Archify.semanticLens && Archify.semanticLens.active()) {
-          Archify.semanticLens.clear({ updateUrl: false, preserveView: true, closePanel: true });
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (Topolyn.semanticLens && Topolyn.semanticLens.active()) {
+          Topolyn.semanticLens.clear({ updateUrl: false, preserveView: true, closePanel: true });
         }
-        var focused = options.source || (Archify.focus && typeof Archify.focus.active === 'function' ? Archify.focus.active() : null);
+        var focused = options.source || (Topolyn.focus && typeof Topolyn.focus.active === 'function' ? Topolyn.focus.active() : null);
         if (Array.isArray(focused)) focused = null;
         clear({ updateUrl: false, preserveView: true, restoreFocus: false });
-        if (Archify.intentTrace && typeof Archify.intentTrace.clear === 'function') Archify.intentTrace.clear({ announce: false });
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.intentTrace && typeof Topolyn.intentTrace.clear === 'function') Topolyn.intentTrace.clear({ announce: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
-        if (Archify.focus && typeof Archify.focus.clear === 'function') {
-          Archify.focus.clear({ updateUrl: false, preserveView: true });
+        if (Topolyn.focus && typeof Topolyn.focus.clear === 'function') {
+          Topolyn.focus.clear({ updateUrl: false, preserveView: true });
         }
-        if (Archify.finder && Archify.finder.isOpen()) Archify.finder.close({ restoreFocus: false });
-        if (Archify.radar && Archify.radar.isOpen()) Archify.radar.close({ restoreFocus: false });
+        if (Topolyn.finder && Topolyn.finder.isOpen()) Topolyn.finder.close({ restoreFocus: false });
+        if (Topolyn.radar && Topolyn.radar.isOpen()) Topolyn.radar.close({ restoreFocus: false });
         mode = 'source';
         panel.hidden = false;
         panel.setAttribute('data-state', 'source');
@@ -13657,8 +13657,8 @@
       }
       function openFinder() {
         var context = finderContext();
-        if (!context || !Archify.finder) return false;
-        return Archify.finder.open({ context: context });
+        if (!context || !Topolyn.finder) return false;
+        return Topolyn.finder.open({ context: context });
       }
       function fallbackCopy(value) {
         var field = document.createElement('textarea');
@@ -13815,7 +13815,7 @@
        Two selected kinds compare only direct cross-kind relationships while
        preserving the full diagram as a dimmed spatial reference.
        ============================================================ */
-    Archify.semanticLens = (function () {
+    Topolyn.semanticLens = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector(':scope > svg');
@@ -14260,17 +14260,17 @@
       }
       function prepareForLens() {
         clearLegendPreview();
-        if (Archify.focus && typeof Archify.focus.clear === 'function') {
-          Archify.focus.clear({ updateUrl: false, preserveView: true });
+        if (Topolyn.focus && typeof Topolyn.focus.clear === 'function') {
+          Topolyn.focus.clear({ updateUrl: false, preserveView: true });
         }
-        if (Archify.routeProbe && typeof Archify.routeProbe.clear === 'function') {
-          Archify.routeProbe.clear({ updateUrl: false, restoreFocus: false });
+        if (Topolyn.routeProbe && typeof Topolyn.routeProbe.clear === 'function') {
+          Topolyn.routeProbe.clear({ updateUrl: false, restoreFocus: false });
         }
-        if (Archify.guidedViews && typeof Archify.guidedViews.showAll === 'function') {
-          Archify.guidedViews.showAll({ clearFocus: false, updateUrl: false });
+        if (Topolyn.guidedViews && typeof Topolyn.guidedViews.showAll === 'function') {
+          Topolyn.guidedViews.showAll({ clearFocus: false, updateUrl: false });
         }
-        if (Archify.intentTrace && typeof Archify.intentTrace.clear === 'function') {
-          Archify.intentTrace.clear({ announce: false });
+        if (Topolyn.intentTrace && typeof Topolyn.intentTrace.clear === 'function') {
+          Topolyn.intentTrace.clear({ announce: false });
         }
       }
       function select(kind, options) {
@@ -14299,10 +14299,10 @@
         options = options || {};
         if (html.getAttribute('data-embed') === 'true') return false;
         lensOpener = options.opener || trigger;
-        if (Archify.exportMenu && Archify.exportMenu.isOpen()) Archify.exportMenu.close(false);
-        if (Archify.finder && Archify.finder.isOpen()) Archify.finder.close({ restoreFocus: false });
-        if (Archify.radar && Archify.radar.isOpen()) Archify.radar.close({ restoreFocus: false });
-        if (Archify.guide && Archify.guide.isOpen()) Archify.guide.close({ restoreFocus: false });
+        if (Topolyn.exportMenu && Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.close(false);
+        if (Topolyn.finder && Topolyn.finder.isOpen()) Topolyn.finder.close({ restoreFocus: false });
+        if (Topolyn.radar && Topolyn.radar.isOpen()) Topolyn.radar.close({ restoreFocus: false });
+        if (Topolyn.guide && Topolyn.guide.isOpen()) Topolyn.guide.close({ restoreFocus: false });
         renderKinds();
         panel.hidden = false;
         trigger.setAttribute('aria-expanded', 'true');
@@ -14325,8 +14325,8 @@
         renderKinds();
         status.textContent = viewerText('viewer.lens.choose');
         if (options.updateUrl !== false) updateHash();
-        if (options.preserveView !== true && Archify.view && typeof Archify.view.reset === 'function') {
-          Archify.view.reset({ automatic: true });
+        if (options.preserveView !== true && Topolyn.view && typeof Topolyn.view.reset === 'function') {
+          Topolyn.view.reset({ automatic: true });
         }
         if (options.closePanel === true) close({ restoreFocus: false });
         return false;
@@ -14491,7 +14491,7 @@
        Probe, Semantic Radar, Semantic Lens, Story Trail, Presentation, theme, export, and
        camera without adding a second command implementation or SVG state.
        ============================================================ */
-    Archify.guide = (function () {
+    Topolyn.guide = (function () {
       var html = document.documentElement;
       var container = document.querySelector('.diagram-container');
       var svg = container.querySelector(':scope > svg');
@@ -14506,7 +14506,7 @@
       var routePanel = document.getElementById('route-probe');
 
       function viewCount() {
-        return Archify.guidedViews && Number(Archify.guidedViews.count) || 0;
+        return Topolyn.guidedViews && Number(Topolyn.guidedViews.count) || 0;
       }
       function relationshipCount() {
         var seen = {};
@@ -14551,16 +14551,16 @@
       }
       function open() {
         if (html.getAttribute('data-embed') === 'true') return false;
-        if (Archify.semanticLens && typeof Archify.semanticLens.clearPreview === 'function') Archify.semanticLens.clearPreview();
-        if (Archify.exportMenu && Archify.exportMenu.isOpen()) Archify.exportMenu.close(false);
-        if (Archify.finder && Archify.finder.isOpen()) Archify.finder.close({ restoreFocus: false });
-        if (Archify.radar && Archify.radar.isOpen()) Archify.radar.close({ restoreFocus: false });
-        if (Archify.semanticLens && Archify.semanticLens.isOpen()) Archify.semanticLens.close({ restoreFocus: false });
-        if (Archify.guidedViews && Archify.guidedViews.isPlaying && Archify.guidedViews.isPlaying()) {
-          Archify.guidedViews.pause();
+        if (Topolyn.semanticLens && typeof Topolyn.semanticLens.clearPreview === 'function') Topolyn.semanticLens.clearPreview();
+        if (Topolyn.exportMenu && Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.close(false);
+        if (Topolyn.finder && Topolyn.finder.isOpen()) Topolyn.finder.close({ restoreFocus: false });
+        if (Topolyn.radar && Topolyn.radar.isOpen()) Topolyn.radar.close({ restoreFocus: false });
+        if (Topolyn.semanticLens && Topolyn.semanticLens.isOpen()) Topolyn.semanticLens.close({ restoreFocus: false });
+        if (Topolyn.guidedViews && Topolyn.guidedViews.isPlaying && Topolyn.guidedViews.isPlaying()) {
+          Topolyn.guidedViews.pause();
         }
-        if (Archify.routeProbe && Archify.routeProbe.isJourneyPlaying && Archify.routeProbe.isJourneyPlaying()) {
-          Archify.routeProbe.pauseJourney({ preserveElapsed: true, reason: 'guide' });
+        if (Topolyn.routeProbe && Topolyn.routeProbe.isJourneyPlaying && Topolyn.routeProbe.isJourneyPlaying()) {
+          Topolyn.routeProbe.pauseJourney({ preserveElapsed: true, reason: 'guide' });
         }
         renderFacts();
         panel.hidden = false;
@@ -14583,18 +14583,18 @@
           return false;
         }
         close({ restoreFocus: false });
-        if (action === 'find') return Archify.finder.open();
-        if (action === 'route') return Archify.routeProbe.begin({ focusNode: true });
-        if (action === 'map') return Archify.radar.open();
-        if (action === 'lens') return Archify.semanticLens.open();
-        if (action === 'story') return Archify.guidedViews.play();
-        if (action === 'present') return Archify.presentation.enter();
-        if (action === 'export') return Archify.exportMenu.open();
-        if (action === 'theme') return Archify.theme.toggle();
-        if (action === 'preset') return Archify.preset.cycle();
-        if (action === 'reset') return Archify.view.reset();
-        if (action === 'zoom-in') return Archify.view.zoomIn();
-        if (action === 'zoom-out') return Archify.view.zoomOut();
+        if (action === 'find') return Topolyn.finder.open();
+        if (action === 'route') return Topolyn.routeProbe.begin({ focusNode: true });
+        if (action === 'map') return Topolyn.radar.open();
+        if (action === 'lens') return Topolyn.semanticLens.open();
+        if (action === 'story') return Topolyn.guidedViews.play();
+        if (action === 'present') return Topolyn.presentation.enter();
+        if (action === 'export') return Topolyn.exportMenu.open();
+        if (action === 'theme') return Topolyn.theme.toggle();
+        if (action === 'preset') return Topolyn.preset.cycle();
+        if (action === 'reset') return Topolyn.view.reset();
+        if (action === 'zoom-in') return Topolyn.view.zoomIn();
+        if (action === 'zoom-out') return Topolyn.view.zoomOut();
         return false;
       }
       function actionForKey(key) {
@@ -14692,72 +14692,72 @@
       if (e.defaultPrevented) return;
       var t = e.target;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      if (Archify.preset && Archify.preset.isOpen() && e.key !== 'Escape' && e.key !== 's' && e.key !== 'S') {
-        Archify.preset.close(false);
+      if (Topolyn.preset && Topolyn.preset.isOpen() && e.key !== 'Escape' && e.key !== 's' && e.key !== 'S') {
+        Topolyn.preset.close(false);
       }
       if (e.key === '?') {
         e.preventDefault();
-        Archify.guide.toggle();
+        Topolyn.guide.toggle();
       } else if (e.key === '/') {
         e.preventDefault();
-        Archify.finder.open();
+        Topolyn.finder.open();
       } else if (e.key === 't' || e.key === 'T') {
         e.preventDefault();
-        Archify.theme.toggle();
+        Topolyn.theme.toggle();
       } else if (e.key === 's' || e.key === 'S') {
         e.preventDefault();
-        Archify.preset.cycle();
+        Topolyn.preset.cycle();
       } else if (e.key === 'e' || e.key === 'E') {
         e.preventDefault();
-        if (!Archify.exportMenu.isOpen()) Archify.exportMenu.open();
+        if (!Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.open();
       } else if (e.key === 'f' || e.key === 'F') {
         e.preventDefault();
-        Archify.presentation.toggle();
+        Topolyn.presentation.toggle();
       } else if (e.key === 'm' || e.key === 'M') {
         e.preventDefault();
-        Archify.radar.toggle();
+        Topolyn.radar.toggle();
       } else if (e.key === 'l' || e.key === 'L') {
         e.preventDefault();
-        Archify.semanticLens.toggle();
+        Topolyn.semanticLens.toggle();
       } else if (e.key === 'r' || e.key === 'R') {
         e.preventDefault();
-        Archify.routeProbe.toggle({ focusNode: true });
+        Topolyn.routeProbe.toggle({ focusNode: true });
       } else if (e.key === '+' || e.key === '=') {
         e.preventDefault();
-        Archify.view.zoomIn();
+        Topolyn.view.zoomIn();
       } else if (e.key === '-') {
         e.preventDefault();
-        Archify.view.zoomOut();
+        Topolyn.view.zoomOut();
       } else if (e.key === '0') {
         e.preventDefault();
-        Archify.view.reset();
-      } else if (e.key === 'Escape' && Archify.preset.isOpen()) {
+        Topolyn.view.reset();
+      } else if (e.key === 'Escape' && Topolyn.preset.isOpen()) {
         e.preventDefault();
-        Archify.preset.close(true);
-      } else if (e.key === 'Escape' && Archify.semanticLens.isOpen()) {
+        Topolyn.preset.close(true);
+      } else if (e.key === 'Escape' && Topolyn.semanticLens.isOpen()) {
         e.preventDefault();
-        Archify.semanticLens.close({ restoreFocus: true });
-      } else if (e.key === 'Escape' && Archify.semanticLens.active()) {
+        Topolyn.semanticLens.close({ restoreFocus: true });
+      } else if (e.key === 'Escape' && Topolyn.semanticLens.active()) {
         e.preventDefault();
-        Archify.semanticLens.clear({ preserveView: true });
-      } else if (e.key === 'Escape' && Archify.guide.isOpen()) {
+        Topolyn.semanticLens.clear({ preserveView: true });
+      } else if (e.key === 'Escape' && Topolyn.guide.isOpen()) {
         e.preventDefault();
-        Archify.guide.close({ restoreFocus: true });
-      } else if (e.key === 'Escape' && Archify.radar.isOpen()) {
+        Topolyn.guide.close({ restoreFocus: true });
+      } else if (e.key === 'Escape' && Topolyn.radar.isOpen()) {
         e.preventDefault();
-        Archify.radar.close({ restoreFocus: true });
-      } else if (e.key === 'Escape' && Archify.routeProbe.active()) {
+        Topolyn.radar.close({ restoreFocus: true });
+      } else if (e.key === 'Escape' && Topolyn.routeProbe.active()) {
         e.preventDefault();
-        Archify.routeProbe.escape({ restoreFocus: true });
-      } else if (e.key === 'Escape' && Archify.intentTrace.active()) {
+        Topolyn.routeProbe.escape({ restoreFocus: true });
+      } else if (e.key === 'Escape' && Topolyn.intentTrace.active()) {
         e.preventDefault();
-        Archify.intentTrace.clear();
-      } else if (e.key === 'Escape' && Archify.focus.active()) {
+        Topolyn.intentTrace.clear();
+      } else if (e.key === 'Escape' && Topolyn.focus.active()) {
         e.preventDefault();
-        Archify.focus.clear({ restoreFocus: true });
-      } else if (e.key === 'Escape' && Archify.presentation.active()) {
+        Topolyn.focus.clear({ restoreFocus: true });
+      } else if (e.key === 'Escape' && Topolyn.presentation.active()) {
         e.preventDefault();
-        Archify.presentation.exit();
+        Topolyn.presentation.exit();
       }
     });
   </script>

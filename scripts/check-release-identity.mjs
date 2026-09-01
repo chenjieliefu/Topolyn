@@ -74,7 +74,7 @@ function checkDocument(relativePath, source, version, isDevelopment) {
 
 function checkRavenBoundary(relativePath, source, language) {
   const installParent = String.raw`~\/\.raven\/workspace\/skills`;
-  const installedRoot = `${installParent}\/archify`;
+  const installedRoot = `${installParent}\/topolyn`;
   const pathBoundary = String.raw`(?=$|[\s\x60'"<>,.;:，；。])`;
   const hasEnglishManual = /manual ZIP/i.test(source);
   const hasChineseManual = /(?:手动[^\n<]{0,40}ZIP|ZIP[^\n<]{0,40}手动)/i.test(source);
@@ -82,7 +82,7 @@ function checkRavenBoundary(relativePath, source, language) {
     ? hasEnglishManual && hasChineseManual
     : language === 'zh' ? hasChineseManual : hasEnglishManual;
   const englishExtractsIntoParent = new RegExp(
-    String.raw`(?:extract|unpack)[^\n]{0,180}archify\.zip[^\n]{0,180}(?:into|to)\s*[\x60'"<]*${installParent}${pathBoundary}`,
+    String.raw`(?:extract|unpack)[^\n]{0,180}topolyn\.zip[^\n]{0,180}(?:into|to)\s*[\x60'"<]*${installParent}${pathBoundary}`,
     'i',
   ).test(source);
   const englishExplainsInstalledRoot = new RegExp(
@@ -90,7 +90,7 @@ function checkRavenBoundary(relativePath, source, language) {
     'i',
   ).test(source);
   const chineseExtractsIntoParent = new RegExp(
-    String.raw`archify\.zip[^\n]{0,100}解压(?:到|至)\s*[\x60'"<]*${installParent}${pathBoundary}`,
+    String.raw`topolyn\.zip[^\n]{0,100}解压(?:到|至)\s*[\x60'"<]*${installParent}${pathBoundary}`,
     'i',
   ).test(source);
   const chineseExplainsInstalledRoot = new RegExp(
@@ -112,7 +112,7 @@ function checkRavenBoundary(relativePath, source, language) {
     || /[?&]agent=raven\b/i.test(source);
   if (!/Raven/i.test(source) || !hasRequiredCopy || !hasCorrectDestination
     || nestedDestination || inventsSwitcher) {
-    fail(`${relativePath}: Raven must remain a manual ZIP installation outside the agent switcher: extract archify.zip into ~/.raven/workspace/skills, yielding ~/.raven/workspace/skills/archify.`);
+    fail(`${relativePath}: Raven must remain a manual ZIP installation outside the agent switcher: extract topolyn.zip into ~/.raven/workspace/skills, yielding ~/.raven/workspace/skills/topolyn.`);
   }
 }
 
@@ -135,7 +135,7 @@ function checkRoadmap(relativePath, source, version, isDevelopment) {
   }
 }
 
-const packageJson = readJson('archify/package.json');
+const packageJson = readJson('topolyn/package.json');
 const changelog = read('CHANGELOG.md');
 const unreleasedStart = changelog.search(/^## \[Unreleased\][^\n]*(?:\n|$)/m);
 const afterUnreleased = unreleasedStart === -1
@@ -168,23 +168,23 @@ if (semver && hasRealUnreleasedChanges) {
 }
 
 if (semver) {
-  const lock = readJson('archify/package-lock.json');
+  const lock = readJson('topolyn/package-lock.json');
   if (lock.version !== version || lock.packages?.['']?.version !== version) {
-    fail(`archify/package-lock.json must match ${version} at the root and packages[""].`);
+    fail(`topolyn/package-lock.json must match ${version} at the root and packages[""].`);
   }
 
-  const skill = read('archify/SKILL.md');
+  const skill = read('topolyn/SKILL.md');
   const skillVersion = skill.match(/^\s*version:\s*["']?([^"'\s]+)["']?\s*$/m)?.[1];
   const expectedSkillVersion = `${semver[1]}.${semver[2]}`;
   if (skillVersion !== expectedSkillVersion) {
-    fail(`archify/SKILL.md metadata version ${skillVersion || '(missing)'} must map to package ${version} as ${expectedSkillVersion}.`);
+    fail(`topolyn/SKILL.md metadata version ${skillVersion || '(missing)'} must map to package ${version} as ${expectedSkillVersion}.`);
   }
 
-  const rendererTemplate = read('archify/assets/template.html');
-  const generatorVersions = [...rendererTemplate.matchAll(/<meta\s+name="generator"\s+content="archify\s+([^"]+)"\s*\/?>/g)]
+  const rendererTemplate = read('topolyn/assets/template.html');
+  const generatorVersions = [...rendererTemplate.matchAll(/<meta\s+name="generator"\s+content="topolyn\s+([^"]+)"\s*\/?>/g)]
     .map((match) => match[1]);
   if (generatorVersions.length !== 1 || generatorVersions[0] !== version) {
-    fail(`archify/assets/template.html generator must be archify ${version}; found ${generatorVersions.join(', ') || '(missing)'}.`);
+    fail(`topolyn/assets/template.html generator must be topolyn ${version}; found ${generatorVersions.join(', ') || '(missing)'}.`);
   }
 
   const english = read('README.md');
@@ -201,20 +201,25 @@ if (semver) {
   const newestStableLabel = [...changelog.matchAll(/^## \[(\d+\.\d+\.\d+)\]/gm)][0]?.[1];
   if (newestStableLabel && isDevelopment) {
     const stableMinor = newestStableLabel.split('.').slice(0, 2).join('\\.');
-    if (new RegExp(`Archify ${stableMinor} includes\\b`).test(english)
-      || new RegExp(`Archify ${stableMinor} 已覆盖`).test(chinese)) {
+    if (new RegExp(`Topolyn ${stableMinor} includes\\b`).test(english)
+      || new RegExp(`Topolyn ${stableMinor} 已覆盖`).test(chinese)) {
       fail(`README capability summary must describe v${version} as development, not published ${newestStableLabel}.`);
     }
   }
 
   const landing = read('docs/index.html');
   checkDocument('docs/index.html', landing, version, isDevelopment);
-  checkRavenBoundary('docs/index.html', landing, 'both');
-  const proofCounts = [...landing.matchAll(/\b\d+\/\d+\b/g)].map((match) => match[0]);
-  const staleProofCounts = [...new Set(proofCounts.filter((count) => count !== '9/9'))];
-  if (proofCounts.length === 0 || staleProofCounts.length > 0) {
-    const found = staleProofCounts.length > 0 ? `; found ${staleProofCounts.join(', ')}` : '';
-    fail(`docs/index.html proof receipt must say 9/9 everywhere; every N/N proof receipt must be exactly 9/9${found}.`);
+  if (!/href=["']workspace\.html["']/.test(landing)
+    || !/href=["']guide\.html["']/.test(landing)
+    || !/href=["']gallery\.html["']/.test(landing)) {
+    fail('docs/index.html must expose the complete four-page Topolyn product navigation.');
+  }
+  const workspace = read('docs/workspace.html');
+  checkDocument('docs/workspace.html', workspace, version, isDevelopment);
+  if (!/id=["']system-prompt["']/.test(workspace)
+    || !/id=["']generate-button["']/.test(workspace)
+    || !/assets\/topolyn-app\.js/.test(workspace)) {
+    fail('docs/workspace.html must expose the independent Topolyn generation workspace.');
   }
   const start = read('docs/start.html');
   checkDocument('docs/start.html', start, version, isDevelopment);

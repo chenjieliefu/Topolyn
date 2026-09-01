@@ -219,8 +219,8 @@ const forbidden = packedFiles.filter((file) => (
 if (packedPkg.name !== PACKAGE_NAME || packedPkg.version !== PACKAGE_VERSION || forbidden.length > 0) {
   fail('tarball-inspect', 'packed identity or exclusions failed', { forbidden, packedPkg });
 }
-if (!packedFiles.includes('skills/archify/SKILL.md')) {
-  fail('tarball-inspect', 'packed tarball is missing the clean Archify Skill');
+if (!packedFiles.includes('skills/topolyn/SKILL.md')) {
+  fail('tarball-inspect', 'packed tarball is missing the clean Topolyn Skill');
 }
 pass('tarball-inspect', { fileCount: packedFiles.length });
 
@@ -315,19 +315,19 @@ const originalFilesystem = composed.rows.find((row) => row.id === 'skill-filesys
 const archifyProvider = composed.rows.find((row) => row.id === 'archify-skill-filesystem');
 const extraProviders = composed.rows.filter((row) => row.config.providerName === 'archify-plugin');
 if (!dump.stdout.includes(`# == ${PACKAGE_NAME}`) || !archifyLayer) {
-  fail('compose', 'composed dump does not include the Archify bundle layer', { layers: composed.layers.map((layer) => layer.name) });
+  fail('compose', 'composed dump does not include the Topolyn bundle layer', { layers: composed.layers.map((layer) => layer.name) });
 }
 if (!originalFilesystem || originalFilesystem.config.providerName === 'archify-plugin') {
   fail('compose', 'original DSH skill-filesystem row was replaced', { originalFilesystem });
 }
 if (!archifyProvider || extraProviders.length !== 1 || archifyLayer.rows.length !== 1) {
-  fail('compose', 'composed config did not insert exactly one Archify Skill provider', {
+  fail('compose', 'composed config did not insert exactly one Topolyn Skill provider', {
     extra: extraProviders.map((row) => row.id),
     layerRows: archifyLayer.rows.map((row) => row.id),
   });
 }
 if (archifyProvider.config.includeDefaultRoots !== false || archifyProvider.config.providerName !== 'archify-plugin') {
-  fail('compose', 'Archify provider config is not isolated', { archifyProvider });
+  fail('compose', 'Topolyn provider config is not isolated', { archifyProvider });
 }
 pass('compose', {
   extraIds: archifyLayer.rows.map((row) => row.id),
@@ -358,7 +358,7 @@ try {
 }
 probeChild.kill('SIGTERM');
 const probeReceipt = JSON.parse(fs.readFileSync(probeOut, 'utf8'));
-const archifyHits = (probeReceipt.skills || []).filter((skill) => skill.name === 'archify');
+const archifyHits = (probeReceipt.skills || []).filter((skill) => skill.name === 'topolyn');
 if (archifyHits.length !== 1 || archifyHits[0].provider !== 'archify-plugin') {
   fail('skill-discovery', 'public Skill registry did not discover archify only from archify-plugin', {
     probeReceipt,
@@ -398,7 +398,7 @@ pass('resource-base', { resourcePath: resourceReal });
 
 const skillRoot = fs.existsSync(path.join(resourceReal, 'SKILL.md'))
   ? resourceReal
-  : path.join(resourceReal, 'archify');
+  : path.join(resourceReal, 'topolyn');
 const smoke = run(process.execPath, [path.join(repoRoot, 'scripts', 'package-smoke.mjs'), skillRoot], {
   cwd: repoRoot,
   timeout: 120_000,
@@ -421,15 +421,15 @@ const leftover = parseDump(baseBootDump.stdout).rows.filter((row) => (
   row.id === 'archify-skill-filesystem' || row.config.providerName === 'archify-plugin'
 ));
 if (leftover.length > 0) {
-  fail('base-profile', 'uninstalled profile still contains the Archify provider', { leftover });
+  fail('base-profile', 'uninstalled profile still contains the Topolyn provider', { leftover });
 }
 pass('base-profile', { bundles: removedManifest.dsh?.profile?.bundles || [] });
 
-const zipBlob = run('git', ['hash-object', 'archify.zip'], { cwd: repoRoot });
-const pkgBlob = run('git', ['hash-object', 'archify/package.json'], { cwd: repoRoot });
+const zipBlob = run('git', ['hash-object', 'topolyn.zip'], { cwd: repoRoot });
+const pkgBlob = run('git', ['hash-object', 'topolyn/package.json'], { cwd: repoRoot });
 const skipFreshZipRebuild = process.platform === 'win32';
-const committedZip = path.join(repoRoot, 'archify.zip');
-const packedSkill = path.join(inspectRoot, 'package', 'skills', 'archify');
+const committedZip = path.join(repoRoot, 'topolyn.zip');
+const packedSkill = path.join(inspectRoot, 'package', 'skills', 'topolyn');
 let unzipContentsIdentical = false;
 let canonicalZipBytes = 'not-asserted';
 if (skipFreshZipRebuild) {
@@ -438,7 +438,7 @@ if (skipFreshZipRebuild) {
   fs.mkdirSync(checkedDir);
   fs.copyFileSync(committedZip, path.join(checkedDir, 'committed.zip'));
   requireStatus('zero-regression', run('tar', ['-xf', 'committed.zip'], { cwd: checkedDir }));
-  const compared = treesMatch(packedSkill, path.join(checkedDir, 'archify'), { normalizeTextEol: true });
+  const compared = treesMatch(packedSkill, path.join(checkedDir, 'topolyn'), { normalizeTextEol: true });
   if (!compared.ok) {
     fail('zero-regression', 'packed skill drifted from the committed ZIP', compared);
   }
@@ -452,7 +452,7 @@ if (skipFreshZipRebuild) {
   fs.mkdirSync(checkedDir);
   requireStatus('zero-regression', run('unzip', ['-q', freshZip, '-d', freshDir]));
   requireStatus('zero-regression', run('unzip', ['-q', committedZip, '-d', checkedDir]));
-  const unzipDiff = run('diff', ['-r', path.join(freshDir, 'archify'), path.join(checkedDir, 'archify')]);
+  const unzipDiff = run('diff', ['-r', path.join(freshDir, 'topolyn'), path.join(checkedDir, 'topolyn')]);
   if (unzipDiff.status !== 0) {
     fail('zero-regression', 'fresh ZIP contents drifted from the committed ZIP', { diff: unzipDiff.stdout });
   }

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '../..');
-const archifyCli = path.join(repoRoot, 'archify/bin/archify.mjs');
+const archifyCli = path.join(repoRoot, 'topolyn/bin/topolyn.mjs');
 const COLLECTIONS = {
   architecture: { nodes: 'components', relationships: 'connections' },
   workflow: { nodes: 'nodes', relationships: 'edges' },
@@ -20,7 +20,7 @@ const PROMPT_CONTRACT_PHRASES = [
   'Do not edit any other file.',
   'The candidate file, not the prose response, is the attempt 1 artifact.',
   'Do not copy a checked-in example.',
-  'Use the bundled Archify CLI to validate and repair the candidate when shell access is available.',
+  'Use the bundled Topolyn CLI to validate and repair the candidate when shell access is available.',
   'The external harness will independently validate the frozen candidate.',
   'Do not claim that validation passed.',
 ];
@@ -200,7 +200,7 @@ function validateCandidate(benchmarkCase, candidateFile) {
     benchmarkCase.quality_profile || 'showcase',
     '--json',
   ], {
-    cwd: path.join(repoRoot, 'archify'),
+    cwd: path.join(repoRoot, 'topolyn'),
     encoding: 'utf8',
   });
   const receipt = JSON.parse(validated.stdout);

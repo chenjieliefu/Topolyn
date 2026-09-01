@@ -1,4 +1,4 @@
-# Opt-in Archify filesystem Skill provider for DeepSeek Harness.
+# Opt-in Topolyn filesystem Skill provider for DeepSeek Harness.
 # Resolves the packaged Skill root from the installed npm identity anchored at
 # the DSH profile (Loader baseUrl), never as a path concatenated onto baseUrl.
 - insert:

@@ -22,7 +22,7 @@ test('host-loaded adapter code does not open a second execution, network, creden
 });
 
 test('package resolution failures fail loud instead of returning a guessed Skill root', async () => {
-  const { resolveArchifySkillRoot } = await import('../lib/index.js');
-  assert.throws(() => resolveArchifySkillRoot('file:///tmp/archify-dsh-missing-profile/'));
-  assert.throws(() => resolveArchifySkillRoot(''));
+  const { resolveTopolynSkillRoot } = await import('../lib/index.js');
+  assert.throws(() => resolveTopolynSkillRoot('file:///tmp/archify-dsh-missing-profile/'));
+  assert.throws(() => resolveTopolynSkillRoot(''));
 });

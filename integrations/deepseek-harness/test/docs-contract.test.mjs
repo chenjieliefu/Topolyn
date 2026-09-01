@@ -26,7 +26,7 @@ test('English and Chinese docs cover install, invoke, uninstall, community wordi
     assert.match(source, /dsh plugin --profile web add @tt-a1i\/archify-dsh@0\.1\.0/);
     assert.match(source, /dsh plugin --profile web remove @tt-a1i\/archify-dsh/);
     assert.match(source, /Use the archify skill to map this repository's runtime architecture/);
-    assert.doesNotMatch(source, /dsh plugin[^\n]*github:tt-a1i\/archify/);
+    assert.doesNotMatch(source, /dsh plugin[^\n]*github:tt-a1i\/topolyn/);
     assert.doesNotMatch(source, /allowBuilds:\s*true/);
     assert.doesNotMatch(source, /npm install github:/);
   }

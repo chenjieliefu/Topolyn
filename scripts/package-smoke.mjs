@@ -9,11 +9,11 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 const defaultPackageRoot = process.env.RUNNER_TEMP
-  ? path.join(process.env.RUNNER_TEMP, 'archify-package', 'archify')
-  : path.join(repoRoot, 'archify');
+  ? path.join(process.env.RUNNER_TEMP, 'topolyn-package', 'topolyn')
+  : path.join(repoRoot, 'topolyn');
 const skillRoot = path.resolve(process.argv[2] || defaultPackageRoot);
-const cli = path.join(skillRoot, 'bin', 'archify.mjs');
-const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'archify-package-smoke-'));
+const cli = path.join(skillRoot, 'bin', 'topolyn.mjs');
+const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'topolyn-package-smoke-'));
 
 function requireAbsent(relative) {
   if (fs.existsSync(path.join(skillRoot, relative))) {
@@ -29,7 +29,7 @@ function run(args, options = {}) {
   });
   if (result.status !== 0) {
     throw new Error([
-      `archify ${args.join(' ')} failed with ${result.status}`,
+      `topolyn ${args.join(' ')} failed with ${result.status}`,
       result.stdout,
       result.stderr,
     ].filter(Boolean).join('\n'));
@@ -43,7 +43,7 @@ function runExpectFailure(args, options = {}) {
     encoding: 'utf8',
     ...options,
   });
-  if (result.status === 0) throw new Error(`archify ${args.join(' ')} unexpectedly passed`);
+  if (result.status === 0) throw new Error(`topolyn ${args.join(' ')} unexpectedly passed`);
   return result.stdout;
 }
 

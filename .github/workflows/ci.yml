@@ -17,13 +17,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-          cache-dependency-path: archify/package-lock.json
+          cache-dependency-path: topolyn/package-lock.json
       - name: Install renderer dependencies
         run: npm ci
-        working-directory: archify
+        working-directory: topolyn
       - name: Golden-file + schema tests
         run: npm test
-        working-directory: archify
+        working-directory: topolyn
 
   webm-artifact:
     runs-on: ubuntu-latest
@@ -42,30 +42,30 @@ jobs:
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y ffmpeg
       - name: Decode a real motion export and reject static frames
         run: npm run test:webm
-        working-directory: archify
+        working-directory: topolyn
         env:
           ARCHIFY_CHROME: ${{ steps.setup-chrome.outputs.chrome-path }}
       - name: Verify the real 1440x900 adaptive reader remains readable
         run: node --test test/desktop-reader-browser.test.mjs
-        working-directory: archify
+        working-directory: topolyn
         env:
           ARCHIFY_CHROME: ${{ steps.setup-chrome.outputs.chrome-path }}
           ARCHIFY_CHROME_NO_SANDBOX: '1'
       - name: Verify all five diagram modes localize Viewer interactions
         run: node --test test/i18n.test.mjs
-        working-directory: archify
+        working-directory: topolyn
         env:
           ARCHIFY_CHROME: ${{ steps.setup-chrome.outputs.chrome-path }}
           ARCHIFY_CHROME_NO_SANDBOX: '1'
       - name: Verify Semantic Radar collision and drag behavior
         run: node --test test/semantic-radar.test.mjs
-        working-directory: archify
+        working-directory: topolyn
         env:
           ARCHIFY_CHROME: ${{ steps.setup-chrome.outputs.chrome-path }}
           ARCHIFY_CHROME_NO_SANDBOX: '1'
       - name: Verify Viewer chrome stays clear of SVG legends
         run: node --test test/viewer-chrome-layout.test.mjs
-        working-directory: archify
+        working-directory: topolyn
         env:
           ARCHIFY_CHROME: ${{ steps.setup-chrome.outputs.chrome-path }}
           ARCHIFY_CHROME_NO_SANDBOX: '1'
@@ -77,11 +77,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Rebuild archify.zip and compare exact bytes
+      - name: Rebuild topolyn.zip and compare exact bytes
         run: |
           scripts/build-zip.sh /tmp/fresh.zip
-          if ! cmp -s /tmp/fresh.zip archify.zip; then
-            echo '::error::archify.zip is stale — run scripts/build-zip.sh and commit the result'
+          if ! cmp -s /tmp/fresh.zip topolyn.zip; then
+            echo '::error::topolyn.zip is stale — run scripts/build-zip.sh and commit the result'
             exit 1
           fi
 
@@ -101,16 +101,16 @@ jobs:
         if: runner.os != 'Windows'
         run: |
           set -euo pipefail
-          package_root="$RUNNER_TEMP/archify-package"
+          package_root="$RUNNER_TEMP/topolyn-package"
           rm -rf "$package_root"
           mkdir -p "$package_root"
-          unzip -q archify.zip -d "$package_root"
+          unzip -q topolyn.zip -d "$package_root"
       - name: Extract packaged skill
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $packageRoot = Join-Path $env:RUNNER_TEMP 'archify-package'
+          $packageRoot = Join-Path $env:RUNNER_TEMP 'topolyn-package'
           if (Test-Path $packageRoot) { Remove-Item -Recurse -Force $packageRoot }
-          Expand-Archive -Path archify.zip -DestinationPath $packageRoot
+          Expand-Archive -Path topolyn.zip -DestinationPath $packageRoot
       - name: Validate packaged skill without installing dependencies
         run: node scripts/package-smoke.mjs

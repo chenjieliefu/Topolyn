@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Topolyn — 把想法变成清晰的系统图</title>
+  <meta name="description" content="描述一个产品、业务或系统，Topolyn 帮你梳理需求并生成可以继续修改的架构图。">
+  <meta name="theme-color" content="#f5f5f7">
+  <meta property="og:title" content="Topolyn — 把想法变成清晰的系统图">
+  <meta property="og:description" content="不需要代码或仓库地址。描述你的想法，直接生成架构图。">
+  <meta property="og:image" content="https://tt-a1i.github.io/archify/assets/topolyn-readme-hero.svg">
+  <meta property="og:url" content="https://tt-a1i.github.io/archify/">
+  <link rel="icon" href="assets/topolyn-mark.svg?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/topolyn-site.css">
+  <link rel="stylesheet" href="assets/topolyn-workspace.css">
+  <link rel="stylesheet" href="assets/topolyn-chat.css">
+</head>
+<body class="site-page">
+  <header class="site-header">
+    <a class="site-brand" href="index.html"><span class="site-mark"><i></i><i></i><i></i></span>Topolyn</a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="index.html" data-zh="首页" data-en="Home">首页</a>
+      <a href="workspace.html" aria-current="page" data-zh="工作台" data-en="Workspace">工作台</a>
+      <a href="guide.html" data-zh="场景指南" data-en="Scenario Guide">场景指南</a>
+      <a href="gallery.html" data-zh="验证作品集" data-en="Proof Gallery">验证作品集</a>
+    </nav>
+    <div class="site-actions"><span class="workspace-version">v2.16.0-dev.0</span><button class="site-button history-toggle" id="history-toggle" type="button" aria-controls="history-sidebar" aria-expanded="false" data-zh="历史" data-en="History">历史</button><button class="site-button language-toggle" type="button">EN</button><button class="site-button primary" id="new-map-button" type="button" data-zh="＋ 新建图" data-en="＋ New map">＋ 新建图</button></div>
+  </header>
+
+  <aside class="history-sidebar" id="history-sidebar" aria-label="历史记录">
+    <header class="history-header">
+      <div><strong data-zh="历史记录" data-en="History">历史记录</strong><small data-zh="最近生成的系统图" data-en="Recently generated maps">最近生成的系统图</small></div>
+      <button class="history-close" id="history-close" type="button" aria-label="关闭历史记录">×</button>
+    </header>
+    <button class="history-new-button" id="history-new-button" type="button" data-zh="＋ 新建图" data-en="＋ New map">＋ 新建图</button>
+    <nav class="history-list" id="history-list" aria-label="已保存的系统图"></nav>
+    <div class="history-empty" id="history-empty">
+      <strong data-zh="还没有历史图" data-en="No saved maps yet">还没有历史图</strong>
+      <p data-zh="完成第一张图后，它会自动保存在这里。" data-en="Your first generated map will be saved here automatically.">完成第一张图后，它会自动保存在这里。</p>
+    </div>
+    <p class="history-storage-note" data-zh="记录保存在当前浏览器，后续可接入账号云同步。" data-en="Saved in this browser. Account sync can be connected later.">记录保存在当前浏览器，后续可接入账号云同步。</p>
+  </aside>
+  <button class="history-backdrop" id="history-backdrop" type="button" aria-label="关闭历史记录" hidden></button>
+
+  <main class="workspace is-conversation" id="workspace">
+    <aside class="brief panel conversation-panel">
+      <header class="conversation-header"><div><span class="assistant-mark">✦</span><div><strong>Topolyn</strong><small data-zh="想法梳理助手" data-en="Idea mapping assistant">想法梳理助手</small></div></div><small><i></i><span data-zh="自动保存" data-en="Autosaved">自动保存</span></small></header>
+      <section class="chat-thread" id="chat-thread" aria-live="polite">
+        <article class="chat-message assistant welcome-message">
+          <span class="chat-avatar">✦</span>
+          <div class="chat-bubble"><p class="eyebrow" data-zh="从一个想法开始" data-en="Start with an idea">从一个想法开始</p><h1 data-zh="你现在想弄清楚什么？" data-en="What are you trying to understand?">你现在想弄清楚什么？</h1><p data-zh="像聊天一样告诉我你的产品、业务场景或一个还不成熟的想法。我会先判断最适合的表达方式，再用几个问题帮你把它想清楚。" data-en="Tell me about a product, business scenario, or early idea. I will recommend the right visual form and ask a few questions before mapping it.">像聊天一样告诉我你的产品、业务场景或一个还不成熟的想法。我会先判断最适合的表达方式，再用几个问题帮你把它想清楚。</p></div>
+        </article>
+        <div class="examples welcome-examples"><div><span data-zh="也可以从一个例子开始" data-en="Or start from an example">也可以从一个例子开始</span><button id="shuffle-examples" data-zh="换一批" data-en="Shuffle">换一批</button></div><section id="example-chips">
+        <button data-example="我想做一个宠物医院预约平台，宠物主人在线预约，医生管理排班，支持病历、处方和支付。" data-example-en="I want to build a pet clinic booking platform with owner appointments, doctor schedules, medical records, prescriptions, and payments." data-zh="宠物医院预约" data-en="Pet clinic booking">宠物医院预约</button>
+        <button data-example="帮我梳理一个跨境电商平台，需要商品、订单、库存、支付、物流和售后模块。" data-example-en="Map a cross-border commerce platform with catalog, orders, inventory, payments, logistics, and after-sales support." data-zh="跨境电商平台" data-en="Cross-border commerce">跨境电商平台</button>
+        <button data-example="设计一个公司内部知识库，员工可以提问、搜索文档，AI 根据权限给出答案并标注来源。" data-example-en="Design an internal AI knowledge base where employees ask questions and receive permission-aware answers with citations." data-zh="企业 AI 知识库" data-en="Enterprise AI knowledge">企业 AI 知识库</button>
+        </section></div>
+        <div id="conversation-feed"></div>
+      </section>
+      <section class="conversation-actions" id="conversation-actions" hidden></section>
+      <div class="option hidden-control" aria-hidden="true"><section class="segmented" id="diagram-type">
+        <button class="selected" data-type="auto" data-zh="自动" data-en="Auto">自动</button><button data-type="architecture" data-zh="架构" data-en="Architecture">架构</button><button data-type="workflow" data-zh="流程" data-en="Workflow">流程</button><button data-type="dataflow" data-zh="数据流" data-en="Data flow">数据流</button>
+      </section></div>
+      <div class="chat-composer">
+        <label class="prompt-box"><textarea id="system-prompt" maxlength="2000" data-placeholder-zh="描述你的想法或场景……" data-placeholder-en="Describe your idea or scenario…" placeholder="描述你的想法或场景……"></textarea><span><b id="prompt-count">0</b> / 2000</span></label>
+        <div class="composer-bar"><details class="materials"><summary aria-label="补充材料"><b>＋</b><span data-zh="添加材料" data-en="Add material">添加材料</span></summary><div class="material-body">
+        <label><span data-zh="仓库或网页地址" data-en="Repository or page URL">仓库或网页地址</span><input id="repo-url" type="url" placeholder="https://github.com/…"></label>
+        <label class="upload"><input id="material-files" type="file" multiple><strong data-zh="选择文件" data-en="Choose files">选择文件</strong><small id="file-status" data-zh="支持文档、代码或 ZIP" data-en="Docs, code, or ZIP">支持文档、代码或 ZIP</small></label>
+        </div></details><button class="generate" id="generate-button"><span data-zh="发送" data-en="Send">发送</span><b>↑</b></button></div>
+      </div>
+      <p class="demo-note"><b id="engine-status" data-zh="正在检查 AI 服务" data-en="Checking AI service">正在检查 AI 服务</b> <span id="engine-copy" data-zh="场景推荐在浏览器内完成，生成阶段由安全的本地服务调用模型。" data-en="Scenario matching runs in-browser; generation uses the model through a secure local service.">场景推荐在浏览器内完成，生成阶段由安全的本地服务调用模型。</span></p>
+    </aside>
+
+    <section class="canvas panel">
+      <header class="canvas-toolbar">
+        <div class="document"><span>⌘</span><div><strong id="map-title">在线课程平台</strong><small id="map-subtitle">刚刚更新 · 自动保存</small></div></div>
+        <div class="tabs" id="view-tabs"><button class="active" data-view="graph" data-zh="架构图" data-en="Map">架构图</button><button data-view="summary" data-zh="需求梳理" data-en="Brief">需求梳理</button><button data-view="questions"><span data-zh="待确认" data-en="Questions">待确认</span> <em id="question-count">3</em></button></div>
+        <div class="tools"><button id="fit-button" data-zh="适应" data-en="Fit">适应</button><button id="export-button" data-zh="导出⌄" data-en="Export⌄">导出⌄</button><div class="export-menu" id="export-menu" hidden><button data-export="png"><b>PNG</b><span data-zh="高清图片" data-en="Raster image">高清图片</span></button><button data-export="svg"><b>SVG</b><span data-zh="矢量图片" data-en="Vector image">矢量图片</span></button><button data-export="json"><b>JSON</b><span data-zh="结构数据" data-en="Structured data">结构数据</span></button><button data-export="summary"><b>TXT</b><span data-zh="需求摘要" data-en="Requirement brief">需求摘要</span></button></div></div>
+      </header>
+      <div class="stage" id="graph-view"><div class="grid"></div><div class="generation-status" id="generation-status" hidden><i></i><div><strong id="generation-step">正在理解你的描述…</strong><span id="generation-detail">识别用户角色和核心功能</span></div></div><div class="graph" id="graph-surface"><svg id="edge-layer"></svg><div id="node-layer"></div></div><div class="legend"><span><i class="explicit"></i>描述中明确</span><span><i class="inferred"></i>Topolyn 推断</span><span><i class="question"></i>需要确认</span></div><div class="zoom"><button id="zoom-out">−</button><span id="zoom-label">100%</span><button id="zoom-in">＋</button></div></div>
+      <div class="text-view" id="summary-view" hidden><div><p class="eyebrow" data-zh="需求梳理" data-en="Requirement brief">需求梳理</p><h2 data-zh="这套产品要解决什么问题" data-en="What this product needs to solve">这套产品要解决什么问题</h2><section id="summary-content"></section></div></div>
+      <div class="text-view" id="questions-view" hidden><div><p class="eyebrow" data-zh="待确认" data-en="Open questions">待确认</p><h2 data-zh="确认这些问题，架构图会更准确" data-en="Answer these questions to improve the map">确认这些问题，架构图会更准确</h2><section id="question-list"></section></div></div>
+      <footer class="canvas-footer"><div class="insight"><span>✦</span><p id="insight-copy"><b>Topolyn 的理解：</b>这是一个三角色的内容交易平台，核心链路是“发布课程 → 购买 → 学习”。</p></div><form id="refine-form"><input id="refine-input" data-placeholder-zh="继续修改，例如：增加会员系统，把支付模块拆得更细……" data-placeholder-en="Keep refining, e.g. add membership or expand payments…" placeholder="继续修改，例如：增加会员系统，把支付模块拆得更细……"><button>↑</button></form></footer>
+    </section>
+
+    <aside class="detail panel">
+      <div class="detail-empty" id="detail-empty"><span>↖</span><strong data-zh="选择一个模块" data-en="Select a module">选择一个模块</strong><p data-zh="点击图中的节点，查看职责、来源和关联关系。" data-en="Select a node to inspect its role, evidence, and relationships.">点击图中的节点，查看职责、来源和关联关系。</p></div>
+      <div class="detail-content" id="detail-content" hidden><header><span id="detail-type">业务模块</span><button id="close-detail">×</button></header><div class="detail-symbol" id="detail-symbol">课</div><h2 id="detail-title">课程服务</h2><p id="detail-description"></p><div class="source-card"><i id="detail-source-dot"></i><div><b id="detail-source-label">描述中明确</b><p id="detail-source-copy"></p></div></div><section><h3>主要职责</h3><ul id="detail-responsibilities"></ul></section><section><h3>关联模块</h3><div id="detail-relations"></div></section></div>
+    </aside>
+  </main>
+  <div class="toast" id="toast"></div>
+  <footer class="product-footer"><span data-zh="Topolyn · 独立网页产品原型" data-en="Topolyn · Independent web product prototype">Topolyn · 独立网页产品原型</span><span>development · v2.16.0-dev.0 · 开发版</span></footer>
+  <script src="assets/topolyn-site.js"></script>
+  <script src="assets/topolyn-scenarios.js"></script>
+  <script src="assets/topolyn-app.js"></script>
+</body>
+</html>

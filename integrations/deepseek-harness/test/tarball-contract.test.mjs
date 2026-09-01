@@ -48,13 +48,13 @@ test('pack command emits a real npm tarball with the expected identity and file 
       'lib/index.js',
       'README.md',
       'LICENSE',
-      'skills/archify/SKILL.md',
-      'skills/archify/bin/archify.mjs',
+      'skills/topolyn/SKILL.md',
+      'skills/topolyn/bin/topolyn.mjs',
     ]) {
       assert.ok(files.includes(required), `tarball missing ${required}`);
     }
-    const skillEntries = files.filter((file) => file === 'skills/archify/SKILL.md' || file.endsWith('/SKILL.md'));
-    assert.deepEqual(skillEntries, ['skills/archify/SKILL.md']);
+    const skillEntries = files.filter((file) => file === 'skills/topolyn/SKILL.md' || file.endsWith('/SKILL.md'));
+    assert.deepEqual(skillEntries, ['skills/topolyn/SKILL.md']);
     for (const file of files) {
       for (const forbidden of FORBIDDEN) {
         assert.equal(file.includes(forbidden), false, `tarball contains forbidden ${file}`);
@@ -78,7 +78,7 @@ test('packed Skill payload matches the existing ZIP clean-staging contract', () 
       encoding: 'utf8',
     });
     assert.equal(tar.status, 0, tar.stderr);
-    const zipPath = path.join(zipScratch, 'archify.zip');
+    const zipPath = path.join(zipScratch, 'topolyn.zip');
     const zip = spawnSync('bash', [path.join(repoRoot, 'scripts', 'build-zip.sh'), zipPath], {
       cwd: repoRoot,
       encoding: 'utf8',
@@ -90,8 +90,8 @@ test('packed Skill payload matches the existing ZIP clean-staging contract', () 
     assert.equal(unzip.status, 0, unzip.stderr);
     const diff = spawnSync('diff', [
       '-r',
-      path.join(packedRoot, 'package', 'skills', 'archify'),
-      path.join(zipRoot, 'archify'),
+      path.join(packedRoot, 'package', 'skills', 'topolyn'),
+      path.join(zipRoot, 'topolyn'),
     ], { encoding: 'utf8' });
     assert.equal(diff.status, 0, diff.stdout || diff.stderr);
   } finally {

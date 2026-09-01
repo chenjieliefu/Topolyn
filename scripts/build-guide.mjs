@@ -3,13 +3,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { publicGuideData } from '../archify/recipes/scenarios.mjs';
+import { publicGuideData } from '../topolyn/recipes/scenarios.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 const templatePath = path.join(__dirname, 'guide-template.html');
 const outputPath = path.resolve(process.argv[2] || path.join(repoRoot, 'docs/guide.html'));
-const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'archify/package.json'), 'utf8'));
+const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'topolyn/package.json'), 'utf8'));
 
 const guideJson = JSON.stringify(publicGuideData())
   .replaceAll('&', '\\u0026')

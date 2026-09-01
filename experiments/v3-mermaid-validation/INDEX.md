@@ -1,4 +1,4 @@
-# v3.0 Mermaid → Archify Validation — Source Diagrams
+# v3.0 Mermaid → Topolyn Validation — Source Diagrams
 
 5 real-world Mermaid `flowchart` diagrams used as test inputs for the v3.0 visual-quality validation experiment described in `../../ROADMAP.md` (section: Validation experiment).
 
@@ -24,7 +24,7 @@ All diagrams were verified present in their source repositories on **2026-04-16*
 sources/        — raw .mmd files (this directory's siblings)
 output-A-stock/ — version (A): stock mmdc with default theme
 output-B-themed/— version (B): mmdc with archify-style themeCSS injected
-output-C-archify/ — version (C): hand-ported to archify HTML
+output-C-topolyn/ — version (C): hand-ported to archify HTML
 screenshots/    — randomized & deduplicated 15-image set for blind rating
 RESULT.md       — rating tables + decision record
 ```

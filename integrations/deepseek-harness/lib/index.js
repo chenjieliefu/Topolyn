@@ -4,7 +4,7 @@ import { dirname, join } from 'node:path';
 export const name = 'archify-dsh';
 export const PACKAGE_NAME = '@tt-a1i/archify-dsh';
 
-export function resolveArchifySkillRoot(profileBaseUrl) {
+export function resolveTopolynSkillRoot(profileBaseUrl) {
   if (!profileBaseUrl) {
     throw new Error('archify-dsh: missing DSH profile baseUrl for package resolution');
   }

@@ -5,7 +5,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 export const name = 'archify-dsh-skill-probe';
 export const inject = ['skills'];
 
-export async function waitForArchify(skills, cwd, {
+export async function waitForTopolyn(skills, cwd, {
   timeoutMs = 30_000,
   pollMs = 100,
   sleep = delay,
@@ -14,7 +14,7 @@ export async function waitForArchify(skills, cwd, {
   let list = [];
   do {
     list = await skills.list({ cwd });
-    const archify = list.find((skill) => skill.name === 'archify');
+    const archify = list.find((skill) => skill.name === 'topolyn');
     if (archify) return { list, archify };
     if (Date.now() >= deadline) break;
     await sleep(pollMs);
@@ -26,8 +26,8 @@ export async function apply(ctx) {
   const out = process.env.ARCHIFY_DSH_PROBE_OUT;
   if (!out) throw new Error('ARCHIFY_DSH_PROBE_OUT is required for the test-only skill probe');
   const cwd = process.cwd();
-  const { list, archify } = await waitForArchify(ctx.skills, cwd);
-  const definition = archify ? await ctx.skills.get('archify', { cwd }) : null;
+  const { list, archify } = await waitForTopolyn(ctx.skills, cwd);
+  const definition = archify ? await ctx.skills.get('topolyn', { cwd }) : null;
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, `${JSON.stringify({
     skills: list.map((skill) => ({

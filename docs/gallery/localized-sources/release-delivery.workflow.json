@@ -1,0 +1,319 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "研发交付流程",
+    "output": "examples/release-delivery.html",
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "commit-to-checks",
+        "label": "提交到绿色构建",
+        "focus": [
+          "commit",
+          "pull_request",
+          "build",
+          "checks"
+        ],
+        "note": "跟随变更经过可复现构建和阻断式质量检查。"
+      },
+      {
+        "id": "approval-to-production",
+        "label": "审批与晋级",
+        "focus": [
+          "checks",
+          "approval",
+          "deploy",
+          "verify_prod",
+          "announce"
+        ],
+        "note": "查看谁授权生产发布，以及如何验证发布成功。"
+      },
+      {
+        "id": "rollback-path",
+        "label": "失败与回滚",
+        "focus": [
+          "checks",
+          "failed",
+          "verify_prod",
+          "rollback",
+          "deploy"
+        ],
+        "note": "查看交付在哪里安全停止或反向恢复。"
+      }
+    ],
+    "locale": "zh-CN"
+  },
+  "lanes": [
+    {
+      "id": "dev",
+      "label": "Developer"
+    },
+    {
+      "id": "ci",
+      "label": "Continuous Integration"
+    },
+    {
+      "id": "approval",
+      "label": "Release Governance"
+    },
+    {
+      "id": "environment",
+      "label": "Production Environment"
+    },
+    {
+      "id": "communication",
+      "label": "Release Communication"
+    },
+    {
+      "id": "exceptions",
+      "label": "Failure + Rollback",
+      "variant": "exception"
+    }
+  ],
+  "phases": [
+    {
+      "id": "change",
+      "label": "Change",
+      "fromCol": 0,
+      "toCol": 1
+    },
+    {
+      "id": "verify",
+      "label": "Build + verify",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "promote",
+      "label": "Promote + observe",
+      "fromCol": 4,
+      "toCol": 5,
+      "variant": "dashed"
+    }
+  ],
+  "groups": [
+    {
+      "id": "blocking_checks",
+      "label": "Blocking checks",
+      "lane": "ci",
+      "fromCol": 2,
+      "toCol": 3,
+      "variant": "emphasis"
+    },
+    {
+      "id": "rollback_work",
+      "label": "Recovery path",
+      "lane": "exceptions",
+      "fromCol": 3,
+      "toCol": 5,
+      "variant": "security"
+    }
+  ],
+  "mainPath": [
+    "commit",
+    "pull_request",
+    "build",
+    "checks",
+    "approval",
+    "deploy",
+    "verify_prod",
+    "announce"
+  ],
+  "nodes": [
+    {
+      "id": "commit",
+      "lane": "dev",
+      "col": 0,
+      "type": "frontend",
+      "label": "Commit",
+      "sublabel": "代码提交"
+    },
+    {
+      "id": "pull_request",
+      "lane": "dev",
+      "col": 1,
+      "type": "frontend",
+      "label": "Pull Request",
+      "sublabel": "合并请求"
+    },
+    {
+      "id": "build",
+      "lane": "ci",
+      "col": 2,
+      "type": "backend",
+      "label": "Build",
+      "sublabel": "构建 · 锁定输入",
+      "tag": "reproducible"
+    },
+    {
+      "id": "checks",
+      "lane": "ci",
+      "col": 3,
+      "type": "security",
+      "label": "Quality Gates",
+      "sublabel": "质量检查门",
+      "tag": "blocking"
+    },
+    {
+      "id": "approval",
+      "lane": "approval",
+      "col": 4,
+      "type": "security",
+      "label": "Approve",
+      "sublabel": "审批",
+      "tag": "human gate"
+    },
+    {
+      "id": "deploy",
+      "lane": "environment",
+      "col": 4,
+      "type": "cloud",
+      "label": "Deploy",
+      "sublabel": "部署",
+      "tag": "production"
+    },
+    {
+      "id": "verify_prod",
+      "lane": "environment",
+      "col": 5,
+      "type": "backend",
+      "label": "Verify",
+      "sublabel": "验证"
+    },
+    {
+      "id": "announce",
+      "lane": "communication",
+      "col": 5,
+      "type": "external",
+      "label": "Announce",
+      "sublabel": "发布通知"
+    },
+    {
+      "id": "failed",
+      "lane": "exceptions",
+      "col": 2,
+      "type": "security",
+      "label": "Stop Release",
+      "sublabel": "停止发布"
+    },
+    {
+      "id": "rollback",
+      "lane": "exceptions",
+      "col": 4,
+      "width": 64,
+      "type": "messagebus",
+      "label": "Rollback",
+      "sublabel": "回滚",
+      "tag": "owner: on-call"
+    }
+  ],
+  "edges": [
+    {
+      "from": "commit",
+      "to": "pull_request"
+    },
+    {
+      "from": "pull_request",
+      "to": "build",
+      "label": "merge",
+      "variant": "emphasis",
+      "route": "drop",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "build",
+      "to": "checks"
+    },
+    {
+      "from": "checks",
+      "to": "approval",
+      "variant": "emphasis",
+      "route": "drop",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "approval",
+      "to": "deploy",
+      "variant": "security",
+      "route": "drop",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "deploy",
+      "to": "verify_prod"
+    },
+    {
+      "from": "verify_prod",
+      "to": "announce",
+      "label": "healthy",
+      "variant": "emphasis",
+      "route": "drop",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "checks",
+      "to": "failed",
+      "label": "red",
+      "variant": "security",
+      "role": "error",
+      "route": "drop",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "verify_prod",
+      "to": "rollback",
+      "variant": "security",
+      "role": "error",
+      "route": "outside-right",
+      "fromSide": "right",
+      "toSide": "right"
+    },
+    {
+      "from": "rollback",
+      "to": "deploy",
+      "label": "restore",
+      "variant": "dashed",
+      "role": "return",
+      "route": "return-left",
+      "fromSide": "left",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "唯一成功路径",
+      "items": [
+        "每次变更都先完成评审，再进行可复现构建",
+        "阻断检查全部通过后才能进入人工审批",
+        "冒烟测试与 SLO 验证完成后才算发布成功"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "停止条件",
+      "items": [
+        "测试或安全失败会停止晋级",
+        "生产环境健康异常可以反转发布",
+        "事故发生前就明确回滚归属"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "发布证据",
+      "items": [
+        "保留审批记录、不可变镜像和检查结果",
+        "验证完成后再发布上线通知",
+        "主路径保持清晰，同时不隐藏失败分支"
+      ]
+    }
+  ]
+}

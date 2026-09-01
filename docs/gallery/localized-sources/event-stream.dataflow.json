@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "订单事件流拓扑",
+    "output": "examples/event-stream.html",
+    "viewBox": [
+      1080,
+      780
+    ],
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "order-transit",
+        "label": "订单事件传递",
+        "focus": [
+          "checkout",
+          "orders",
+          "validate",
+          "state",
+          "fulfillment"
+        ],
+        "note": "跟随订单从生产者经过有序处理进入履约。"
+      },
+      {
+        "id": "payment-transit",
+        "label": "支付事件传递",
+        "focus": [
+          "billing",
+          "payments",
+          "enrich",
+          "state",
+          "analytics"
+        ],
+        "note": "跟踪支付事实进入共享物化状态和分析系统。"
+      },
+      {
+        "id": "failure-and-replay",
+        "label": "失败与重放",
+        "focus": [
+          "validate",
+          "enrich",
+          "dlq",
+          "replay",
+          "ops"
+        ],
+        "note": "查看死信、人工检查和受控重放的归属。"
+      }
+    ],
+    "locale": "zh-CN"
+  },
+  "stages": [
+    {
+      "label": "Producers"
+    },
+    {
+      "label": "Transit"
+    },
+    {
+      "label": "Processors"
+    },
+    {
+      "label": "State + recovery"
+    },
+    {
+      "label": "Consumers"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "checkout",
+      "type": "frontend",
+      "label": "Checkout API",
+      "sublabel": "结算 API",
+      "stage": 0,
+      "row": 0,
+      "tag": "team commerce"
+    },
+    {
+      "id": "billing",
+      "type": "backend",
+      "label": "Billing API",
+      "sublabel": "计费 API",
+      "stage": 0,
+      "row": 2,
+      "tag": "team money"
+    },
+    {
+      "id": "orders",
+      "type": "messagebus",
+      "label": "orders.v1",
+      "sublabel": "12 个分区",
+      "stage": 1,
+      "row": 0,
+      "tag": "key: order_id"
+    },
+    {
+      "id": "payments",
+      "type": "messagebus",
+      "label": "payments.v2",
+      "sublabel": "8 个分区",
+      "stage": 1,
+      "row": 2,
+      "tag": "key: order_id"
+    },
+    {
+      "id": "validate",
+      "type": "backend",
+      "label": "Order Validate",
+      "sublabel": "订单校验",
+      "stage": 2,
+      "row": 0,
+      "tag": "ordered"
+    },
+    {
+      "id": "enrich",
+      "type": "backend",
+      "label": "Payment Enrich",
+      "sublabel": "支付数据补全",
+      "stage": 2,
+      "row": 2,
+      "tag": "at-least-once"
+    },
+    {
+      "id": "state",
+      "type": "database",
+      "label": "Order State",
+      "sublabel": "订单状态库",
+      "stage": 3,
+      "row": 1,
+      "tag": "idempotent"
+    },
+    {
+      "id": "dlq",
+      "type": "messagebus",
+      "label": "events.dlq",
+      "sublabel": "异常事件",
+      "stage": 3,
+      "row": 4,
+      "tag": "7-day retention"
+    },
+    {
+      "id": "fulfillment",
+      "type": "backend",
+      "label": "Fulfillment",
+      "sublabel": "履约服务",
+      "stage": 4,
+      "row": 0,
+      "tag": "consumer"
+    },
+    {
+      "id": "analytics",
+      "type": "database",
+      "label": "Analytics",
+      "sublabel": "分析平台",
+      "stage": 4,
+      "row": 2,
+      "tag": "consumer"
+    },
+    {
+      "id": "replay",
+      "type": "security",
+      "label": "Replay Tool",
+      "sublabel": "重放工具",
+      "stage": 4,
+      "row": 4,
+      "tag": "operator gate"
+    },
+    {
+      "id": "ops",
+      "type": "external",
+      "label": "On-call",
+      "sublabel": "值班人员",
+      "stage": 4,
+      "row": 3,
+      "yOffset": -18,
+      "tag": "SRE"
+    }
+  ],
+  "flows": [
+    {
+      "from": "checkout",
+      "to": "orders",
+      "label": "OrderPlaced",
+      "classification": "schema v1",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "billing",
+      "to": "payments",
+      "label": "PaymentCaptured",
+      "classification": "schema v2",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "orders",
+      "to": "validate",
+      "label": "ordered orders",
+      "classification": "consumer group",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "payments",
+      "to": "enrich",
+      "label": "payment facts",
+      "classification": "at-least-once",
+      "variant": "emphasis",
+      "route": "straight"
+    },
+    {
+      "from": "validate",
+      "to": "state",
+      "label": "valid order",
+      "classification": "idempotent",
+      "variant": "emphasis",
+      "route": "vertical-channel"
+    },
+    {
+      "from": "enrich",
+      "to": "state",
+      "label": "enriched payment",
+      "classification": "idempotent",
+      "variant": "default",
+      "route": "vertical-channel"
+    },
+    {
+      "from": "state",
+      "to": "fulfillment",
+      "label": "ready orders",
+      "classification": "read model",
+      "variant": "emphasis",
+      "route": "vertical-channel"
+    },
+    {
+      "from": "state",
+      "to": "analytics",
+      "label": "order facts",
+      "classification": "non-PII",
+      "variant": "default",
+      "route": "vertical-channel"
+    },
+    {
+      "from": "validate",
+      "to": "dlq",
+      "label": "invalid event",
+      "classification": "dead letter",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "top",
+      "via": [
+        [
+          530,
+          80
+        ],
+        [
+          20,
+          80
+        ],
+        [
+          20,
+          550
+        ],
+        [
+          745,
+          550
+        ]
+      ],
+      "labelAt": [
+        300,
+        550
+      ]
+    },
+    {
+      "from": "enrich",
+      "to": "dlq",
+      "label": "poison event",
+      "classification": "dead letter",
+      "variant": "security",
+      "route": "bottom-channel",
+      "labelDy": 30
+    },
+    {
+      "from": "dlq",
+      "to": "ops",
+      "label": "failure sample",
+      "classification": "restricted",
+      "variant": "security",
+      "route": "vertical-channel"
+    },
+    {
+      "from": "dlq",
+      "to": "replay",
+      "label": "approved replay",
+      "classification": "audited batch",
+      "variant": "dashed",
+      "route": "straight",
+      "labelDy": 30
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "传递契约",
+      "items": [
+        "每个事件和主题都有明确名称",
+        "分区键保证单个订单内的事件顺序",
+        "消费者组明确展示处理归属"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "状态与投递",
+      "items": [
+        "处理器写入幂等的物化视图",
+        "履约与分析消费不同的数据资产",
+        "至少一次投递不应造成重复业务结果"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "失败归属",
+      "items": [
+        "异常事件进入保留的死信主题",
+        "值班人员在重放前先检查样本",
+        "重放需要经过控制、分批执行并保留审计记录"
+      ]
+    }
+  ]
+}

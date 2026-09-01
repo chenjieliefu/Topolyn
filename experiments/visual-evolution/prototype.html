@@ -1167,7 +1167,7 @@
 
     <!-- Footer -->
     <p class="footer">
-      Workflow diagram &bull; Built with Archify<span class="no-print"> &bull; Press <kbd>T</kbd> for theme and <kbd>E</kbd> for export</span>
+      Workflow diagram &bull; Built with Topolyn<span class="no-print"> &bull; Press <kbd>T</kbd> for theme and <kbd>E</kbd> for export</span>
     </p>
   </div>
 
@@ -1175,9 +1175,9 @@
     /* ============================================================
        Theme toggle — persists to localStorage, respects system pref
        ============================================================ */
-    var Archify = {};
+    var Topolyn = {};
 
-    Archify.theme = (function () {
+    Topolyn.theme = (function () {
       var STORAGE_KEY = 'archify-theme';
       var html = document.documentElement;
       var btn = document.getElementById('btn-theme');
@@ -1518,7 +1518,7 @@
       }
 
       // Record the live CSS animation without Puppeteer, ffmpeg, or a network
-      // dependency. The serialized SVG keeps Archify's animation keyframes;
+      // dependency. The serialized SVG keeps Topolyn's animation keyframes;
       // one Image instance advances its timeline while each frame is painted
       // into a MediaRecorder-backed canvas.
       function recordWebm(options) {
@@ -1771,8 +1771,8 @@
         if (formatBtn && !formatBtn.disabled) { runExport(formatBtn.dataset.format); }
       });
 
-      Archify.motion = { canRecord: canRecordMotion, recordWebm: recordWebm };
-      Archify.exportMenu = { open: open, close: close, isOpen: isOpen, run: runExport };
+      Topolyn.motion = { canRecord: canRecordMotion, recordWebm: recordWebm };
+      Topolyn.exportMenu = { open: open, close: close, isOpen: isOpen, run: runExport };
 
       // Auto-open on page load for demo/screenshot purposes: ?openExport=1
       // Wait for fonts (so the menu doesn't flash before typography lands)
@@ -1804,10 +1804,10 @@
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
       if (e.key === 't' || e.key === 'T') {
         e.preventDefault();
-        Archify.theme.toggle();
+        Topolyn.theme.toggle();
       } else if (e.key === 'e' || e.key === 'E') {
         e.preventDefault();
-        if (!Archify.exportMenu.isOpen()) Archify.exportMenu.open();
+        if (!Topolyn.exportMenu.isOpen()) Topolyn.exportMenu.open();
       }
     });
   </script>

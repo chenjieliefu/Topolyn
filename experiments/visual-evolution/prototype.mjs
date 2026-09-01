@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '../..');
-const skillRoot = path.join(repoRoot, 'archify');
+const skillRoot = path.join(repoRoot, 'topolyn');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'archify-visual-prototype-'));
 const input = path.join(tmp, 'workflow.json');
 const rendered = path.join(tmp, 'workflow.html');

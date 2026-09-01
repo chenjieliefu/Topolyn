@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Archify Start — From Artifact to First Diagram</title>
-  <meta name="description" content="Install Archify, copy one bounded prompt, and create a verifiable technical diagram without sending repository or diagram content to this page.">
-  <meta name="theme-color" content="#eff2f1">
+  <title>Topolyn Start — From Artifact to First Diagram</title>
+  <meta name="description" content="Install Topolyn, copy one bounded prompt, and create a verifiable technical diagram without sending repository or diagram content to this page.">
+  <meta name="theme-color" content="#f5f5f7">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Archify Start — One bounded prompt to a verifiable diagram">
-  <meta property="og:description" content="Choose a technical question, install Archify, and copy an exact prompt backed by a verified example.">
+  <meta property="og:title" content="Topolyn Start — One bounded prompt to a verifiable diagram">
+  <meta property="og:description" content="Choose a technical question, install Topolyn, and copy an exact prompt backed by a verified example.">
   <meta property="og:url" content="https://tt-a1i.github.io/archify/start.html">
-  <meta property="og:image" content="https://tt-a1i.github.io/archify/assets/archify-social-preview.png">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><polygon points='14,2 26,8 26,20 14,26 2,20 2,8' fill='%23083344' stroke='%2322d3ee' stroke-width='1.5'/><circle cx='14' cy='15' r='2.5' fill='%2322d3ee'/></svg>">
+  <meta property="og:image" content="https://tt-a1i.github.io/archify/assets/topolyn-readme-hero.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/topolyn-mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -175,14 +175,39 @@
       html { scroll-behavior:auto; }
       .lead, .type-shell, .workbench { animation:none; }
     }
+    :root {
+      --paper:#f5f5f7; --paper-raised:rgba(255,255,255,.82);
+      --ink:#1d1d1f; --ink-soft:#3a3a3c; --muted:#6e6e73; --dim:#8e8e93;
+      --line:rgba(0,0,0,.07); --line-hi:rgba(0,0,0,.11);
+      --accent:#0071e3; --accent-soft:rgba(0,113,227,.08); --plate:#000; --emerald:#248a3d;
+      --font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue','PingFang SC',sans-serif;
+      --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue','PingFang SC',sans-serif;
+      --font-mono:'SFMono-Regular',ui-monospace,Menlo,Monaco,Consolas,monospace;
+    }
+    body { background-image:radial-gradient(circle at 88% 2%,rgba(0,113,227,.08),transparent 30rem); }
+    body::after { display:none; }
+    .grid-bg { background:radial-gradient(circle at 10% 20%,rgba(191,90,242,.05),transparent 28rem); mask-image:none; }
+    nav { height:56px; background:rgba(250,250,252,.78); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%); }
+    .nav-logo::before { content:''; width:28px; height:28px; border-radius:8px; background:url('assets/topolyn-mark.svg') center/contain no-repeat; }
+    .nav-logo-text { font-family:var(--font-body); font-weight:650; letter-spacing:-.035em; }
+    .nav-link { font-family:var(--font-body); font-size:.75rem; letter-spacing:-.01em; text-transform:none; }
+    .btn-lang,.agent-tab,.action { border-radius:999px; }
+    h1 { font-family:var(--font-body); font-size:clamp(3rem,5.5vw,5rem); font-weight:650; letter-spacing:-.058em; }
+    h1 em { font-style:normal; }
+    .lead-label::before { display:none; }
+    .type-shell,.panel { border-radius:24px; border-color:var(--line); box-shadow:0 16px 50px rgba(0,0,0,.055); backdrop-filter:blur(24px) saturate(160%); }
+    .panel h2,.panel-kicker b { font-family:var(--font-body); font-style:normal; font-weight:650; letter-spacing:-.03em; }
+    .type-tabs,.command-block,.secondary-note,.prompt-box { border-radius:16px; }
+    .type-tab[aria-selected="true"],.agent-tab[aria-selected="true"],.action-primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .copy-button { color:#64d2ff; }
   </style>
 </head>
 <body>
   <div class="grid-bg" aria-hidden="true"></div>
 
   <nav aria-label="Primary navigation">
-    <a class="nav-logo" href="./" aria-label="Archify project page">
-      <span class="nav-logo-text">Archify</span>
+    <a class="nav-logo" href="./" aria-label="Topolyn project page">
+      <span class="nav-logo-text">Topolyn</span>
       <span class="nav-logo-path">/ start</span>
     </a>
     <div class="nav-right">
@@ -217,7 +242,7 @@
       </div>
     </section>
 
-    <section class="workbench" aria-label="Archify quick start">
+    <section class="workbench" aria-label="Topolyn quick start">
       <article class="panel">
         <div class="panel-kicker"><b>01</b><span data-en="Install the skill" data-zh="安装 Skill">Install the skill</span></div>
         <h2 data-en="Keep the tool local." data-zh="让工具留在本地。">Keep the tool local.</h2>
@@ -235,14 +260,14 @@
 
         <div class="command-block">
           <div class="command-bar"><span data-en="Global install" data-zh="全局安装">Global install</span><button class="copy-button" type="button" data-copy-source="install-command" data-en="Copy" data-zh="复制">Copy</button></div>
-          <pre id="install-command">npx -y skills add tt-a1i/archify --skill archify --agent codex --global --copy --yes</pre>
+          <pre id="install-command">npx -y skills add tt-a1i/archify --skill topolyn --agent codex --global --copy --yes</pre>
         </div>
         <div class="command-block">
           <div class="command-bar"><span data-en="This repository only" data-zh="仅安装到当前仓库">This repository only</span><button class="copy-button" type="button" data-copy-source="project-command" data-en="Copy" data-zh="复制">Copy</button></div>
-          <pre id="project-command">npx -y skills add tt-a1i/archify --skill archify --agent codex --copy --yes</pre>
+          <pre id="project-command">npx -y skills add tt-a1i/archify --skill topolyn --agent codex --copy --yes</pre>
         </div>
-        <p class="secondary-note" data-en="Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract archify.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/archify." data-zh="Raven 采用 ZIP 手动安装，不使用 Agent 切换器生成命令。将 archify.zip 解压到 ~/.raven/workspace/skills，解压后会得到 ~/.raven/workspace/skills/archify。">Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract archify.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/archify.</p>
-        <p class="secondary-note" data-en="The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Archify. No repository path, title, node, relationship, or source JSON is recorded." data-zh="Start 链接只携带 Agent、语言、图表类型和粗粒度来源标签。转化步骤只保存在当前浏览器会话中，Archify 不会发送这些数据，也不会记录仓库路径、标题、节点、关系或源 JSON。">The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Archify. No repository path, title, node, relationship, or source JSON is recorded.</p>
+        <p class="secondary-note" data-en="Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract topolyn.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/topolyn." data-zh="Raven 采用 ZIP 手动安装，不使用 Agent 切换器生成命令。将 topolyn.zip 解压到 ~/.raven/workspace/skills，解压后会得到 ~/.raven/workspace/skills/topolyn。">Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract topolyn.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/topolyn.</p>
+        <p class="secondary-note" data-en="The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Topolyn. No repository path, title, node, relationship, or source JSON is recorded." data-zh="Start 链接只携带 Agent、语言、图表类型和粗粒度来源标签。转化步骤只保存在当前浏览器会话中，Topolyn 不会发送这些数据，也不会记录仓库路径、标题、节点、关系或源 JSON。">The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Topolyn. No repository path, title, node, relationship, or source JSON is recorded.</p>
       </article>
 
       <article class="panel" aria-live="polite">
@@ -262,7 +287,7 @@
     </section>
 
     <footer class="page-footer">
-      <span data-en="Archify v[[ARCHIFY_VERSION]] · development · self-contained HTML · typed JSON source" data-zh="Archify v[[ARCHIFY_VERSION]] · 开发版 · 独立 HTML · 类型化 JSON 源">Archify v[[ARCHIFY_VERSION]] · development · self-contained HTML · typed JSON source</span>
+      <span data-en="Topolyn v[[ARCHIFY_VERSION]] · development · self-contained HTML · typed JSON source" data-zh="Topolyn v[[ARCHIFY_VERSION]] · 开发版 · 独立 HTML · 类型化 JSON 源">Topolyn v[[ARCHIFY_VERSION]] · development · self-contained HTML · typed JSON source</span>
       <span id="copy-status" role="status" aria-live="polite"></span>
       <a href="https://github.com/tt-a1i/archify" data-en="View source on GitHub ↗" data-zh="在 GitHub 查看源码 ↗">View source on GitHub ↗</a>
     </footer>
@@ -342,7 +367,7 @@
         try { window.dispatchEvent(new CustomEvent('archify:start-funnel', { detail: detail })); } catch (_) {}
       }
 
-      window.ArchifyStartMetrics = {
+      window.TopolynStartMetrics = {
         snapshot: function () {
           try {
             var events = JSON.parse(sessionStorage.getItem(EVENT_KEY) || '[]');
@@ -367,8 +392,8 @@
         });
         var agentName = document.querySelector('[data-agent="' + agent + '"]').textContent;
         agentState.textContent = agentName + (language === 'zh' ? ' · 同一份 Skill' : ' · same Skill');
-        installCommand.textContent = 'npx -y skills add tt-a1i/archify --skill archify --agent ' + agent + ' --global --copy --yes';
-        projectCommand.textContent = 'npx -y skills add tt-a1i/archify --skill archify --agent ' + agent + ' --copy --yes';
+        installCommand.textContent = 'npx -y skills add tt-a1i/archify --skill topolyn --agent ' + agent + ' --global --copy --yes';
+        projectCommand.textContent = 'npx -y skills add tt-a1i/archify --skill topolyn --agent ' + agent + ' --copy --yes';
         title.textContent = copy.title;
         question.textContent = copy.question;
         prompt.textContent = copy.prompt;
@@ -401,10 +426,10 @@
       function starterText() {
         var agentName = document.querySelector('[data-agent="' + agent + '"]').textContent;
         if (language === 'zh') {
-          return '为 ' + agentName + ' 安装 Archify：\n' + installCommand.textContent.trim()
+          return '为 ' + agentName + ' 安装 Topolyn：\n' + installCommand.textContent.trim()
             + '\n\n然后在目标仓库中让 ' + agentName + ' 执行：\n' + DATA[type][language].prompt;
         }
-        return 'Install Archify for ' + agentName + ':\n' + installCommand.textContent.trim()
+        return 'Install Topolyn for ' + agentName + ':\n' + installCommand.textContent.trim()
           + '\n\nThen, in your target repository, ask ' + agentName + ':\n' + DATA[type][language].prompt;
       }
 

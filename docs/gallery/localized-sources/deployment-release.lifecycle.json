@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "部署发布生命周期",
+    "output": "examples/deployment-release.html",
+    "viewBox": [
+      980,
+      680
+    ],
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "promotion-rail",
+        "label": "晋级主线",
+        "focus": [
+          "queued",
+          "building",
+          "verifying",
+          "ready",
+          "live"
+        ],
+        "note": "跟随部署对象从变更受理进入健康的生产环境。"
+      },
+      {
+        "id": "approval-gate",
+        "label": "审批门",
+        "focus": [
+          "verifying",
+          "approval",
+          "cancelled",
+          "ready"
+        ],
+        "note": "审批会暂停晋级，也可以干净地终止发布。"
+      },
+      {
+        "id": "rollback-outcomes",
+        "label": "回滚结果",
+        "focus": [
+          "ready",
+          "rollback",
+          "failed",
+          "live",
+          "paused",
+          "rolled_back"
+        ],
+        "note": "区分晋级前失败和上线后的健康恶化。"
+      }
+    ],
+    "locale": "zh-CN"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Release phases"
+    },
+    {
+      "id": "waiting",
+      "label": "Approval + health wait"
+    },
+    {
+      "id": "recovery",
+      "label": "Rollback controller"
+    },
+    {
+      "id": "terminal",
+      "label": "Terminal exits"
+    }
+  ],
+  "states": [
+    {
+      "id": "queued",
+      "type": "start",
+      "label": "Queued",
+      "sublabel": "已排队",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "pending"
+    },
+    {
+      "id": "building",
+      "type": "active",
+      "label": "Building",
+      "sublabel": "构建中",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "running"
+    },
+    {
+      "id": "verifying",
+      "type": "decision",
+      "label": "Verifying",
+      "sublabel": "验证中",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "tag": "gate"
+    },
+    {
+      "id": "ready",
+      "type": "waiting",
+      "label": "Ready",
+      "sublabel": "准备就绪",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "tag": "approved"
+    },
+    {
+      "id": "live",
+      "type": "success",
+      "label": "Live",
+      "sublabel": "生产运行中",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "tag": "success"
+    },
+    {
+      "id": "approval",
+      "type": "waiting",
+      "label": "Needs Approval",
+      "sublabel": "等待审批",
+      "lane": "waiting",
+      "col": 0,
+      "tag": "pause"
+    },
+    {
+      "id": "rollback",
+      "type": "active",
+      "label": "Rolling Back",
+      "sublabel": "回滚中",
+      "lane": "recovery",
+      "col": 1,
+      "tag": "automatic"
+    },
+    {
+      "id": "paused",
+      "type": "waiting",
+      "label": "Health Paused",
+      "sublabel": "健康检查暂停",
+      "lane": "waiting",
+      "col": 2,
+      "tag": "observe"
+    },
+    {
+      "id": "cancelled",
+      "type": "failure",
+      "label": "Cancelled",
+      "sublabel": "已取消",
+      "lane": "terminal",
+      "col": 0,
+      "tag": "terminal"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "Failed",
+      "sublabel": "失败 · 回滚失败",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "terminal"
+    },
+    {
+      "id": "rolled_back",
+      "type": "success",
+      "label": "Rolled Back",
+      "sublabel": "已回滚",
+      "lane": "terminal",
+      "col": 2,
+      "tag": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "verifying",
+      "to": "approval",
+      "variant": "security",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "approval",
+      "to": "cancelled",
+      "variant": "security",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "ready",
+      "to": "rollback",
+      "variant": "security",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "rollback",
+      "to": "failed",
+      "variant": "security",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "live",
+      "to": "paused",
+      "variant": "dashed",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "paused",
+      "to": "rolled_back",
+      "variant": "emphasis",
+      "route": "straight",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "晋级主线",
+      "items": [
+        "发布对象依次经过五个有序阶段",
+        "验证与审批保持为两个独立状态",
+        "进入生产运行意味着当前健康状态已经得到证明"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "等待状态",
+      "items": [
+        "人工审批暂停时不会占用工作器",
+        "健康恶化会暂停后续放量",
+        "每个等待状态都说明继续执行所需的事件"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "明确结局",
+      "items": [
+        "审批拒绝后以取消状态结束",
+        "回滚控制器失败后以失败状态结束",
+        "回滚成功是服务恢复后的终态结果"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "智能体运行生命周期",
+    "output": "examples/lifecycle-agent-run.html",
+    "viewBox": [
+      980,
+      660
+    ],
+    "animation": "trace",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "main-lifecycle",
+        "label": "主要生命周期",
+        "focus": [
+          "queued",
+          "planning",
+          "executing",
+          "reviewing",
+          "completed"
+        ],
+        "note": "跟随任务从受理、规划、执行、复核到完成。"
+      },
+      {
+        "id": "human-waits",
+        "label": "人工与输入等待",
+        "focus": [
+          "executing",
+          "approval",
+          "reviewing",
+          "blocked"
+        ],
+        "note": "查看任务在哪些非终态位置暂停。"
+      },
+      {
+        "id": "recovery-and-exits",
+        "label": "恢复与终态出口",
+        "focus": [
+          "executing",
+          "failed",
+          "blocked",
+          "cancelled",
+          "expired"
+        ],
+        "note": "区分可重试失败、取消和过期。"
+      }
+    ],
+    "locale": "zh-CN"
+  },
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Lifecycle phases"
+    },
+    {
+      "id": "waiting",
+      "label": "Interruptions"
+    },
+    {
+      "id": "exceptions",
+      "label": "Recovery loop"
+    },
+    {
+      "id": "terminal",
+      "label": "Terminal exits"
+    }
+  ],
+  "states": [
+    {
+      "id": "queued",
+      "type": "start",
+      "label": "Queued",
+      "sublabel": "已排队",
+      "lane": "main",
+      "col": 0,
+      "step": "01",
+      "tag": "entry"
+    },
+    {
+      "id": "planning",
+      "type": "active",
+      "label": "Planning",
+      "sublabel": "规划中",
+      "lane": "main",
+      "col": 1,
+      "step": "02",
+      "tag": "model"
+    },
+    {
+      "id": "executing",
+      "type": "active",
+      "label": "Executing",
+      "sublabel": "执行中",
+      "lane": "main",
+      "col": 2,
+      "step": "03",
+      "tag": "work"
+    },
+    {
+      "id": "reviewing",
+      "type": "decision",
+      "label": "Reviewing",
+      "sublabel": "复核中",
+      "lane": "main",
+      "col": 3,
+      "step": "04",
+      "tag": "check"
+    },
+    {
+      "id": "completed",
+      "type": "success",
+      "label": "Completed",
+      "sublabel": "已完成",
+      "lane": "main",
+      "col": 4,
+      "step": "05",
+      "tag": "done"
+    },
+    {
+      "id": "approval",
+      "type": "waiting",
+      "label": "Needs Approval",
+      "sublabel": "等待审批",
+      "lane": "waiting",
+      "col": 0,
+      "tag": "pause"
+    },
+    {
+      "id": "blocked",
+      "type": "waiting",
+      "label": "Blocked",
+      "sublabel": "已阻塞",
+      "lane": "waiting",
+      "col": 1,
+      "tag": "wait"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "Failed",
+      "sublabel": "失败",
+      "lane": "exceptions",
+      "col": 0,
+      "yOffset": 78,
+      "tag": "retryable"
+    },
+    {
+      "id": "cancelled",
+      "type": "failure",
+      "label": "Cancelled",
+      "sublabel": "已取消",
+      "lane": "terminal",
+      "col": 0,
+      "tag": "terminal"
+    },
+    {
+      "id": "expired",
+      "type": "failure",
+      "label": "Expired",
+      "sublabel": "已过期 · 超时",
+      "lane": "terminal",
+      "col": 1,
+      "tag": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "approval-needed",
+      "from": "executing",
+      "to": "approval",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "review-blocked",
+      "from": "reviewing",
+      "to": "blocked",
+      "variant": "default",
+      "route": "drop"
+    },
+    {
+      "id": "execution-failed",
+      "from": "executing",
+      "to": "failed",
+      "variant": "security",
+      "fromSide": "left",
+      "toSide": "left",
+      "via": [
+        [
+          320,
+          157
+        ],
+        [
+          320,
+          385
+        ]
+      ]
+    },
+    {
+      "id": "failed-retry",
+      "from": "failed",
+      "to": "executing",
+      "variant": "emphasis",
+      "fromSide": "left",
+      "toSide": "top",
+      "via": [
+        [
+          20,
+          385
+        ],
+        [
+          20,
+          80
+        ],
+        [
+          402,
+          80
+        ]
+      ]
+    },
+    {
+      "id": "block-expired",
+      "from": "blocked",
+      "to": "expired",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "straight"
+    },
+    {
+      "id": "approval-cancelled",
+      "from": "approval",
+      "to": "cancelled",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "via": [
+        [
+          480,
+          336
+        ],
+        [
+          480,
+          432
+        ],
+        [
+          402,
+          432
+        ]
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "主要路径",
+      "items": [
+        "任务从排队到完成共有五个有序阶段",
+        "主要生命周期由一条水平主线承载",
+        "完成本身是阶段，而不是孤立的侧边框"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "人工与输入门",
+      "items": [
+        "审批会暂停执行，但不会结束任务",
+        "阻塞状态等待用户补充缺失输入",
+        "等待状态在取消或过期前都不是终态"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "终态与恢复",
+      "items": [
+        "重试预算尚未用尽时，失败状态可以返回执行",
+        "取消和过期是生命周期的明确出口",
+        "终态出口不会重新指向执行中的阶段"
+      ]
+    }
+  ]
+}

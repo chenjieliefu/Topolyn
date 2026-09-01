@@ -1,6 +1,6 @@
-# Contributing to Archify
+# Contributing to Topolyn
 
-Thank you for helping Archify make engineering diagrams more trustworthy and useful. Archify is Agent-first: people describe the system they want to explain, while the Skill, typed JSON contract, renderers, validators, and delivery receipts make the result reproducible.
+Thank you for helping Topolyn make engineering diagrams more trustworthy and useful. Topolyn is Agent-first: people describe the system they want to explain, while the Skill, typed JSON contract, renderers, validators, and delivery receipts make the result reproducible.
 
 Stability comes before feature count. A small change with a real reproduction, an explicit contract, and evidence from the final artifact is easier to review and safer to ship than a broad rewrite.
 
@@ -31,7 +31,7 @@ Draft PRs are welcome for early technical feedback. Mark the PR ready only when 
 
 ## Product and compatibility contracts
 
-Archify's public behavior is larger than a renderer function. Treat these as contracts:
+Topolyn's public behavior is larger than a renderer function. Treat these as contracts:
 
 - Existing schema-v1 typed JSON remains valid unless a reviewed change explicitly introduces a breaking rule and migration path.
 - Explicit authored geometry such as `via`, named routes, channels, sides, and label placement remains authoritative unless the contract says otherwise. Do not silently rewrite topology or authored intent.
@@ -44,17 +44,17 @@ If a validation rule expresses taste rather than correctness, begin with evidenc
 
 ## Local setup
 
-The renderer package lives in `archify/` and supports Node.js 18 and later. CI covers Node.js 18, 20, 22, and 24.
+The renderer package lives in `topolyn/` and supports Node.js 18 and later. CI covers Node.js 18, 20, 22, and 24.
 
 ```bash
-cd archify
+cd topolyn
 npm ci
 npm test
 ```
 
 During development, run the narrowest relevant test first, then the full suite before requesting final review. Behavioral fixes should include a failing regression test that demonstrates the problem before the implementation changes.
 
-Test public behavior through a supported seam whenever possible: `archify render`, `validate`, `deliver`, `visual-check`, or the final SVG/HTML. Private helper tests are useful for edge cases, but they do not replace a CLI or artifact-level regression.
+Test public behavior through a supported seam whenever possible: `topolyn render`, `validate`, `deliver`, `visual-check`, or the final SVG/HTML. Private helper tests are useful for edge cases, but they do not replace a CLI or artifact-level regression.
 
 ## Evidence by change type
 
@@ -64,14 +64,14 @@ Include the smallest redacted typed JSON that reproduces the behavior. Verify bo
 
 1. Run the focused regression tests.
 2. Run the candidate against relevant checked-in examples and frozen compatibility fixtures.
-3. Run `npm test` from `archify/`.
+3. Run `npm test` from `topolyn/`.
 4. For visible changes, render the final HTML and run `visual-check`.
 5. Inspect the generated screenshots or HTML in a capable visual surface.
 
 Static SVG/XML checks cannot prove desktop readability, stacking order, font settling, or interaction. When the adaptive reader or viewer layout changes, run the real browser test with Chrome available:
 
 ```bash
-cd archify
+cd topolyn
 ARCHIFY_CHROME="/path/to/chrome" node --test test/desktop-reader-browser.test.mjs
 ```
 
@@ -79,7 +79,7 @@ A browser test that was skipped because Chrome was unavailable is **skipped**, n
 
 ### CLI, receipts, and delivery
 
-Preserve non-zero exit behavior and machine-readable receipts. A successful `validate` does not prove atomic delivery, and a successful `deliver` does not prove perceptual quality. Follow [the delivery contract](archify/references/delivery-contract.md) and test the failure stage you changed.
+Preserve non-zero exit behavior and machine-readable receipts. A successful `validate` does not prove atomic delivery, and a successful `deliver` does not prove perceptual quality. Follow [the delivery contract](topolyn/references/delivery-contract.md) and test the failure stage you changed.
 
 ### Packages, plugins, and releases
 
@@ -107,12 +107,12 @@ node scripts/build-readme-showcase.mjs
 scripts/build-zip.sh /tmp/archify-contrib.zip
 ```
 
-The runtime follows the Node range in `archify/package.json`, but canonical
-`archify.zip` container bytes are built only with Node 22. The builder rejects
+The runtime follows the Node range in `topolyn/package.json`, but canonical
+`topolyn.zip` container bytes are built only with Node 22. The builder rejects
 other Node majors so a different bundled zlib cannot publish a second byte
 representation of the same package contents.
 
-Bundled example or viewer changes normally require the Gallery rebuild. Skill runtime, schema, renderer, or published `SKILL.md` changes require checking `archify.zip` freshness and committing a rebuilt archive when the checked-in package contents differ.
+Bundled example or viewer changes normally require the Gallery rebuild. Skill runtime, schema, renderer, or published `SKILL.md` changes require checking `topolyn.zip` freshness and committing a rebuilt archive when the checked-in package contents differ.
 
 List every regenerated file in the PR description. Do not regenerate unrelated HTML, GIFs, screenshots, manifests, or archives merely to make the branch look current. Generated artifacts are evidence and delivery payloads, not a substitute for reviewing the source change.
 
@@ -120,7 +120,7 @@ List every regenerated file in the PR description. Do not regenerate unrelated H
 
 A useful bug report or fix contains:
 
-1. The exact Archify version or commit, installation method, command, and environment.
+1. The exact Topolyn version or commit, installation method, command, and environment.
 2. The smallest redacted typed JSON that still reproduces the failure.
 3. The complete machine-readable validation receipt or exact error.
 4. Expected versus actual behavior.
@@ -130,7 +130,7 @@ Do not replace deterministic evidence with a screenshot. For visual defects, kee
 
 ## Community showcase submissions
 
-Showcase cases should be reproducible proof, not promotional screenshots. Submit the original prompt, agent/client, exact model, Archify version, redacted typed JSON, artifact, validation receipt, and truthful visual-review status through `.github/ISSUE_TEMPLATE/showcase.yml`.
+Showcase cases should be reproducible proof, not promotional screenshots. Submit the original prompt, agent/client, exact model, Topolyn version, redacted typed JSON, artifact, validation receipt, and truthful visual-review status through `.github/ISSUE_TEMPLATE/showcase.yml`.
 
 Maintainers may ask for a smaller source file, rerun validation, or decline a case that cannot be safely published. Inclusion is not guaranteed. Accepted cases should preserve author attribution and must not be presented as proof of model quality without a controlled benchmark protocol.
 

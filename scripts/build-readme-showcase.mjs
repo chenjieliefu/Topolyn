@@ -10,7 +10,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
 const assetsRoot = path.join(repoRoot, 'docs', 'assets');
-const outputPath = path.resolve(process.argv[2] || path.join(assetsRoot, 'archify-live-proof.gif'));
+const outputPath = path.resolve(process.argv[2] || path.join(assetsRoot, 'topolyn-live-proof.gif'));
 const receiptPath = outputPath.replace(/\.gif$/i, '.json');
 const width = 960;
 const height = 540;
@@ -106,23 +106,23 @@ function wrapperHtml(scene, index) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-  *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020617;color:#f8fafc;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#020617}
-  .edge{position:absolute;inset:0;z-index:2;pointer-events:none;border:1px solid rgba(148,163,184,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)}
-  .topbar{position:absolute;z-index:3;top:0;left:0;right:0;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:linear-gradient(180deg,rgba(2,6,23,.98),rgba(2,6,23,.8) 72%,transparent);pointer-events:none}
-  .brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:800;letter-spacing:.04em}.mark{width:22px;height:22px}.live{color:#6ee7b7;font-size:9px;font-weight:700;letter-spacing:.13em}.live:before{content:'';display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:currentColor;box-shadow:0 0 12px currentColor}
-  .count{color:#64748b;font-size:9px;letter-spacing:.12em}.count strong{color:#cbd5e1;font-weight:600}
-  .caption{position:absolute;z-index:3;left:0;right:0;bottom:0;min-height:72px;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:26px 20px 16px;background:linear-gradient(0deg,rgba(2,6,23,.99),rgba(2,6,23,.86) 58%,transparent);pointer-events:none}
-  .eyebrow{margin-bottom:5px;color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.12em}.title{font-size:16px;font-weight:800;letter-spacing:-.02em}.receipt{text-align:right;color:#94a3b8;font-size:9px;line-height:1.6}.receipt strong{display:block;color:#e2e8f0;font-size:10px}.fade{position:absolute;inset:0;z-index:5;background:#020617;opacity:var(--fade);pointer-events:none}
+  *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#f5f5f7;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+  .edge{position:absolute;inset:10px;z-index:2;pointer-events:none;border:1px solid rgba(255,255,255,.12);border-radius:22px;box-shadow:inset 0 1px rgba(255,255,255,.06)}
+  .topbar{position:absolute;z-index:3;top:10px;left:10px;right:10px;height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:linear-gradient(180deg,rgba(0,0,0,.9),rgba(0,0,0,.68) 72%,transparent);border-radius:22px 22px 0 0;pointer-events:none}
+  .brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:650;letter-spacing:-.01em}.mark{width:24px;height:24px}.live{color:#30d158;font-size:9px;font-weight:650;letter-spacing:.08em}.live:before{content:'';display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:currentColor;box-shadow:0 0 12px currentColor}
+  .count{color:#8e8e93;font-size:9px;letter-spacing:.08em}.count strong{color:#f5f5f7;font-weight:600}
+  .caption{position:absolute;z-index:3;left:10px;right:10px;bottom:10px;min-height:74px;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;padding:26px 20px 16px;background:linear-gradient(0deg,rgba(0,0,0,.96),rgba(0,0,0,.72) 58%,transparent);border-radius:0 0 22px 22px;pointer-events:none}
+  .eyebrow{margin-bottom:5px;color:var(--accent);font-size:9px;font-weight:700;letter-spacing:.1em}.title{font-size:17px;font-weight:650;letter-spacing:-.03em}.receipt{text-align:right;color:#8e8e93;font-size:9px;line-height:1.6}.receipt strong{display:block;color:#f5f5f7;font-size:10px}.fade{position:absolute;inset:0;z-index:5;background:#000;opacity:var(--fade);pointer-events:none}
 </style>
 </head>
 <body>
-  <iframe src="${esc(artifactUrl)}" title="${esc(scene.title)} generated Archify artifact"></iframe>
+  <iframe src="${esc(artifactUrl)}" title="${esc(scene.title)} generated Topolyn artifact"></iframe>
   <div class="edge"></div>
   <div class="topbar">
     <div class="brand">
-      <svg class="mark" viewBox="0 0 28 28" fill="none" aria-hidden="true"><polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="rgba(8,51,68,.8)" stroke="#22d3ee" stroke-width="1.5"/><polygon points="14,7 21,11 21,19 14,23 7,19 7,11" stroke="rgba(34,211,238,.45)"/><circle cx="14" cy="15" r="2.5" fill="#22d3ee"/></svg>
-      <span>ARCHIFY</span><span class="live">LIVE PROOF</span>
+      <svg class="mark" viewBox="0 0 28 28" fill="none" aria-hidden="true"><defs><linearGradient id="topolyn-mark-gradient" x1="2" y1="2" x2="26" y2="26"><stop stop-color="#5AC8FA"/><stop offset=".5" stop-color="#0A84FF"/><stop offset="1" stop-color="#0066CC"/></linearGradient></defs><rect x="1" y="1" width="26" height="26" rx="8" fill="url(#topolyn-mark-gradient)"/><path d="m8 18 6-10 6 11M8 18h12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="8" r="2" fill="#fff"/><circle cx="8" cy="18" r="2" fill="#fff"/><circle cx="20" cy="19" r="2" fill="#fff"/></svg>
+      <span>TOPOLYN</span><span class="live">LIVE PROOF</span>
     </div>
     <div class="count"><strong>${String(index + 1).padStart(2, '0')} / ${String(scenes.length).padStart(2, '0')}</strong></div>
   </div>

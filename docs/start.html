@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Archify Start — From Artifact to First Diagram</title>
-  <meta name="description" content="Install Archify, copy one bounded prompt, and create a verifiable technical diagram without sending repository or diagram content to this page.">
-  <meta name="theme-color" content="#eff2f1">
+  <title>Topolyn Start — From Artifact to First Diagram</title>
+  <meta name="description" content="Install Topolyn, copy one bounded prompt, and create a verifiable technical diagram without sending repository or diagram content to this page.">
+  <meta name="theme-color" content="#f5f5f7">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Archify Start — One bounded prompt to a verifiable diagram">
-  <meta property="og:description" content="Choose a technical question, install Archify, and copy an exact prompt backed by a verified example.">
+  <meta property="og:title" content="Topolyn Start — One bounded prompt to a verifiable diagram">
+  <meta property="og:description" content="Choose a technical question, install Topolyn, and copy an exact prompt backed by a verified example.">
   <meta property="og:url" content="https://tt-a1i.github.io/archify/start.html">
-  <meta property="og:image" content="https://tt-a1i.github.io/archify/assets/archify-social-preview.png">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><polygon points='14,2 26,8 26,20 14,26 2,20 2,8' fill='%23083344' stroke='%2322d3ee' stroke-width='1.5'/><circle cx='14' cy='15' r='2.5' fill='%2322d3ee'/></svg>">
+  <meta property="og:image" content="https://tt-a1i.github.io/archify/assets/topolyn-readme-hero.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/topolyn-mark.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -175,14 +175,39 @@
       html { scroll-behavior:auto; }
       .lead, .type-shell, .workbench { animation:none; }
     }
+    :root {
+      --paper:#f5f5f7; --paper-raised:rgba(255,255,255,.82);
+      --ink:#1d1d1f; --ink-soft:#3a3a3c; --muted:#6e6e73; --dim:#8e8e93;
+      --line:rgba(0,0,0,.07); --line-hi:rgba(0,0,0,.11);
+      --accent:#0071e3; --accent-soft:rgba(0,113,227,.08); --plate:#000; --emerald:#248a3d;
+      --font-display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue','PingFang SC',sans-serif;
+      --font-body:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue','PingFang SC',sans-serif;
+      --font-mono:'SFMono-Regular',ui-monospace,Menlo,Monaco,Consolas,monospace;
+    }
+    body { background-image:radial-gradient(circle at 88% 2%,rgba(0,113,227,.08),transparent 30rem); }
+    body::after { display:none; }
+    .grid-bg { background:radial-gradient(circle at 10% 20%,rgba(191,90,242,.05),transparent 28rem); mask-image:none; }
+    nav { height:56px; background:rgba(250,250,252,.78); backdrop-filter:blur(28px) saturate(180%); -webkit-backdrop-filter:blur(28px) saturate(180%); }
+    .nav-logo::before { content:''; width:28px; height:28px; border-radius:8px; background:url('assets/topolyn-mark.svg') center/contain no-repeat; }
+    .nav-logo-text { font-family:var(--font-body); font-weight:650; letter-spacing:-.035em; }
+    .nav-link { font-family:var(--font-body); font-size:.75rem; letter-spacing:-.01em; text-transform:none; }
+    .btn-lang,.agent-tab,.action { border-radius:999px; }
+    h1 { font-family:var(--font-body); font-size:clamp(3rem,5.5vw,5rem); font-weight:650; letter-spacing:-.058em; }
+    h1 em { font-style:normal; }
+    .lead-label::before { display:none; }
+    .type-shell,.panel { border-radius:24px; border-color:var(--line); box-shadow:0 16px 50px rgba(0,0,0,.055); backdrop-filter:blur(24px) saturate(160%); }
+    .panel h2,.panel-kicker b { font-family:var(--font-body); font-style:normal; font-weight:650; letter-spacing:-.03em; }
+    .type-tabs,.command-block,.secondary-note,.prompt-box { border-radius:16px; }
+    .type-tab[aria-selected="true"],.agent-tab[aria-selected="true"],.action-primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+    .copy-button { color:#64d2ff; }
   </style>
 </head>
 <body>
   <div class="grid-bg" aria-hidden="true"></div>
 
   <nav aria-label="Primary navigation">
-    <a class="nav-logo" href="./" aria-label="Archify project page">
-      <span class="nav-logo-text">Archify</span>
+    <a class="nav-logo" href="./" aria-label="Topolyn project page">
+      <span class="nav-logo-text">Topolyn</span>
       <span class="nav-logo-path">/ start</span>
     </a>
     <div class="nav-right">
@@ -217,7 +242,7 @@
       </div>
     </section>
 
-    <section class="workbench" aria-label="Archify quick start">
+    <section class="workbench" aria-label="Topolyn quick start">
       <article class="panel">
         <div class="panel-kicker"><b>01</b><span data-en="Install the skill" data-zh="安装 Skill">Install the skill</span></div>
         <h2 data-en="Keep the tool local." data-zh="让工具留在本地。">Keep the tool local.</h2>
@@ -235,14 +260,14 @@
 
         <div class="command-block">
           <div class="command-bar"><span data-en="Global install" data-zh="全局安装">Global install</span><button class="copy-button" type="button" data-copy-source="install-command" data-en="Copy" data-zh="复制">Copy</button></div>
-          <pre id="install-command">npx -y skills add tt-a1i/archify --skill archify --agent codex --global --copy --yes</pre>
+          <pre id="install-command">npx -y skills add tt-a1i/archify --skill topolyn --agent codex --global --copy --yes</pre>
         </div>
         <div class="command-block">
           <div class="command-bar"><span data-en="This repository only" data-zh="仅安装到当前仓库">This repository only</span><button class="copy-button" type="button" data-copy-source="project-command" data-en="Copy" data-zh="复制">Copy</button></div>
-          <pre id="project-command">npx -y skills add tt-a1i/archify --skill archify --agent codex --copy --yes</pre>
+          <pre id="project-command">npx -y skills add tt-a1i/archify --skill topolyn --agent codex --copy --yes</pre>
         </div>
-        <p class="secondary-note" data-en="Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract archify.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/archify." data-zh="Raven 采用 ZIP 手动安装，不使用 Agent 切换器生成命令。将 archify.zip 解压到 ~/.raven/workspace/skills，解压后会得到 ~/.raven/workspace/skills/archify。">Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract archify.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/archify.</p>
-        <p class="secondary-note" data-en="The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Archify. No repository path, title, node, relationship, or source JSON is recorded." data-zh="Start 链接只携带 Agent、语言、图表类型和粗粒度来源标签。转化步骤只保存在当前浏览器会话中，Archify 不会发送这些数据，也不会记录仓库路径、标题、节点、关系或源 JSON。">The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Archify. No repository path, title, node, relationship, or source JSON is recorded.</p>
+        <p class="secondary-note" data-en="Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract topolyn.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/topolyn." data-zh="Raven 采用 ZIP 手动安装，不使用 Agent 切换器生成命令。将 topolyn.zip 解压到 ~/.raven/workspace/skills，解压后会得到 ~/.raven/workspace/skills/topolyn。">Raven is supported through a manual ZIP installation, not a generated agent-switcher command. Extract topolyn.zip into ~/.raven/workspace/skills, which yields ~/.raven/workspace/skills/topolyn.</p>
+        <p class="secondary-note" data-en="The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Topolyn. No repository path, title, node, relationship, or source JSON is recorded." data-zh="Start 链接只携带 Agent、语言、图表类型和粗粒度来源标签。转化步骤只保存在当前浏览器会话中，Topolyn 不会发送这些数据，也不会记录仓库路径、标题、节点、关系或源 JSON。">The Start link carries only your agent, language, diagram type, and a coarse source label. Journey events stay in this browser session and are never sent by Topolyn. No repository path, title, node, relationship, or source JSON is recorded.</p>
       </article>
 
       <article class="panel" aria-live="polite">
@@ -262,13 +287,13 @@
     </section>
 
     <footer class="page-footer">
-      <span data-en="Archify v2.16.0-dev.0 · development · self-contained HTML · typed JSON source" data-zh="Archify v2.16.0-dev.0 · 开发版 · 独立 HTML · 类型化 JSON 源">Archify v2.16.0-dev.0 · development · self-contained HTML · typed JSON source</span>
+      <span data-en="Topolyn v2.16.0-dev.0 · development · self-contained HTML · typed JSON source" data-zh="Topolyn v2.16.0-dev.0 · 开发版 · 独立 HTML · 类型化 JSON 源">Topolyn v2.16.0-dev.0 · development · self-contained HTML · typed JSON source</span>
       <span id="copy-status" role="status" aria-live="polite"></span>
       <a href="https://github.com/tt-a1i/archify" data-en="View source on GitHub ↗" data-zh="在 GitHub 查看源码 ↗">View source on GitHub ↗</a>
     </footer>
   </main>
 
-  <script id="start-data" type="application/json">{"architecture":{"id":"system-overview","type":"architecture","proof":"web-app","presentation":{"preset":"classic","motion":"static","views":"optional"},"en":{"title":"System overview","question":"What exists, who owns it, and how is it connected?","summary":"A bounded map of core components, external dependencies, primary paths, and trust boundaries.","useWhen":"Onboarding, design reviews, repository orientation, or explaining a service landscape.","avoidWhen":"The audience needs exact call order, state transitions, or row-level data lineage.","include":["8–12 core components","one primary path","external dependencies","trust boundaries"],"prompt":"Analyze this repository, then use Archify to create a high-level architecture diagram. Show 8–12 core runtime components, one primary request or data path, external dependencies, ownership or trust boundaries, and put supporting detail in cards instead of adding more edges."},"zh":{"title":"系统总览","question":"系统里有什么、归谁负责、彼此如何连接？","summary":"用一张有边界的图展示核心组件、外部依赖、主路径和信任边界。","useWhen":"适合新人上手、方案评审、仓库梳理和服务全景说明。","avoidWhen":"如果重点是精确调用顺序、状态流转或字段级血缘，请换其他配方。","include":["8–12 个核心组件","一条主路径","外部依赖","归属或信任边界"],"prompt":"分析这个仓库，然后用 Archify 生成高层系统架构图。展示 8–12 个核心运行时组件、一条主要请求或数据路径、外部依赖、归属或信任边界；支持性细节放进卡片，不要继续堆连线。"}},"workflow":{"id":"agent-tool-call","type":"workflow","proof":"agent-tool-call","presentation":{"preset":"signal-flow","motion":"trace","views":"recommended"},"en":{"title":"Agent tool-call loop","question":"How does an agent plan, get permission, act, recover, and report?","summary":"A lane-based agent loop with policy gates, tool execution, exception recovery, evidence, and final response.","useWhen":"Explaining agent runtimes, MCP/tool orchestration, approvals, retries, or observability.","avoidWhen":"The goal is only to show static agent components or exact API message timing.","include":["request and planning","policy or approval gate","tool execution","exception and evidence paths"],"prompt":"Use Archify workflow mode to explain this agent tool-call loop. Separate user surface, agent runtime, policy boundary, exception handling, tool execution, and observability into lanes. Make the successful path primary and show approval, retry, blocked, and evidence paths explicitly."},"zh":{"title":"智能体工具调用","question":"智能体如何规划、获批、执行、恢复并汇报？","summary":"用泳道表达策略门、工具执行、异常恢复、证据和最终回复。","useWhen":"适合解释 Agent Runtime、MCP/工具编排、审批、重试和可观测性。","avoidWhen":"如果只想看静态组件，或重点是精确 API 消息时序，请换其他配方。","include":["请求与规划","策略或审批门","工具执行","异常与证据路径"],"prompt":"用 Archify 工作流模式解释这段智能体工具调用。把用户界面、Agent Runtime、策略边界、异常处理、工具执行和可观测性分成泳道；突出成功主路径，并明确展示审批、重试、阻塞和证据路径。"}},"sequence":{"id":"api-request","type":"sequence","proof":"cache-miss","presentation":{"preset":"classic","motion":"trace","views":"optional"},"en":{"title":"API request chain","question":"Who calls whom, in what order, and what returns?","summary":"A time-ordered request path with authentication, cache fallback, persistence, return traffic, and async trace.","useWhen":"API documentation, debugging request latency, auth reviews, or explaining cache fallback.","avoidWhen":"Order is unimportant and the audience only needs the stable service topology.","include":["callers and callees","request and return messages","fallback or error path","async side effects"],"prompt":"Use Archify sequence mode to show this request from caller to final response. Include authentication, cache hit or miss, persistence fallback, return messages, and asynchronous trace or event emission. Keep message labels short and order unambiguous."},"zh":{"title":"API 请求链","question":"谁调用谁、顺序如何、最终返回什么？","summary":"按时间展示鉴权、缓存回退、持久化、返回流量和异步追踪。","useWhen":"适合 API 文档、请求耗时排查、鉴权评审和缓存回退说明。","avoidWhen":"如果顺序不重要，受众只需要稳定的服务拓扑，请用架构图。","include":["调用方与被调用方","请求与返回消息","回退或错误路径","异步副作用"],"prompt":"用 Archify 时序模式展示从调用方到最终响应的完整请求。包含鉴权、缓存命中或未命中、持久化回退、返回消息，以及异步 Trace 或事件上报；消息标签保持简短，顺序必须明确。"}},"dataflow":{"id":"event-stream","type":"dataflow","proof":"event-stream","presentation":{"preset":"signal-flow","motion":"trace","views":"recommended"},"en":{"title":"Event-stream topology","question":"Which events move through which topics, processors, groups, and failure paths?","summary":"A stream map of producers, topics, ordered processors, consumer groups, state, replay, and DLQ.","useWhen":"Kafka/event-platform design, stream processing reviews, ownership, replay, and failure handling.","avoidWhen":"Topic names, consumer groups, and delivery semantics are not known—use a generic workflow instead.","include":["producers and event names","topics and ordering","processors and consumer groups","state, replay, and DLQ"],"prompt":"Use Archify dataflow mode to draw this event-stream topology. Name producers, events, topics, ordered processors, consumer groups, state stores, replay paths, and the DLQ. Show ownership and delivery semantics only when supported by evidence."},"zh":{"title":"事件流拓扑","question":"哪些事件经过哪些 Topic、处理器、消费者组和失败路径？","summary":"展示生产者、Topic、有序处理器、消费者组、状态、重放和 DLQ。","useWhen":"适合 Kafka/事件平台设计、流处理评审、归属、重放和失败处理。","avoidWhen":"如果 Topic、消费者组和投递语义都不清楚，请先用通用工作流，不要编造事件拓扑。","include":["生产者与事件名","Topic 与顺序","处理器与消费者组","状态、重放与 DLQ"],"prompt":"用 Archify 数据流模式绘制这段事件流拓扑。命名生产者、事件、Topic、有序处理器、消费者组、状态存储、重放路径和 DLQ；只有在证据充分时才标注归属和投递语义。"}},"lifecycle":{"id":"object-lifecycle","type":"lifecycle","proof":"agent-run","presentation":{"preset":"classic","motion":"trace","views":"optional"},"en":{"title":"Object lifecycle","question":"Which states exist, what events move between them, and how does it end?","summary":"A state model with active work, waits, retries, cancellation, failure, and explicit terminal outcomes.","useWhen":"Tasks, orders, tickets, subscriptions, jobs, agent runs, or any durable object with status.","avoidWhen":"The object has no durable state and the real question is participant interaction over time.","include":["start and active states","event-labelled transitions","wait and retry states","all terminal outcomes"],"prompt":"Use Archify lifecycle mode to model this object. Separate main progress, waiting or interruption states, and terminal outcomes. Label transitions with events, include retry, cancellation, timeout, success, and failure where real, and never hide an ending."},"zh":{"title":"对象生命周期","question":"有哪些状态、什么事件触发流转、最终如何结束？","summary":"展示执行、等待、重试、取消、失败以及明确终态的状态模型。","useWhen":"适合任务、订单、工单、订阅、作业、Agent Run 等带持久状态的对象。","avoidWhen":"对象没有持久状态，真正问题是参与者随时间的交互时，请使用时序图。","include":["开始与执行态","带事件的转换","等待与重试态","所有终态"],"prompt":"用 Archify 生命周期模式建模这个对象。分开主进度、等待或中断状态和终态；用事件标注转换，并在真实存在时展示重试、取消、超时、成功和失败，不能隐藏任何结束方式。"}}}</script>
+  <script id="start-data" type="application/json">{"architecture":{"id":"system-overview","type":"architecture","proof":"web-app","presentation":{"preset":"classic","motion":"static","views":"optional"},"en":{"title":"System overview","question":"What exists, who owns it, and how is it connected?","summary":"A bounded map of core components, external dependencies, primary paths, and trust boundaries.","useWhen":"Onboarding, design reviews, repository orientation, or explaining a service landscape.","avoidWhen":"The audience needs exact call order, state transitions, or row-level data lineage.","include":["8–12 core components","one primary path","external dependencies","trust boundaries"],"prompt":"Analyze this repository, then use Topolyn to create a high-level architecture diagram. Show 8–12 core runtime components, one primary request or data path, external dependencies, ownership or trust boundaries, and put supporting detail in cards instead of adding more edges."},"zh":{"title":"系统总览","question":"系统里有什么、归谁负责、彼此如何连接？","summary":"用一张有边界的图展示核心组件、外部依赖、主路径和信任边界。","useWhen":"适合新人上手、方案评审、仓库梳理和服务全景说明。","avoidWhen":"如果重点是精确调用顺序、状态流转或字段级血缘，请换其他配方。","include":["8–12 个核心组件","一条主路径","外部依赖","归属或信任边界"],"prompt":"分析这个仓库，然后用 Topolyn 生成高层系统架构图。展示 8–12 个核心运行时组件、一条主要请求或数据路径、外部依赖、归属或信任边界；支持性细节放进卡片，不要继续堆连线。"}},"workflow":{"id":"agent-tool-call","type":"workflow","proof":"agent-tool-call","presentation":{"preset":"signal-flow","motion":"trace","views":"recommended"},"en":{"title":"Agent tool-call loop","question":"How does an agent plan, get permission, act, recover, and report?","summary":"A lane-based agent loop with policy gates, tool execution, exception recovery, evidence, and final response.","useWhen":"Explaining agent runtimes, MCP/tool orchestration, approvals, retries, or observability.","avoidWhen":"The goal is only to show static agent components or exact API message timing.","include":["request and planning","policy or approval gate","tool execution","exception and evidence paths"],"prompt":"Use Topolyn workflow mode to explain this agent tool-call loop. Separate user surface, agent runtime, policy boundary, exception handling, tool execution, and observability into lanes. Make the successful path primary and show approval, retry, blocked, and evidence paths explicitly."},"zh":{"title":"智能体工具调用","question":"智能体如何规划、获批、执行、恢复并汇报？","summary":"用泳道表达策略门、工具执行、异常恢复、证据和最终回复。","useWhen":"适合解释 Agent Runtime、MCP/工具编排、审批、重试和可观测性。","avoidWhen":"如果只想看静态组件，或重点是精确 API 消息时序，请换其他配方。","include":["请求与规划","策略或审批门","工具执行","异常与证据路径"],"prompt":"用 Topolyn 工作流模式解释这段智能体工具调用。把用户界面、Agent Runtime、策略边界、异常处理、工具执行和可观测性分成泳道；突出成功主路径，并明确展示审批、重试、阻塞和证据路径。"}},"sequence":{"id":"api-request","type":"sequence","proof":"cache-miss","presentation":{"preset":"classic","motion":"trace","views":"optional"},"en":{"title":"API request chain","question":"Who calls whom, in what order, and what returns?","summary":"A time-ordered request path with authentication, cache fallback, persistence, return traffic, and async trace.","useWhen":"API documentation, debugging request latency, auth reviews, or explaining cache fallback.","avoidWhen":"Order is unimportant and the audience only needs the stable service topology.","include":["callers and callees","request and return messages","fallback or error path","async side effects"],"prompt":"Use Topolyn sequence mode to show this request from caller to final response. Include authentication, cache hit or miss, persistence fallback, return messages, and asynchronous trace or event emission. Keep message labels short and order unambiguous."},"zh":{"title":"API 请求链","question":"谁调用谁、顺序如何、最终返回什么？","summary":"按时间展示鉴权、缓存回退、持久化、返回流量和异步追踪。","useWhen":"适合 API 文档、请求耗时排查、鉴权评审和缓存回退说明。","avoidWhen":"如果顺序不重要，受众只需要稳定的服务拓扑，请用架构图。","include":["调用方与被调用方","请求与返回消息","回退或错误路径","异步副作用"],"prompt":"用 Topolyn 时序模式展示从调用方到最终响应的完整请求。包含鉴权、缓存命中或未命中、持久化回退、返回消息，以及异步 Trace 或事件上报；消息标签保持简短，顺序必须明确。"}},"dataflow":{"id":"event-stream","type":"dataflow","proof":"event-stream","presentation":{"preset":"signal-flow","motion":"trace","views":"recommended"},"en":{"title":"Event-stream topology","question":"Which events move through which topics, processors, groups, and failure paths?","summary":"A stream map of producers, topics, ordered processors, consumer groups, state, replay, and DLQ.","useWhen":"Kafka/event-platform design, stream processing reviews, ownership, replay, and failure handling.","avoidWhen":"Topic names, consumer groups, and delivery semantics are not known—use a generic workflow instead.","include":["producers and event names","topics and ordering","processors and consumer groups","state, replay, and DLQ"],"prompt":"Use Topolyn dataflow mode to draw this event-stream topology. Name producers, events, topics, ordered processors, consumer groups, state stores, replay paths, and the DLQ. Show ownership and delivery semantics only when supported by evidence."},"zh":{"title":"事件流拓扑","question":"哪些事件经过哪些 Topic、处理器、消费者组和失败路径？","summary":"展示生产者、Topic、有序处理器、消费者组、状态、重放和 DLQ。","useWhen":"适合 Kafka/事件平台设计、流处理评审、归属、重放和失败处理。","avoidWhen":"如果 Topic、消费者组和投递语义都不清楚，请先用通用工作流，不要编造事件拓扑。","include":["生产者与事件名","Topic 与顺序","处理器与消费者组","状态、重放与 DLQ"],"prompt":"用 Topolyn 数据流模式绘制这段事件流拓扑。命名生产者、事件、Topic、有序处理器、消费者组、状态存储、重放路径和 DLQ；只有在证据充分时才标注归属和投递语义。"}},"lifecycle":{"id":"object-lifecycle","type":"lifecycle","proof":"agent-run","presentation":{"preset":"classic","motion":"trace","views":"optional"},"en":{"title":"Object lifecycle","question":"Which states exist, what events move between them, and how does it end?","summary":"A state model with active work, waits, retries, cancellation, failure, and explicit terminal outcomes.","useWhen":"Tasks, orders, tickets, subscriptions, jobs, agent runs, or any durable object with status.","avoidWhen":"The object has no durable state and the real question is participant interaction over time.","include":["start and active states","event-labelled transitions","wait and retry states","all terminal outcomes"],"prompt":"Use Topolyn lifecycle mode to model this object. Separate main progress, waiting or interruption states, and terminal outcomes. Label transitions with events, include retry, cancellation, timeout, success, and failure where real, and never hide an ending."},"zh":{"title":"对象生命周期","question":"有哪些状态、什么事件触发流转、最终如何结束？","summary":"展示执行、等待、重试、取消、失败以及明确终态的状态模型。","useWhen":"适合任务、订单、工单、订阅、作业、Agent Run 等带持久状态的对象。","avoidWhen":"对象没有持久状态，真正问题是参与者随时间的交互时，请使用时序图。","include":["开始与执行态","带事件的转换","等待与重试态","所有终态"],"prompt":"用 Topolyn 生命周期模式建模这个对象。分开主进度、等待或中断状态和终态；用事件标注转换，并在真实存在时展示重试、取消、超时、成功和失败，不能隐藏任何结束方式。"}}}</script>
   <script>
     (function () {
       'use strict';
@@ -342,7 +367,7 @@
         try { window.dispatchEvent(new CustomEvent('archify:start-funnel', { detail: detail })); } catch (_) {}
       }
 
-      window.ArchifyStartMetrics = {
+      window.TopolynStartMetrics = {
         snapshot: function () {
           try {
             var events = JSON.parse(sessionStorage.getItem(EVENT_KEY) || '[]');
@@ -367,8 +392,8 @@
         });
         var agentName = document.querySelector('[data-agent="' + agent + '"]').textContent;
         agentState.textContent = agentName + (language === 'zh' ? ' · 同一份 Skill' : ' · same Skill');
-        installCommand.textContent = 'npx -y skills add tt-a1i/archify --skill archify --agent ' + agent + ' --global --copy --yes';
-        projectCommand.textContent = 'npx -y skills add tt-a1i/archify --skill archify --agent ' + agent + ' --copy --yes';
+        installCommand.textContent = 'npx -y skills add tt-a1i/archify --skill topolyn --agent ' + agent + ' --global --copy --yes';
+        projectCommand.textContent = 'npx -y skills add tt-a1i/archify --skill topolyn --agent ' + agent + ' --copy --yes';
         title.textContent = copy.title;
         question.textContent = copy.question;
         prompt.textContent = copy.prompt;
@@ -401,10 +426,10 @@
       function starterText() {
         var agentName = document.querySelector('[data-agent="' + agent + '"]').textContent;
         if (language === 'zh') {
-          return '为 ' + agentName + ' 安装 Archify：\n' + installCommand.textContent.trim()
+          return '为 ' + agentName + ' 安装 Topolyn：\n' + installCommand.textContent.trim()
             + '\n\n然后在目标仓库中让 ' + agentName + ' 执行：\n' + DATA[type][language].prompt;
         }
-        return 'Install Archify for ' + agentName + ':\n' + installCommand.textContent.trim()
+        return 'Install Topolyn for ' + agentName + ':\n' + installCommand.textContent.trim()
           + '\n\nThen, in your target repository, ask ' + agentName + ':\n' + DATA[type][language].prompt;
       }
 

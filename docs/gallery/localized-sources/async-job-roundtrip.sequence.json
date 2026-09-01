@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "异步任务往返链路",
+    "output": "examples/async-job-roundtrip.html",
+    "viewBox": [
+      820,
+      920
+    ],
+    "animation": "trace",
+    "visual_preset": "signal-flow",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "accept-and-enqueue",
+        "label": "快速受理",
+        "focus": [
+          "client",
+          "api",
+          "queue"
+        ],
+        "note": "任务可靠入队后，API 会立即返回确认。"
+      },
+      {
+        "id": "work-and-retry",
+        "label": "后台工作与重试",
+        "focus": [
+          "queue",
+          "worker",
+          "provider"
+        ],
+        "note": "超时任务重新进入队列，不占用原始请求连接。"
+      },
+      {
+        "id": "observe-final-state",
+        "label": "观察最终一致性",
+        "focus": [
+          "worker",
+          "store",
+          "notify",
+          "client",
+          "api"
+        ],
+        "note": "Webhook 是主要路径，轮询仅作为有限回退。"
+      }
+    ],
+    "locale": "zh-CN"
+  },
+  "participants": [
+    {
+      "id": "client",
+      "type": "external",
+      "label": "Client",
+      "sublabel": "客户端"
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "Jobs API",
+      "sublabel": "任务 API"
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Queue",
+      "sublabel": "任务队列"
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Worker",
+      "sublabel": "后台工作器"
+    },
+    {
+      "id": "provider",
+      "type": "cloud",
+      "label": "Provider",
+      "sublabel": "外部服务商"
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "Job Store",
+      "sublabel": "任务状态库"
+    },
+    {
+      "id": "notify",
+      "type": "messagebus",
+      "label": "Notifier",
+      "sublabel": "通知服务"
+    }
+  ],
+  "segments": [
+    {
+      "from": 150,
+      "to": 288,
+      "label": "Accept"
+    },
+    {
+      "from": 306,
+      "to": 538,
+      "label": "Background work"
+    },
+    {
+      "from": 554,
+      "to": 800,
+      "label": "Notify + reconcile"
+    }
+  ],
+  "messages": [
+    {
+      "from": "client",
+      "to": "api",
+      "y": 180,
+      "label": "POST /jobs",
+      "variant": "emphasis"
+    },
+    {
+      "from": "api",
+      "to": "queue",
+      "y": 222,
+      "label": "enqueue job",
+      "variant": "emphasis"
+    },
+    {
+      "from": "api",
+      "to": "client",
+      "y": 264,
+      "label": "202 + job id",
+      "variant": "return"
+    },
+    {
+      "from": "queue",
+      "to": "worker",
+      "y": 326,
+      "label": "deliver",
+      "variant": "emphasis"
+    },
+    {
+      "from": "worker",
+      "to": "provider",
+      "y": 368,
+      "label": "perform work",
+      "variant": "default"
+    },
+    {
+      "from": "provider",
+      "to": "worker",
+      "y": 410,
+      "label": "result / timeout",
+      "variant": "return"
+    },
+    {
+      "from": "worker",
+      "to": "queue",
+      "y": 452,
+      "label": "retry if timeout",
+      "variant": "dashed"
+    },
+    {
+      "from": "worker",
+      "to": "store",
+      "y": 494,
+      "label": "persist final state",
+      "variant": "emphasis"
+    },
+    {
+      "from": "worker",
+      "to": "notify",
+      "y": 566,
+      "label": "job.completed",
+      "variant": "dashed"
+    },
+    {
+      "from": "notify",
+      "to": "client",
+      "y": 608,
+      "label": "signed webhook",
+      "variant": "dashed"
+    },
+    {
+      "from": "client",
+      "to": "api",
+      "y": 650,
+      "label": "GET /jobs/:id",
+      "variant": "default"
+    },
+    {
+      "from": "api",
+      "to": "store",
+      "y": 692,
+      "label": "read status",
+      "variant": "default"
+    },
+    {
+      "from": "store",
+      "to": "api",
+      "y": 734,
+      "label": "completed",
+      "variant": "return"
+    },
+    {
+      "from": "api",
+      "to": "client",
+      "y": 776,
+      "label": "200 final result",
+      "variant": "return"
+    }
+  ],
+  "activations": [
+    {
+      "participant": "api",
+      "from": 174,
+      "to": 272,
+      "type": "backend"
+    },
+    {
+      "participant": "queue",
+      "from": 216,
+      "to": 334,
+      "type": "messagebus"
+    },
+    {
+      "participant": "worker",
+      "from": 320,
+      "to": 574,
+      "type": "backend"
+    },
+    {
+      "participant": "provider",
+      "from": 362,
+      "to": 416,
+      "type": "cloud"
+    },
+    {
+      "participant": "store",
+      "from": 488,
+      "to": 742,
+      "type": "database"
+    },
+    {
+      "participant": "notify",
+      "from": 560,
+      "to": 616,
+      "type": "messagebus"
+    },
+    {
+      "participant": "api",
+      "from": 644,
+      "to": 784,
+      "type": "backend"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "快速确认",
+      "items": [
+        "任务开始前，调用方先获得持久任务 ID",
+        "受理契约清楚展示队列归属",
+        "原始连接不等待外部服务耗时"
+      ]
+    },
+    {
+      "dot": "orange",
+      "title": "有限恢复",
+      "items": [
+        "超时任务依据重试策略重新进入队列",
+        "通知前先持久化最终状态",
+        "任务状态库始终是权威数据源"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "两种观察路径",
+      "items": [
+        "签名 Webhook 会主动通知任务完成",
+        "状态轮询只是回退，不是第二套工作流",
+        "两条路径最终汇聚到同一任务状态"
+      ]
+    }
+  ]
+}
