@@ -7,7 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { findChrome, runVisualCheck } from '../bin/visual-check.mjs';
-import { DESKTOP_READABILITY_VIEWPORT, MIN_PROJECTED_NODE_TEXT_PX } from '../renderers/shared/desktop-readability.mjs';
+import { DESKTOP_READABILITY_VIEWPORT, DESKTOP_READER_MIN_WIDTH, DESKTOP_READER_DIAGRAM_WIDTH, DESKTOP_READER_HORIZONTAL_CHROME, MIN_PROJECTED_NODE_TEXT_PX } from '../renderers/shared/desktop-readability.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const skillRoot = path.resolve(__dirname, '..');
@@ -43,8 +43,11 @@ test('production showcase is readable in the real 1440 by 900 adaptive reader', 
       ));
       for (const observation of [desktop, darkDesktop]) {
         assert.ok(observation);
-        assert.equal(observation.readerWidth, 960);
-        assert.equal(observation.diagramWidth, 930);
+        // Font metrics and available height can expand the adaptive shell above its floor.
+        assert.ok(observation.readerWidth >= DESKTOP_READER_MIN_WIDTH);
+        assert.ok(observation.readerWidth <= DESKTOP_READABILITY_VIEWPORT.width);
+        assert.ok(observation.diagramWidth >= DESKTOP_READER_DIAGRAM_WIDTH);
+        assert.ok(Math.abs(observation.readerWidth - observation.diagramWidth - DESKTOP_READER_HORIZONTAL_CHROME) <= 1);
         assert.ok(observation.minimumProjectedNodeTextPx >= MIN_PROJECTED_NODE_TEXT_PX);
         assert.equal(observation.minimumProjectedNodeTextDetail, 'boundary');
         assert.equal(observation.minimumProjectedNodeText, 'AWS eu-west-1 / disaster recovery');
