@@ -1,93 +1,109 @@
 # Topolyn
 
-Topolyn 是一个用于生成技术系统图的 Agent Skill。它可以读取代码仓库或系统描述，在对话中生成经过校验、可交互、可分享的系统地图，适用于 Raven、Cursor、Claude Code、Codex CLI 和 OpenCode。
+**English** | [简体中文](README.zh-CN.md)
 
-> 当前开发版本：`v2.16.0-dev.0`。核心功能已经实现，稳定版仍在验收中，详见[版本历史](CHANGELOG.md#unreleased)。
+Current development version: **2.16.0-dev.0**
 
-## 产品是什么
+<p align="center">
+  <img src="docs/images/topolyn-product.png" alt="Topolyn product homepage showing its conversational system-mapping workflow and an online-course platform example" width="960">
+</p>
 
-Topolyn 主要用于把复杂的技术信息整理成清晰的可视化结果：
+Actual screenshot of the local product website. The course-platform map on the homepage is a built-in example.
 
-- 从代码仓库或文字描述中梳理系统结构；
-- 生成架构图、工作流图、时序图、数据流图和生命周期图；
-- 通过结构化 JSON 和确定性规则校验内容与布局；
-- 在图中搜索节点、查看关系、追踪上下游和指定路径；
-- 对比两个架构版本，查看新增、删除、修改和移动；
-- 导出独立 HTML、PNG、SVG、WebM 和分享卡片。
+**Turn an idea, codebase or system description into a clear, interactive system map.**
 
-生成结果默认是一个可独立打开的 HTML 文件，不依赖在线服务。
+This repository includes a product website with a conversational workspace, scenario guide and example gallery, alongside the Topolyn agent skill for Raven, Cursor, Claude Code, Codex CLI and OpenCode. The skill creates validated technical maps; the local web workspace offers a product-oriented way to describe, refine and export a system.
 
-## 快速开始
+The core skill is implemented; stable-release acceptance is still in progress. See the [changelog](CHANGELOG.md#unreleased).
 
-### 安装
+## Try the local product
 
-```bash
-npx skills add tt-a1i/archify -g
-```
-
-如果只想临时体验：
+Requires **Node.js 18 or later**.
 
 ```bash
-npx skills use tt-a1i/archify@topolyn --agent codex
+git clone https://github.com/chenjieliefu/Topolyn.git
+cd Topolyn
+node scripts/serve-topolyn-site.mjs
 ```
 
-Cursor 可以使用非交互安装：
+The launcher opens the local site, normally at `http://127.0.0.1:4173/`. On macOS, you can also double-click `启动Topolyn.command`. Keep the terminal running while using the site and press **Ctrl+C** to stop it.
+
+Browse the homepage, open the workspace, describe a product or choose a sample, inspect the generated nodes, continue the conversation and export the result. The product interface supports Chinese and English.
+
+The local server can use a server-side `DEEPSEEK_API_KEY`. Without a configured key it uses built-in browser demonstration data; a working demo is not evidence of a live model response. Never put an API key in a public README or frontend bundle.
+
+## Install the agent skill
 
 ```bash
-npx -y skills add tt-a1i/archify --skill topolyn --agent cursor --global --copy --yes
+npx skills add chenjieliefu/Topolyn -g
 ```
 
-### 使用
+For an explicit, non-interactive Cursor installation:
 
-安装后，可以直接告诉 Agent：
+```bash
+npx -y skills add chenjieliefu/Topolyn --skill topolyn --agent cursor --global --copy --yes
+```
+
+Then ask your agent:
 
 ```text
-分析这个仓库，然后使用 Topolyn 生成一张高层运行时架构图。
-只保留 8–12 个核心组件，突出主要路径，并标出外部依赖与信任边界。
+Analyze this repository and use Topolyn to map its high-level runtime architecture.
+Keep 8–12 core components, highlight the main path, and identify external dependencies and trust boundaries.
 ```
 
-也可以描述一个具体流程：
+Or describe a flow directly:
 
 ```text
-使用 Topolyn 绘制登录流程：
-Browser -> Web App -> API -> JWT 校验 -> Redis 会话查询 -> PostgreSQL 回退。
+Use Topolyn to show this login flow:
+Browser -> Web App -> API -> JWT validation -> Redis session lookup -> PostgreSQL fallback.
 ```
 
-生成后可以继续要求 Agent 调整，例如“加入 Redis”“把认证模块移到左侧”或“突出回滚路径”。
+Continue with requests such as “add Redis,” “move authentication to the left,” or “highlight the rollback path.”
 
-## 支持的图表
+## What the skill can do
 
-| 类型 | 适用场景 |
+- Read a repository or bounded system description and structure the important relationships.
+- Generate architecture, workflow, sequence, dataflow and lifecycle diagrams.
+- Validate typed JSON, layout, paths and labels with deterministic rules.
+- Search nodes, inspect relationships, trace upstream/downstream connections and follow selected routes.
+- Compare two versions to see additions, removals, modifications and movement.
+- Deliver standalone HTML, PNG, SVG, WebM and share cards.
+
+The default generated artifact is a self-contained HTML file that can be opened without a hosted service. The local web workspace and the full skill have different capabilities; the skill's full export and validation feature set should not be inferred from the homepage demo.
+
+## Diagram types
+
+| Type | Best for |
 |---|---|
-| 架构图 | 系统组件、服务、存储、边界和依赖关系 |
-| 工作流图 | CI/CD、审批、工具调用和操作流程 |
-| 时序图 | API 调用、认证、缓存回退和异步交互 |
-| 数据流图 | 数据管道、数据血缘、敏感信息和消费者 |
-| 生命周期图 | 状态变化、重试、等待和终止结果 |
-
-不确定使用哪一种时，可以运行：
+| Architecture | Components, services, storage, boundaries and dependencies |
+| Workflow | CI/CD, approvals, tool calls and operational processes |
+| Sequence | API calls, authentication, cache fallback and asynchronous interaction |
+| Dataflow | Pipelines, lineage, sensitive data and consumers |
+| Lifecycle | State transitions, retries, waiting and terminal outcomes |
 
 ```bash
-node topolyn/bin/topolyn.mjs guide "展示 API 请求与 Redis 缓存未命中流程"
+node topolyn/bin/topolyn.mjs guide "Show an API request and a Redis cache miss"
 ```
 
-也可以查看[场景选图指南](https://tt-a1i.github.io/archify/guide.html)。
+## Generated viewer preview
 
-## 工作方式
+![Topolyn interactive viewer comparing backend and database roles in a production deployment](docs/assets/topolyn-demo-lens.png)
 
-| 步骤 | 说明 |
+This checked-in example shows the generated viewer's role comparison, guided views and export controls. More examples are available in the [upstream Proof Lab](https://tt-a1i.github.io/archify/gallery.html).
+
+## Workflow
+
+| Step | What happens |
 |---|---|
-| 生成 | Agent 根据仓库或描述创建结构化 JSON |
-| 校验 | 检查数据结构、布局、路径和标签等规则 |
-| 预览 | 可选地在本地查看最近一次校验通过的结果 |
-| 交付 | 生成独立 HTML，并按需导出其他格式 |
-| 调整 | 根据后续要求修改局部内容，保留无关结构 |
+| Generate | The agent turns source evidence or a description into structured JSON |
+| Validate | Rules check structure, layout, routes and labels |
+| Preview | Inspect the latest validated result locally when needed |
+| Deliver | Produce standalone HTML and optional exports |
+| Refine | Apply a follow-up request while preserving unrelated structure |
 
-Topolyn 只呈现代码与输入中能够确认的关系，不会把作者定义的连接包装成未经验证的运行时影响结论。
+Maps represent relationships grounded in their source or input. An authored connection is not automatically a verified runtime-impact claim.
 
-## 本地开发与检查
-
-需要 Node.js 18 或更高版本。
+## Development checks
 
 ```bash
 cd topolyn
@@ -96,29 +112,29 @@ npm test
 node bin/topolyn.mjs doctor
 ```
 
-常用命令：
+Useful commands from the `topolyn/` directory:
 
 ```bash
 node bin/topolyn.mjs demo /tmp/topolyn-demo
-node bin/topolyn.mjs guide "展示 CI/CD 检查、审批、部署和回滚"
+node bin/topolyn.mjs guide "Show CI/CD checks, approval, deployment and rollback"
 node bin/topolyn.mjs validate workflow examples/agent-tool-call.workflow.json --quality showcase --json
 ```
 
-## 当前边界
+## Scope and documentation
 
-Topolyn 不是通用绘图编辑器，也不是 Mermaid 主题工具。当前不提供托管分享、所见即所得编辑和任意 Mermaid 自动转换。
+Hosted sharing, WYSIWYG editing and arbitrary Mermaid conversion are not currently provided by the core skill.
 
-## 文档入口
+- [Skill instructions](topolyn/SKILL.md)
+- [Schema reference](topolyn/schemas/README.md)
+- [Product definition](PRODUCT.md)
+- [Changelog](CHANGELOG.md)
+- [Roadmap](ROADMAP.md)
+- [Contribution guide](CONTRIBUTING.md)
+- [Upstream scenario guide](https://tt-a1i.github.io/archify/guide.html)
+- [Upstream project and examples](https://tt-a1i.github.io/archify/)
 
-- [项目主页](https://tt-a1i.github.io/archify/)
-- [场景选图指南](https://tt-a1i.github.io/archify/guide.html)
-- [示例与验证结果](https://tt-a1i.github.io/archify/gallery.html)
-- [Skill 使用说明](topolyn/SKILL.md)
-- [Schema 参考](topolyn/schemas/README.md)
-- [版本历史](CHANGELOG.md)
-- [开发路线](ROADMAP.md)
-- [贡献指南](CONTRIBUTING.md)
+## Credits and license
 
-## 开源许可
+This repository builds on the [upstream Archify / Topolyn project](https://github.com/tt-a1i/archify) and includes local product-site and workspace adaptations. Upstream documentation and gallery links above refer to that original project.
 
-本项目采用 [MIT License](LICENSE)。
+Licensed under [MIT](LICENSE).
