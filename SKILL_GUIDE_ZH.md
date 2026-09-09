@@ -1,10 +1,10 @@
-<p align="center">
-  <a href="./SKILL_GUIDE_EN.md">English</a> · <strong>简体中文</strong>
-</p>
+[English](SKILL_GUIDE_EN.md) · **简体中文**
 
 ![Topolyn 主视觉](docs/assets/topolyn-readme-hero.svg)
 
 # Topolyn
+
+本指南保留并整理了[上游项目](https://github.com/tt-a1i/archify)的详细 Skill 用法。本分支的产品介绍见[中文 README](README.zh-CN.md)。
 
 **在对话里，把代码仓库或系统描述变成漂亮、可靠、可交互的系统地图。**
 

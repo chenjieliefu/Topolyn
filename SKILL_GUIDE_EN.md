@@ -2,13 +2,11 @@
   <strong>English</strong> · <a href="./SKILL_GUIDE_ZH.md">简体中文</a>
 </p>
 
-<p align="center">
-  <a href="https://trendshift.io/repositories/31352?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-31352" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/31352" alt="Topolyn on Trendshift" width="250" height="55"/></a>
-</p>
-
 ![Topolyn product preview](docs/assets/topolyn-readme-hero.svg)
 
 # Topolyn
+
+Detailed skill reference adapted from the [upstream project](https://github.com/tt-a1i/archify). For this fork's product overview, see [README](README.md).
 
 **Turn a codebase or system description into a polished, interactive system map — directly in chat.**
 

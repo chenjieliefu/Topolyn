@@ -204,6 +204,7 @@ canonicalZipTest('archive build rejects an unmerged index and preserves an exist
     );
     fs.writeFileSync(path.join(skill, 'renderers', 'shared', 'generated-validators.mjs'), 'export default {};\n');
     fs.writeFileSync(path.join(skill, 'package.json'), '{"name":"topolyn"}\n');
+    fs.writeFileSync(path.join(skill, 'SKILL.md'), '# Topolyn\n');
     fs.writeFileSync(license, 'base\n');
     assert.equal(git(['init']).status, 0);
     assert.equal(git(['add', '.']).status, 0);
