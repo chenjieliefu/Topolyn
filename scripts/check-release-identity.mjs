@@ -188,15 +188,15 @@ if (semver) {
   }
 
   const english = read('README.md');
-  const englishMirror = read('README_EN.md');
-  const chinese = read('README_ZH.md');
+  const chinese = read('README.zh-CN.md');
   checkReadme('README.md', english, version, 'en', isDevelopment);
-  checkReadme('README_EN.md', englishMirror, version, 'en', isDevelopment);
-  checkReadme('README_ZH.md', chinese, version, 'zh', isDevelopment);
+  checkReadme('README.zh-CN.md', chinese, version, 'zh', isDevelopment);
   checkRavenBoundary('README.md', english, 'en');
-  checkRavenBoundary('README_EN.md', englishMirror, 'en');
-  checkRavenBoundary('README_ZH.md', chinese, 'zh');
-  if (english !== englishMirror) fail('README_EN.md must remain byte-identical to README.md.');
+  checkRavenBoundary('README.zh-CN.md', chinese, 'zh');
+  for (const [alias, target] of [['README_EN.md', 'README.md'], ['README_ZH.md', 'README.zh-CN.md']]) {
+    const source = read(alias);
+    if (!source.includes(`](${target})`)) fail(`${alias} must link to ${target}.`);
+  }
 
   const newestStableLabel = [...changelog.matchAll(/^## \[(\d+\.\d+\.\d+)\]/gm)][0]?.[1];
   if (newestStableLabel && isDevelopment) {

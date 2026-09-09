@@ -2,7 +2,9 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-Current development version: **2.16.0-dev.0**
+Current development version: `v2.16.0-dev.0`
+
+![Development version](https://img.shields.io/badge/version-2.16.0--dev.0-blue)
 
 <p align="center">
   <img src="docs/images/topolyn-product.png" alt="Topolyn product homepage showing its conversational system-mapping workflow and an online-course platform example" width="960">
@@ -43,6 +45,10 @@ For an explicit, non-interactive Cursor installation:
 ```bash
 npx -y skills add chenjieliefu/Topolyn --skill topolyn --agent cursor --global --copy --yes
 ```
+
+Raven uses manual ZIP installation: extract `topolyn.zip` into `~/.raven/workspace/skills`, which yields `~/.raven/workspace/skills/topolyn`.
+
+See the [English skill guide](SKILL_GUIDE_EN.md) for detailed commands, export options and verified examples.
 
 Then ask your agent:
 

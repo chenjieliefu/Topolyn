@@ -57,8 +57,9 @@ function writeValidDevelopmentFixture(root, overrides = {}) {
       '',
     ].join('\n'),
     'README.md': english,
-    'README_EN.md': english,
-    'README_ZH.md': chinese,
+    'README_EN.md': '[English](README.md)',
+    'README_ZH.md': '[简体中文](README.zh-CN.md)',
+    'README.zh-CN.md': chinese,
     'scripts/start-template.html': 'development · 开发版 · [[ARCHIFY_VERSION]]',
     'scripts/guide-template.html': 'development · 开发版 · [[ARCHIFY_VERSION]]',
     'scripts/gallery-template.html': 'development · 开发版 · [[ARCHIFY_VERSION]]',
@@ -103,8 +104,9 @@ function writeValidStableFixture(root, overrides = {}) {
       '',
     ].join('\n'),
     'README.md': english,
-    'README_EN.md': english,
-    'README_ZH.md': chinese,
+    'README_EN.md': '[English](README.md)',
+    'README_ZH.md': '[简体中文](README.zh-CN.md)',
+    'README.zh-CN.md': chinese,
     'scripts/start-template.html': 'stable · 稳定版 · [[ARCHIFY_VERSION]]',
     'scripts/guide-template.html': 'stable · 稳定版 · [[ARCHIFY_VERSION]]',
     'scripts/gallery-template.html': 'stable · 稳定版 · [[ARCHIFY_VERSION]]',
@@ -318,3 +320,20 @@ test('generated public-page templates keep a development marker and version plac
     fs.rmSync(fixture, { recursive: true, force: true });
   }
 });
+
+for (const [name, overrides, message] of [
+  ['broken English redirect', { 'README_EN.md': '[English](missing.md)' }, /README_EN\.md must link to README\.md/],
+  ['stale canonical Chinese version', { 'README.zh-CN.md': '当前开发版本：`v1.0.0`' }, /README\.zh-CN\.md must advertise/],
+]) {
+  test(name, () => {
+    const fixture = fs.mkdtempSync(path.join(os.tmpdir(), 'topolyn-readme-migration-'));
+    try {
+      writeValidDevelopmentFixture(fixture, overrides);
+      const result = runCheck(fixture);
+      assert.notEqual(result.status, 0);
+      assert.match(result.stderr, message);
+    } finally {
+      fs.rmSync(fixture, { recursive: true, force: true });
+    }
+  });
+}

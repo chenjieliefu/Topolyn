@@ -358,7 +358,7 @@ test('lifecycle: same-band port spread remains orthogonal', () => {
   ]);
 });
 
-test('skill and READMEs describe automatic port spread as bounded default behavior', () => {
+test('skill and skill guides describe automatic port spread as bounded default behavior', () => {
   const skill = fs.readFileSync(path.join(skillRoot, 'SKILL.md'), 'utf8');
   assert.match(skill, /Automatic Port Spread is a default renderer behavior/);
   assert.match(skill, /single relationship|single relationships/);
@@ -369,8 +369,8 @@ test('skill and READMEs describe automatic port spread as bounded default behavi
   assert.match(authoringContract, /unobstructed facing ports.*may share one horizontal or vertical axis/);
 
   const repoRoot = path.resolve(skillRoot, '..');
-  for (const file of ['README.md', 'README_EN.md']) {
+  for (const file of ['SKILL_GUIDE_EN.md']) {
     assert.match(fs.readFileSync(path.join(repoRoot, file), 'utf8'), /shared automatic endpoints spread deterministically/);
   }
-  assert.match(fs.readFileSync(path.join(repoRoot, 'README_ZH.md'), 'utf8'), /共享的自动端点会确定性展开/);
+  assert.match(fs.readFileSync(path.join(repoRoot, 'SKILL_GUIDE_ZH.md'), 'utf8'), /共享的自动端点会确定性展开/);
 });

@@ -9,17 +9,17 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const skillRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(skillRoot, '..');
-const cursorCommand = 'npx -y skills add tt-a1i/archify --skill topolyn --agent cursor --global --copy --yes';
+const cursorCommand = 'npx -y skills add chenjieliefu/Topolyn --skill topolyn --agent cursor --global --copy --yes';
 
 test('optional Cursor onboarding stays explicit and separate from the independent web product', () => {
   const english = fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8');
   const englishMirror = fs.readFileSync(path.join(repoRoot, 'README_EN.md'), 'utf8');
-  const chinese = fs.readFileSync(path.join(repoRoot, 'README_ZH.md'), 'utf8');
+  const chinese = fs.readFileSync(path.join(repoRoot, 'README.zh-CN.md'), 'utf8');
   const start = fs.readFileSync(path.join(repoRoot, 'docs', 'start.html'), 'utf8');
   const landing = fs.readFileSync(path.join(repoRoot, 'docs', 'index.html'), 'utf8');
 
-  assert.equal(english, englishMirror, 'English README mirrors must stay synchronized');
-  assert.match(english, /Cursor, Claude Code, Codex CLI, and OpenCode/);
+  assert.ok(englishMirror.includes('](README.md)'), 'Legacy English README must redirect to the canonical page');
+  assert.match(english, /Cursor, Claude Code, Codex CLI,? and OpenCode/);
   assert.match(chinese, /Cursor、Claude Code、Codex CLI 和 OpenCode/);
   for (const surface of [english, chinese]) assert.ok(surface.includes(cursorCommand));
   assert.ok(!landing.includes(cursorCommand));

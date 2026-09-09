@@ -103,8 +103,8 @@ test('README motion proof is compact, looping, and backed by current gallery art
   }
 });
 
-test('all README languages keep the product hero and retain the verified animated proof', () => {
-  for (const filename of ['README.md', 'README_EN.md', 'README_ZH.md']) {
+test('all skill guide languages keep the product hero and retain the verified animated proof', () => {
+  for (const filename of ['SKILL_GUIDE_EN.md', 'SKILL_GUIDE_ZH.md']) {
     const readme = fs.readFileSync(path.join(repoRoot, filename), 'utf8');
     const heroIndex = readme.indexOf('docs/assets/topolyn-readme-hero.svg');
     const titleIndex = readme.indexOf('# Topolyn');
@@ -115,11 +115,7 @@ test('all README languages keep the product hero and retain the verified animate
     assert.match(readme, /docs\/assets\/topolyn-live-proof\.gif/);
     assert.match(readme, /https:\/\/tt-a1i\.github\.io\/archify\/gallery\.html/);
   }
-  assert.equal(
-    fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
-    fs.readFileSync(path.join(repoRoot, 'README_EN.md'), 'utf8'),
-    'README.md and README_EN.md must stay synchronized',
-  );
+
 });
 
 test('README demos use checked-in captures and live deep links below the existing hero', () => {
@@ -146,7 +142,7 @@ test('README demos use checked-in captures and live deep links below the existin
     assert.ok(buffer.byteLength < 400 * 1024, `${demo.asset}: capture is too large`);
   }
 
-  for (const filename of ['README.md', 'README_EN.md', 'README_ZH.md']) {
+  for (const filename of ['SKILL_GUIDE_EN.md', 'SKILL_GUIDE_ZH.md']) {
     const readme = fs.readFileSync(path.join(repoRoot, filename), 'utf8');
     const heroIndex = readme.indexOf('docs/assets/topolyn-readme-hero.svg');
     const proofIndex = readme.indexOf('docs/assets/topolyn-live-proof.gif');
@@ -180,7 +176,7 @@ test('README stays scannable without deleting the visual proof set', () => {
     'topolyn-lifecycle.png',
   ];
 
-  for (const filename of ['README.md', 'README_EN.md', 'README_ZH.md']) {
+  for (const filename of ['SKILL_GUIDE_EN.md', 'SKILL_GUIDE_ZH.md']) {
     const readme = fs.readFileSync(path.join(repoRoot, filename), 'utf8');
     assert.ok(readme.split('\n').length <= 290, `${filename}: README grew beyond the scannable line budget`);
     for (const asset of commonAssets) {
@@ -188,13 +184,29 @@ test('README stays scannable without deleting the visual proof set', () => {
     }
   }
 
-  const english = fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8');
+  const english = fs.readFileSync(path.join(repoRoot, 'SKILL_GUIDE_EN.md'), 'utf8');
   const wordCount = english.trim().split(/\s+/).length;
   const intro = english.slice(0, english.indexOf('![License]'));
   const introBullets = intro.match(/^- \*\*/gm) || [];
   assert.ok(wordCount <= 2070, `README.md is too verbose again (${wordCount} words)`);
   assert.ok(introBullets.length <= 8, `README.md has too many top-level capability bullets (${introBullets.length})`);
 
-  const chinese = fs.readFileSync(path.join(repoRoot, 'README_ZH.md'), 'utf8');
+  const chinese = fs.readFileSync(path.join(repoRoot, 'SKILL_GUIDE_ZH.md'), 'utf8');
   assert.ok(chinese.includes('docs/assets/claude-skills-settings.png'), 'README_ZH.md lost the Claude Skills setup image');
+});
+
+test('product READMEs link the matching detailed guide and show a real checked-in product screenshot', () => {
+  for (const [readme, guide, other] of [
+    ['README.md', 'SKILL_GUIDE_EN.md', 'README.zh-CN.md'],
+    ['README.zh-CN.md', 'SKILL_GUIDE_ZH.md', 'README.md'],
+  ]) {
+    const source = fs.readFileSync(path.join(repoRoot, readme), 'utf8');
+    assert.ok(source.includes(`](${guide})`), `${readme}: missing detailed skill guide`);
+    assert.ok(source.includes(`](${other})`), `${readme}: broken language navigation`);
+    assert.ok(fs.existsSync(path.join(repoRoot, guide)), `${guide}: missing guide`);
+    assert.match(source, /docs\/images\/topolyn-product\.png/);
+    assert.ok(source.split('\n').length <= 170, `${readme}: move detailed examples to the guide`);
+  }
+  const screenshot = fs.readFileSync(path.join(repoRoot, 'docs/images/topolyn-product.png'));
+  assert.equal(screenshot.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
 });

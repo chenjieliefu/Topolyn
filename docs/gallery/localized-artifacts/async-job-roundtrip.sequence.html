@@ -4858,7 +4858,9 @@
       background: linear-gradient(145deg, #5ac8fa, #0071e3);
       box-shadow: 0 0 0 4px color-mix(in srgb, var(--frontend-stroke) 12%, transparent);
     }
-    .diagram-container,
+    /* Keep viewport-positioned Viewer panels out of a filtered containing
+       block. Applying backdrop-filter to their ancestor offsets docking and
+       drag coordinates by the diagram container's position. */
     .card,
     .diagram-guide,
     .semantic-passport,

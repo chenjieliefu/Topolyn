@@ -2,7 +2,9 @@
 
 [English](README.md) | **简体中文**
 
-当前开发版本：**2.16.0-dev.0**
+当前开发版本：`v2.16.0-dev.0`
+
+![Development version](https://img.shields.io/badge/version-2.16.0--dev.0-blue)
 
 <p align="center">
   <img src="docs/images/topolyn-product.png" alt="Topolyn 产品首页与在线课程平台系统图示例" width="960">
@@ -59,6 +61,10 @@ Browser -> Web App -> API -> JWT 校验 -> Redis 会话查询 -> PostgreSQL 回�
 ```
 
 生成后可以继续要求“加入 Redis”“把认证模块移到左侧”或“突出回滚路径”。
+
+Raven 使用 ZIP 手动安装：将 `topolyn.zip` 解压到 `~/.raven/workspace/skills`，解压后会得到 `~/.raven/workspace/skills/topolyn`。
+
+详细命令、导出选项和已验证示例见[中文 Skill 使用指南](SKILL_GUIDE_ZH.md)。
 
 ## Skill 的主要能力
 
